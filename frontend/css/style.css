@@ -1,0 +1,236 @@
+/* Variables de tema */
+:root {
+    --primary: #ff6b81;
+    --primary-light: #ff9aa2;
+    --bg: #f8f9fa;
+    --text: #333;
+    --card-bg: #fff;
+    --border: #ddd;
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  body {
+    background: var(--bg);
+    color: var(--text);
+  }
+  
+  /* Contenedor general */
+  .container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+    padding: 1rem 0;
+  }
+  
+  a {
+    color: var(--primary);
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Botones */
+  .btn {
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    padding: .6rem 1.2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background .2s;
+  }
+  .btn:hover {
+    background: var(--primary-light);
+  }
+  
+  /* Formularios de Autenticación */
+  .auth-container {
+    display: flex;
+    min-height: 100vh;
+  }
+  .auth-sidebar {
+    flex: 1;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+  }
+  .auth-sidebar h2 {
+    font-size: 2rem;
+    margin-bottom: .5rem;
+  }
+  .auth-sidebar p {
+    font-size: 1.1rem;
+  }
+  .auth-form {
+    flex: 1;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2rem;
+  }
+  .auth-form h2 {
+    text-align: center;
+    color: var(--primary);
+    margin-bottom: 1rem;
+  }
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  .form-group label {
+    display: block;
+    margin-bottom: .3rem;
+  }
+  .form-group input {
+    width: 100%;
+    padding: .6rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+  }
+  
+  /* Dashboard e index.html */
+  header {
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,.1);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .8rem 0;
+  }
+  .logo {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: var(--primary);
+  }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+  }
+  .search-bar {
+    position: relative;
+  }
+  .search-bar input {
+    padding: .5rem .8rem;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    width: 200px;
+  }
+  .search-bar button {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  /* Menú oculto por defecto */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    box-shadow: 0 4px 10px rgba(0,0,0,.1);
+    min-width: 180px;
+    z-index: 100;
+  }
+  
+  /* Estilo de cada opción */
+  .dropdown-content a {
+    display: block;
+    padding: .6rem 1rem;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .dropdown-content a:hover {
+    background: var(--bg);
+  }
+  
+  /* Cuando el dropdown tenga la clase 'active', se muestra */
+  .dropdown-content.active {
+    display: block;
+  }
+  
+  .dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1.5rem 0;
+  }
+  .tasks-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+  .task-column {
+    background: var(--card-bg);
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,.05);
+    padding: 1rem;
+  }
+  .column-header {
+    font-weight: bold;
+    margin-bottom: .8rem;
+  }
+  .task-list {
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+  }
+  .task-item {
+    background: var(--bg);
+    padding: .6rem;
+    border-left: 4px solid var(--primary);
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .task-item.completed {
+    opacity: .6;
+    text-decoration: line-through;
+  }
+  .task-actions button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: .4rem;
+  }
+  
+  /* Footer básico */
+  footer {
+    text-align: center;
+    padding: 1.2rem 0;
+    font-size: .9rem;
+    color: #666;
+  }
+  
+  /* Responsive */
+  @media (max-width: 600px) {
+    .auth-container { flex-direction: column; }
+    .search-bar input { width: 120px; }
+  }

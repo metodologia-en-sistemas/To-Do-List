@@ -1,46 +1,33 @@
-// Función para iniciar sesión
-function login() {
-  // Obtenemos el email y la contraseña del formulario
-  const email = document.getElementById("login-email").value;
-  const password = document.getElementById("login-password").value;
+// app.js: funciones mínimas para togglear tema y filtrar
 
-  // Enviamos los datos al backend usando fetch con POST
-  fetch("../backend/routes/login.php", {
-    method: "POST", // Tipo de solicitud
-    headers: { "Content-Type": "application/json" }, // Indicamos que enviamos JSON
-    body: JSON.stringify({ email, password }) // Convertimos el objeto JS a JSON
-  })
-  .then(res => res.json()) // Convertimos la respuesta a objeto JS
-  .then(data => {
-    if (data.redirect) {
-      // Si el backend responde con redirección, vamos a esa URL
-      window.location.href = data.url;
-    } else {
-      // Si no hay redirección, mostramos el mensaje del backend
-      alert(data.message);
-    }
+document.getElementById('toggleDark').addEventListener('click', () => {
+  document.body.classList.toggle('dark');
+});
+
+// Filtrar tareas (buscador)
+document.getElementById('searchTasks').addEventListener('input', e => {
+  const q = e.target.value.toLowerCase();
+  document.querySelectorAll('.task-item').forEach(item => {
+    const title = item.textContent.toLowerCase();
+    item.style.display = title.includes(q) ? '' : 'none';
   });
-}
+});
+// Referencias
+const dropdownBtn = document.querySelector('.dropdown .icon-btn');
+const dropdownMenu = document.querySelector('.dropdown-content');
 
-// Función para registrar usuario
-function registro() {
-  // Obtenemos email, contraseña y nombre del formulario de registro
-  const nombre = document.getElementById("reg-nombre").value;
-  const email = document.getElementById("reg-email").value;
-  const password = document.getElementById("reg-password").value;
+// Al hacer clic en la tuerca, mostramos u ocultamos
+dropdownBtn.addEventListener('click', e => {
+  e.stopPropagation();                  // Evita que el clic se "propague" y cierre el menú inmediatamente
+  const expanded = dropdownBtn.getAttribute('aria-expanded') === 'true';
+  dropdownBtn.setAttribute('aria-expanded', String(!expanded));
+  dropdownMenu.classList.toggle('active');
+});
 
-  // Enviamos los datos al backend con fetch
-  fetch("../backend/routes/registro.php", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ nombre, email, password }) 
-  })
-  .then(res => res.json())
-  .then(data => {
-    if (data.redirect) {
-      window.location.href = data.url;
-    } else {
-      alert(data.message);
-    }
-  });
-}
+// Al hacer clic en cualquier parte fuera del menú, lo cerramos
+document.addEventListener('click', () => {
+  dropdownMenu.classList.remove('active');
+  dropdownBtn.setAttribute('aria-expanded', 'false');
+});
+
+// TODO: conectar con la API backend para cargar/crear tareas
