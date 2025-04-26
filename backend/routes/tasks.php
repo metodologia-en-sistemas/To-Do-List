@@ -1,7 +1,7 @@
 <?php
 // Importa el controlador de tareas
-require_once '../controller/Task.php';
-
+require_once '../controller/TaskController.php';
+session_start();
 // Crea una instancia del controlador de tareas
 $taskController = new TaskController();
 
