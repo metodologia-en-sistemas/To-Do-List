@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Iniciar sesión "Mi organizador"</title>
+  </head>
+  <body>
+    <h1>Iniciar sesión</h1>
+
+    <form id="formularioLogin">
+      <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="Email"
+        required
+      /><br /><br />
+      <input
+        type="password"
+        id="password"
+        name="password"
+        placeholder="Contraseña"
+        required
+      /><br /><br />
+      <button type="submit">Ingresar</button>
+    </form>
+
+    <p>¿No tienes cuenta? <a href="register.html">Regístrate</a></p>
+
+    <script>
+      const form = document.getElementById("formularioLogin");
+
+      form.addEventListener("submit", async function (e) {
+        e.preventDefault(); // Evita que la página se recargue
+
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        // Usamos fetch para enviar los datos al backend
+        const response = await fetch("../backend/login.php", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        });
+
+        const data = await response.json();
+
+        alert(data.message); // Mostrar el mensaje de la respuesta
+
+        // Si el login es exitoso, redirigir al index
+        if (data.redirect) {
+          window.location.href = data.url;
+        }
+      });
+    </script>
+  </body>
+</html>
