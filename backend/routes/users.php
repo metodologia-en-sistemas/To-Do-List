@@ -9,10 +9,10 @@ class Usuario {
 
   // Constructor que inicializa los datos al crear un objeto Usuario
   public function __construct($nombre, $email, $password, $conexion) {
-    $this->nombre = $nombre;          // Asignamos el nombre recibido al atributo de la clase
-    $this->email = $email;            // Asignamos el email recibido al atributo de la clase
-    $this->password = $password;      // Asignamos la contraseña recibida al atributo de la clase
-    $this->conexion = $conexion;      // Guardamos la conexión a la base de datos
+    $this->nombre = $nombre;          
+    $this->email = $email;          
+    $this->password = $password;      
+    $this->conexion = $conexion;      
   }
 
   // Método para registrar un nuevo usuario en la base de datos
@@ -34,7 +34,7 @@ class Usuario {
   // Método para iniciar sesión (verificar si el usuario y contraseña coinciden)
   public function login() {
     // Preparamos la consulta para buscar la contraseña del usuario por email
-    $stmt = $this->conexion->prepare("SELECT password FROM usuarios WHERE correo_electronico = ?");
+    $stmt = $this->conexion->prepare("SELECT contrasena FROM usuarios WHERE correo_electronico = ?");
 
     // Vinculamos el parámetro del email
     $stmt->bind_param("s", $this->email);
@@ -48,7 +48,7 @@ class Usuario {
     // Si existe una fila con ese email, verificamos la contraseña
     if ($row = $result->fetch_assoc()) {
       // Comparamos la contraseña en texto con la contraseña encriptada
-      return password_verify($this->password, $row["password"]);
+      return password_verify($this->password, $row["contrasena"]);
     }
 
     // Si no se encuentra el usuario o no coincide, devolvemos false
