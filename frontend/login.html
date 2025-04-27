@@ -3,29 +3,39 @@
   <head>
     <meta charset="UTF-8" />
     <title>Iniciar sesión "Mi organizador"</title>
+    <link rel="stylesheet" href="/frontend/css/style.css"/>
   </head>
   <body>
-    <h1>Iniciar sesión</h1>
+    <div class="contenedor">
+      <h1>Iniciar sesión</h1>
 
-    <form id="formularioLogin">
-      <input
-        type="email"
-        id="email"
-        name="email"
-        placeholder="Email"
-        required
-      /><br /><br />
-      <input
-        type="password"
-        id="password"
-        name="password"
-        placeholder="Contraseña"
-        required
-      /><br /><br />
-      <button type="submit">Ingresar</button>
-    </form>
+      <form id="formularioLogin">
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Email"
+          required
+        /><br /><br />
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Contraseña"
+          required
+        /><br /><br />
+        <button type="submit">Ingresar</button>
+        <div class="registrarse">
+          <p>¿No tienes cuenta? <a href="register.html">Regístrate</a></p>
+        </div>
+       
+      </form>
+      
+    </div>
+    
+   
 
-    <p>¿No tienes cuenta? <a href="register.html">Regístrate</a></p>
+    
 
     <script>
       const form = document.getElementById("formularioLogin");

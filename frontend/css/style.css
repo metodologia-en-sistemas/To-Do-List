@@ -1,0 +1,74 @@
+body {
+    font-family : Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    height: 100vh;
+
+}
+
+.contenedor {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+
+input, button {
+    width: 100%;
+    padding: 0.7rem;
+    margin: 0.5rem 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+    
+
+
+button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    cursor: pointer;
+
+}
+
+
+button:hover {
+    background-color: #2980b9;
+}
+
+.registrarse {
+    margin: 30 px 0;
+    text-align: center;
+    font-size: 16px;
+    color: #0d0d0e;
+
+}
+
+.registrarse a{
+    color: #3498db;
+    text-decoration: none;
+}
+
+.registrarse a:hover {
+    text-decoration: underline;
+}
+
+.iniciarSesion {
+    margin: 30 px 0;
+    text-align: center;
+    font-size: 16px;
+    color: #0d0d0e;
+
+}
+
+.iniciarSesion a{
+    color: #3498db;
+    text-decoration: none;
+}
+
+.iniciarSesion {
+    text-decoration: none;
+}
