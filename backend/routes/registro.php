@@ -19,7 +19,7 @@ if ($usuario->registrar()) {
   echo json_encode([
     "message" => "Registro exitoso",
     "redirect" => true,
-    "url" => "../frontend/index.html" // redirigir al index
+    "url" => "../frontend/login.html" // redirigir al login
   ]);
 } else {
   echo json_encode([

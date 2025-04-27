@@ -1,7 +1,8 @@
 <?php
+session_start(); 
 require_once './config/database.php';
 require_once 'usuario.php';
-
+// esta variable convierte el json en un array asociativo
 $data = json_decode(file_get_contents("php://input"), true);
 $nombre = $data['nombre'];
 $email = $data['email'];
@@ -11,14 +12,15 @@ $usuario = new Usuario($nombre, $email, $password, $conexion);
 $usuario2 = new Usuario($nombre, $email, $password, $conexion);
 
 if ($usuario->login()) {
-  if ($usuario->registrar()) {
+  {
+    $_SESSION['usuario_email'] = $email;
     echo json_encode([
-      "message" => "Registro exitoso",
+      "message" => "Sesion exitosa",
       "redirect" => true,
       "url" => "../../frontend/index.html" // redirigir al index
     ]);
   } echo json_encode([
-  "message" => "Credenciales incorrectas",
+  "message" => "Usuario o contraseña incorrectas",
   "redirect" => false
 ]);
 }
