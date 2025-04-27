@@ -8,6 +8,7 @@ $email = $data['email'];
 $password = $data['password'];
 
 $usuario = new Usuario($nombre, $email, $password, $conexion);
+$usuario2 = new Usuario($nombre, $email, $password, $conexion);
 
 if ($usuario->login()) {
   if ($usuario->registrar()) {
