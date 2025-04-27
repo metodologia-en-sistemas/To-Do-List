@@ -1,6 +1,0 @@
-<?php
-$elias = "cambio";
-
-
-?>
-
