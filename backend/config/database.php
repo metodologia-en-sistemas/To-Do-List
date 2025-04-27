@@ -1,9 +1,9 @@
 <?php
 class Database {
 private $host = '127.0.0.1';
-private $dbname = 'gestiontareas';
+private $dbname = 'gestionuniversitaria3';
 private $user = 'root';  
-private $password = '7351346';  
+private $password = 'Cristian47';  
 private $conn = null; //Se guarda de manera segura la conexion a la base de datos
 
 public function connect(){

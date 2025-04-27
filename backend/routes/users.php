@@ -22,7 +22,7 @@ class Usuario {
       $hashed = password_hash($this->password, PASSWORD_DEFAULT); 
 
       // Preparamos la consulta SQL para insertar un nuevo usuario
-      $stmt = $this->conexion->prepare("INSERT INTO usuarios (nombre, correo_electronico, contrasena) VALUES (?, ?, ?)");
+      $stmt = $this->conexion->prepare("INSERT INTO usuarios (nombre, correo_electronico, contraseña) VALUES (?, ?, ?)");
 
     // Enviamos los 3 valores
       $stmt->bind_param("sss", $this->nombre, $this->email, $hashed); 
@@ -34,7 +34,7 @@ class Usuario {
   // Método para iniciar sesión (verificar si el usuario y contraseña coinciden)
   public function login() {
     // Preparamos la consulta para buscar la contraseña del usuario por email
-    $stmt = $this->conexion->prepare("SELECT contrasena FROM usuarios WHERE correo_electronico = ?");
+    $stmt = $this->conexion->prepare("SELECT contraseña FROM usuarios WHERE correo_electronico = ?");
 
     // Vinculamos el parámetro del email
     $stmt->bind_param("s", $this->email);
@@ -48,7 +48,7 @@ class Usuario {
     // Si existe una fila con ese email, verificamos la contraseña
     if ($row = $result->fetch_assoc()) {
       // Comparamos la contraseña en texto con la contraseña encriptada
-      return password_verify($this->password, $row["contrasena"]);
+      return password_verify($this->password, $row["contraseña"]);
     }
 
     // Si no se encuentra el usuario o no coincide, devolvemos false

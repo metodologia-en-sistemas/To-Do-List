@@ -2,6 +2,7 @@
 // Importa el controlador de tareas
 require_once '../controller/TaskController.php';
 session_start();
+
 // Crea una instancia del controlador de tareas
 $taskController = new TaskController();
 
@@ -11,7 +12,7 @@ $requestMethod = $_SERVER['REQUEST_METHOD'];
 // Rutas para el CRUD de tareas
 switch ($requestMethod) {
     case 'POST':  // Crear una nueva tarea
-        if (isset($_POST['title']) && isset($_POST['description'])) {
+        if (isset($_POST['título']) && isset($_POST['descripción'])) {
             // Llama al método de crear tarea
             $response = $taskController->create($_POST);
             echo json_encode($response);
@@ -20,35 +21,33 @@ switch ($requestMethod) {
         }
         break;
 
-    case 'GET':  // Obtener todas las tareas del usuario o una tarea específica
-        if (isset($_GET['id'])) {
+    case 'GET':  // Obtener todas las tareas o una tarea específica
+        if (isset($_GET['id_tarea'])) {
             // Obtener tarea por ID
-            $response = $taskController->getById($_GET['id']);
+            $response = $taskController->getById($_GET['id_tarea']);
             echo json_encode($response);
         } else {
-            // Obtener todas las tareas del usuario autenticado
+            // Obtener todas las tareas
             $response = $taskController->getAll();
             echo json_encode($response);
         }
         break;
 
     case 'PUT':  // Actualizar una tarea
-        // Obtiene los datos de la solicitud PUT (requiere raw POST data)
+        // Obtener datos crudos del PUT
         parse_str(file_get_contents("php://input"), $putData);
-        
-        if (isset($putData['id']) && isset($putData['title'])) {
-            // Actualiza la tarea con los datos recibidos
-            $response = $taskController->update($putData['id'], $putData);
+
+        if (isset($putData['id_tarea']) && isset($putData['título'])) {
+            $response = $taskController->update($putData['id_tarea'], $putData);
             echo json_encode($response);
         } else {
-            echo json_encode(['success' => false, 'message' => 'Faltan datos']);
+            echo json_encode(['success' => false, 'message' => 'Faltan datos para actualizar']);
         }
         break;
 
     case 'DELETE':  // Eliminar una tarea
-        if (isset($_GET['id'])) {
-            // Elimina la tarea por su ID
-            $response = $taskController->delete($_GET['id']);
+        if (isset($_GET['id_tarea'])) {
+            $response = $taskController->delete($_GET['id_tarea']);
             echo json_encode($response);
         } else {
             echo json_encode(['success' => false, 'message' => 'ID de tarea no proporcionado']);

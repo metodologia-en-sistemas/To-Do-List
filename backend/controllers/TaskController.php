@@ -9,15 +9,25 @@ class TaskController {
 
     // Crea una nueva tarea para el usuario autenticado
     public function create($data) {
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['id_usuario'])) {
             return ['success' => false, 'message' => 'No autenticado'];
         }
 
         $task = new Task();
-        $data['user_id'] = $_SESSION['user_id']; // Asocia la tarea al usuario actual
-        $data['status'] = $data['status'] ?? 'pendiente'; // Valor por defecto
+
+        // NO necesita id_usuario en tareas (la relación es por asignaciones)
+        // Solo se asegura que existan los campos necesarios
+
+        $data['título'] = $data['título'] ?? '';
+        $data['descripción'] = $data['descripción'] ?? null;
+        $data['fecha_límite'] = $data['fecha_límite'] ?? null;
+        $data['id_categoría'] = $data['id_categoría'] ?? null;
+        $data['id_estado'] = $data['id_estado'] ?? null;
+        $data['prioridad'] = $data['prioridad'] ?? 'Media';
+        $data['progreso'] = $data['progreso'] ?? 0;
 
         $result = $task->create($data);
+
         if ($result) {
             return ['success' => true, 'message' => 'Tarea creada', 'id' => $result];
         } else {
@@ -25,14 +35,14 @@ class TaskController {
         }
     }
 
-    // Obtiene todas las tareas del usuario autenticado
+    // Obtiene todas las tareas asignadas al usuario autenticado
     public function getAll() {
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['id_usuario'])) {
             return [];
         }
 
         $task = new Task();
-        return $task->getAllByUser($_SESSION['user_id']);
+        return $task->getAllByUser($_SESSION['id_usuario']);
     }
 
     // Obtiene los detalles de una tarea por su ID
@@ -44,7 +54,18 @@ class TaskController {
     // Actualiza una tarea existente
     public function update($id, $data) {
         $task = new Task();
+
+        // Verifica y prepara campos opcionales
+        $data['título'] = $data['título'] ?? '';
+        $data['descripción'] = $data['descripción'] ?? null;
+        $data['fecha_límite'] = $data['fecha_límite'] ?? null;
+        $data['id_categoría'] = $data['id_categoría'] ?? null;
+        $data['id_estado'] = $data['id_estado'] ?? null;
+        $data['prioridad'] = $data['prioridad'] ?? 'Media';
+        $data['progreso'] = $data['progreso'] ?? 0;
+
         $updated = $task->update($id, $data);
+
         if ($updated) {
             return ['success' => true, 'message' => 'Tarea actualizada'];
         } else {

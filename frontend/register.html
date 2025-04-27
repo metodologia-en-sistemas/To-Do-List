@@ -45,7 +45,7 @@
         const password = document.getElementById("password").value;
 
         // Usamos fetch para enviar los datos al backend
-        const response = await fetch("../backend/register.php", {
+        const response = await fetch("../backend/routes/registro.php", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
