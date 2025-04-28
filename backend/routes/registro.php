@@ -1,6 +1,6 @@
 <?php
 require_once './config/database.php';
-require_once 'usuario-clase.php';
+require_once 'users.php';
 
 // Obtenemos los datos enviados en formato JSON desde el frontend (por ejemplo, con fetch en JS)
 $data = json_decode(file_get_contents("php://input"), true);
