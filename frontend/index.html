@@ -2,12 +2,83 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <title>Inicio - To-Do List</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>TaskList - Tareas</title>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <h1>Bienvenido a MI ORGANIZADOR</h1>
-    <p>Aquí puedes organizar tus tareas.</p>
+    <!-- HEADER -->
+    <header class="navbar">
+      <a href="index.html" class="logo">TaskList</a>
+      <div class="header-controls">
+        <!-- BARRA DE BÚSQUEDA -->
+        <div class="search-bar">
+          <input type="text" id="searchTasks" placeholder="Buscar tareas..." />
+          <button title="Buscar"><span>🔍</span></button>
+        </div>
+        <!-- ICONOS -->
+        <button id="toggleDark" class="icon-btn" title="Modo nocturno">
+          <span>🌙</span>
+        </button>
+        <a href="#" class="icon-btn" title="Notificaciones"><span>🔔</span></a>
+        <div class="dropdown">
+          <button
+            class="icon-btn"
+            aria-haspopup="false"
+            aria-expanded="true"
+            title="Configuración"
+          >
+            <span>⚙️</span>
+          </button>
+          <div class="dropdown-content">
+            <a href="profile.html">Cuenta</a>
+            <a href="notifications.html">Notificaciones</a>
+            <a href="settings.html">Ajustes</a>
+            <a href="#" id="toggleAppearance">Apariencia</a>
+            <a href="#" id="toggleAccessibility">Accesibilidad</a>
+            <a href="../backend/routes/cerrar.php">Cerrar Sesión</a>
+            <!-- Arreglado logout -->
+          </div>
+        </div>
+      </div>
+    </header>
 
-    <a href="logout.html">Cerrar sesión</a>
+    <div class="app-container">
+      <!-- SIDEBAR IZQUIERDA -->
+      <aside class="sidebar">
+        <div class="profile-icon">👤</div>
+        <nav>
+          <a href="profile.html">Perfil</a>
+          <a href="login.html">Login</a>
+          <a href="../backend/routes/cerrar.php">Logout</a>
+          <!-- Arreglado logout -->
+          <a href="help.html">Ayuda</a>
+        </nav>
+      </aside>
+
+      <!-- CONTENIDO -->
+      <main class="main-content">
+        <div class="dashboard-header">
+          <h1>Mis Tareas</h1>
+          <button id="newTaskBtn" class="btn">+ Nueva</button>
+        </div>
+        <table id="tasksTable" class="tasks-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Tarea</th>
+              <th>Descripción</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- filas inyectadas por JS -->
+          </tbody>
+        </table>
+        <div id="pagination" class="pagination"></div>
+      </main>
+    </div>
+
+    <script src="js/app.js"></script>
   </body>
 </html>
