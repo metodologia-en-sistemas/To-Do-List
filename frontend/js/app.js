@@ -30,15 +30,15 @@ function registro() {
   const password = document.getElementById("reg-password").value;
 
   // Enviamos los datos al backend con fetch
-  fetch("../backend/routes/registro.php", {
+  fetch("../../backend/controllers/UserController.php", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ nombre, email, password }) 
   })
   .then(res => res.json())
   .then(data => {
-    if (data.redirect) {
-      window.location.href = data.url;
+    if (data.success) {
+      window.location.href = "login.html";
     } else {
       alert(data.message);
     }

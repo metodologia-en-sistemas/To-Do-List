@@ -3,7 +3,7 @@ class Database {
     private $host = '127.0.0.1';
     private $dbname = 'gestion_tareas';
     private $user = 'root';  
-    private $password = '';  
+    private $password = ''; 
     private $conexion = null; // Guarda la conexión
 
     public function connect() {
