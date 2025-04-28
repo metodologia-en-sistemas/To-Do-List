@@ -1,9 +1,8 @@
 // Función para iniciar sesión
 function login() {
   // Obtenemos el email y la contraseña del formulario
-  const email = document.getElementById("login-email").value;
-  const password = document.getElementById("login-password").value;
-
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
   // Enviamos los datos al backend usando fetch con POST
   fetch("../backend/routes/login.php", {
     method: "POST", // Tipo de solicitud
@@ -21,19 +20,17 @@ function login() {
     }
   });
 }
-
 // Función para registrar usuario
-function registro() {
+function registrar() {
   // Obtenemos email, contraseña y nombre del formulario de registro
-  const nombre = document.getElementById("reg-nombre").value;
-  const email = document.getElementById("reg-email").value;
-  const password = document.getElementById("reg-password").value;
-
+  const nombre = document.getElementById("nombre").value;
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
   // Enviamos los datos al backend con fetch
   fetch("../backend/routes/registro.php", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ nombre, email, password }) 
+    body: JSON.stringify({ nombre, email, password })
   })
   .then(res => res.json())
   .then(data => {

@@ -2,7 +2,7 @@
 require_once '../config/database.php';
 
 class User {
-    private $conn; // Variable donde se guarda la conexión a la base de datos.
+    private $conexion; // Variable donde se guarda la conexión a la base de datos.
 
     public function __construct()
     {
@@ -12,7 +12,7 @@ class User {
     // CREAR UN NUEVO USUARIO   
     public function create($data) {
         $sql = "INSERT INTO usuario (nombre, correo, contrasena) VALUES (:nombre, :correo, :contrasena)";
-        $stmt = $this->conn->prepare($sql);
+        $stmt = $this->conexion->prepare($sql);
 
         // Hashea el password con la última actualización disponible en algoritmos de hasheo
         $hashedPassword = password_hash($data['contrasena'], PASSWORD_DEFAULT);
@@ -22,7 +22,7 @@ class User {
         $stmt->bindParam(':contrasena', $hashedPassword);
 
         if ($stmt->execute()) {
-            return $this->conn->lastInsertId(); // Devuelve el ID del nuevo usuario
+            return $this->conexion->lastInsertId(); // Devuelve el ID del nuevo usuario
         }
         return false;
     }
@@ -30,7 +30,7 @@ class User {
     // BUSCAR POR CORREO
     public function findByEmail($correo) {
         $sql = "SELECT * FROM usuario WHERE correo = :correo";
-        $stmt = $this->conn->prepare($sql);
+        $stmt = $this->conexion->prepare($sql);
         $stmt->bindParam(':correo', $correo);
 
         $stmt->execute();
@@ -40,7 +40,7 @@ class User {
     // Buscar por ID 
     public function findByID($id_usuario) {
         $sql = "SELECT id_usuario, nombre, correo FROM usuario WHERE id_usuario = :id_usuario";
-        $stmt = $this->conn->prepare($sql);
+        $stmt = $this->conexion->prepare($sql);
         $stmt->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
 
         $stmt->execute();

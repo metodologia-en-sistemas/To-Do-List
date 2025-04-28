@@ -50,6 +50,13 @@
         return;
       }
 
+      // Validación simple de email
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+      if (!emailRegex.test(email)) {
+        alert("Por favor ingresa un correo electrónico válido.");
+        return;
+      }
+
       try {
         const response = await fetch("../backend/routes/registro.php", {
           method: "POST",
@@ -68,7 +75,7 @@
         }
       } catch (error) {
         console.error(error);
-        alert("Ocurrió un error. Intenta más tarde.");
+        alert("error");
       }
     });
   </script>
