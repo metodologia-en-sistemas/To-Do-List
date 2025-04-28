@@ -1,7 +1,7 @@
 <?php
 session_start(); 
 require_once './config/database.php';
-require_once 'usuario.php';
+require_once 'user.php';
 // esta variable convierte el json en un array asociativo
 $data = json_decode(file_get_contents("php://input"), true);
 $nombre = $data['nombre'];

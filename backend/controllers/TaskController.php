@@ -15,16 +15,14 @@ class TaskController {
 
         $task = new Task();
 
-        // NO necesita id_usuario en tareas (la relación es por asignaciones)
-        // Solo se asegura que existan los campos necesarios
-
-        $data['título'] = $data['título'] ?? '';
-        $data['descripción'] = $data['descripción'] ?? null;
-        $data['fecha_límite'] = $data['fecha_límite'] ?? null;
-        $data['id_categoría'] = $data['id_categoría'] ?? null;
+        // Asignamos los datos de la tarea
+        $data['titulo'] = $data['titulo'] ?? '';
+        $data['descripcion'] = $data['descripcion'] ?? null;
+        $data['id_categoria'] = $data['id_categoria'] ?? null;
         $data['id_estado'] = $data['id_estado'] ?? null;
-        $data['prioridad'] = $data['prioridad'] ?? 'Media';
-        $data['progreso'] = $data['progreso'] ?? 0;
+        
+        // Aquí asumimos que el id_usuario es el usuario autenticado
+        $data['id_usuario'] = $_SESSION['id_usuario'];
 
         $result = $task->create($data);
 
@@ -56,13 +54,10 @@ class TaskController {
         $task = new Task();
 
         // Verifica y prepara campos opcionales
-        $data['título'] = $data['título'] ?? '';
-        $data['descripción'] = $data['descripción'] ?? null;
-        $data['fecha_límite'] = $data['fecha_límite'] ?? null;
-        $data['id_categoría'] = $data['id_categoría'] ?? null;
+        $data['titulo'] = $data['titulo'] ?? '';
+        $data['descripcion'] = $data['descripcion'] ?? null;
+        $data['id_categoria'] = $data['id_categoria'] ?? null;
         $data['id_estado'] = $data['id_estado'] ?? null;
-        $data['prioridad'] = $data['prioridad'] ?? 'Media';
-        $data['progreso'] = $data['progreso'] ?? 0;
 
         $updated = $task->update($id, $data);
 

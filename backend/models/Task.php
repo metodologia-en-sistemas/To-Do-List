@@ -1,6 +1,6 @@
 <?php
 // Importa la clase Database para manejar la conexión PDO
-require_once '../config/database.php';
+require_once './config/database.php';
 
 // Modelo de Tarea que contiene toda la lógica de acceso a datos
 class Task {
@@ -13,17 +13,15 @@ class Task {
 
     // Crea una nueva tarea en la base de datos
     public function create($data) {
-        $sql = "INSERT INTO tareas (título, descripción, fecha_límite, id_categoría, id_estado, prioridad, progreso)
-                VALUES (:titulo, :descripcion, :fecha_limite, :id_categoria, :id_estado, :prioridad, :progreso)";
+        $sql = "INSERT INTO tarea (id_usuario, titulo, descripcion, categoria, estado)
+                VALUES (:id_usuario, :titulo, :descripcion, :categoria, :estado)";
         $stmt = $this->conn->prepare($sql);
 
-        $stmt->bindParam(':titulo', $data['título']);
-        $stmt->bindParam(':descripcion', $data['descripción']);
-        $stmt->bindParam(':fecha_limite', $data['fecha_límite']);
-        $stmt->bindParam(':id_categoria', $data['id_categoría']);
-        $stmt->bindParam(':id_estado', $data['id_estado']);
-        $stmt->bindParam(':prioridad', $data['prioridad']);
-        $stmt->bindParam(':progreso', $data['progreso']);
+        $stmt->bindParam(':id_usuario', $data['id_usuario']);
+        $stmt->bindParam(':titulo', $data['titulo']);
+        $stmt->bindParam(':descripcion', $data['descripcion']);
+        $stmt->bindParam(':categoria', $data['id_categoria']);
+        $stmt->bindParam(':estado', $data['id_estado']);
 
         if ($stmt->execute()) {
             return $this->conn->lastInsertId();
@@ -33,11 +31,7 @@ class Task {
 
     // Devuelve todas las tareas asignadas a un usuario
     public function getAllByUser($id_usuario) {
-        $sql = "SELECT t.*
-                FROM tareas t
-                INNER JOIN asignaciones a ON t.id_tarea = a.id_tarea
-                WHERE a.id_usuario = :id_usuario
-                ORDER BY t.fecha_límite ASC";
+        $sql = "SELECT * FROM tarea WHERE id_usuario = :id_usuario ORDER BY id_tarea ASC";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
         $stmt->execute();
@@ -46,7 +40,7 @@ class Task {
 
     // Devuelve una sola tarea por su ID
     public function getById($id) {
-        $sql = "SELECT * FROM tareas WHERE id_tarea = :id_tarea";
+        $sql = "SELECT * FROM tarea WHERE id_tarea = :id_tarea";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':id_tarea', $id, PDO::PARAM_INT);
         $stmt->execute();
@@ -55,24 +49,18 @@ class Task {
 
     // Actualiza una tarea existente por su ID
     public function update($id, $data) {
-        $sql = "UPDATE tareas 
-                SET título = :titulo, 
-                    descripción = :descripcion, 
-                    fecha_límite = :fecha_limite, 
-                    id_categoría = :id_categoria,
-                    id_estado = :id_estado,
-                    prioridad = :prioridad,
-                    progreso = :progreso
+        $sql = "UPDATE tarea 
+                SET titulo = :titulo, 
+                    descripcion = :descripcion, 
+                    categoria = :categoria, 
+                    estado = :estado
                 WHERE id_tarea = :id_tarea";
         $stmt = $this->conn->prepare($sql);
 
-        $stmt->bindParam(':titulo', $data['título']);
-        $stmt->bindParam(':descripcion', $data['descripción']);
-        $stmt->bindParam(':fecha_limite', $data['fecha_límite']);
-        $stmt->bindParam(':id_categoria', $data['id_categoría']);
-        $stmt->bindParam(':id_estado', $data['id_estado']);
-        $stmt->bindParam(':prioridad', $data['prioridad']);
-        $stmt->bindParam(':progreso', $data['progreso']);
+        $stmt->bindParam(':titulo', $data['titulo']);
+        $stmt->bindParam(':descripcion', $data['descripcion']);
+        $stmt->bindParam(':categoria', $data['id_categoria']);
+        $stmt->bindParam(':estado', $data['id_estado']);
         $stmt->bindParam(':id_tarea', $id, PDO::PARAM_INT);
 
         return $stmt->execute();
@@ -80,7 +68,7 @@ class Task {
 
     // Elimina una tarea por su ID
     public function delete($id) {
-        $sql = "DELETE FROM tareas WHERE id_tarea = :id_tarea";
+        $sql = "DELETE FROM tarea WHERE id_tarea = :id_tarea";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':id_tarea', $id, PDO::PARAM_INT);
         return $stmt->execute();

@@ -12,7 +12,7 @@ $requestMethod = $_SERVER['REQUEST_METHOD'];
 // Rutas para el CRUD de tareas
 switch ($requestMethod) {
     case 'POST':  // Crear una nueva tarea
-        if (isset($_POST['título']) && isset($_POST['descripción'])) {
+        if (isset($_POST['titulo']) && isset($_POST['descripcion'])) {
             // Llama al método de crear tarea
             $response = $taskController->create($_POST);
             echo json_encode($response);
@@ -37,7 +37,7 @@ switch ($requestMethod) {
         // Obtener datos crudos del PUT
         parse_str(file_get_contents("php://input"), $putData);
 
-        if (isset($putData['id_tarea']) && isset($putData['título'])) {
+        if (isset($putData['id_tarea']) && isset($putData['titulo'])) {
             $response = $taskController->update($putData['id_tarea'], $putData);
             echo json_encode($response);
         } else {
@@ -58,3 +58,4 @@ switch ($requestMethod) {
         echo json_encode(['success' => false, 'message' => 'Método HTTP no permitido']);
         break;
 }
+?>

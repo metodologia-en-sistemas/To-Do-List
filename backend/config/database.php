@@ -1,13 +1,13 @@
 <?php
 class Database {
 private $host = '127.0.0.1';
-private $dbname = 'gestionuniversitaria3';
+private $dbname = 'gestionatarea';
 private $user = 'root';  
 private $password = 'Cristian47';  
-private $conn = null; //Se guarda de manera segura la conexion a la base de datos
+private $conexion = null; //Se guarda de manera segura la conexion a la base de datos
 
 public function connect(){
-    if ($this->conn === null){
+    if ($this->conexion === null){
 try {
     $conexion = new PDO("mysql:host={$this->host};dbname={$this->dbname}",
     $this->user, 
@@ -18,7 +18,7 @@ try {
     $e->getMessage();
 }
 }
-return $this->conn;
+return $this->conexion;
 }
 }
 ?>

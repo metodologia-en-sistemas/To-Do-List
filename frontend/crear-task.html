@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestor de Tareas</title>
+    <link rel="stylesheet" href="style-task.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Gestor de Tareas</h1>
+
+        <!-- Formulario para agregar tarea -->
+        <form id="taskForm">
+            <input type="text" id="titulo" placeholder="Título" required>
+            <textarea id="descripcion" placeholder="Descripción" required></textarea>
+            <button type="submit">Agregar Tarea</button>
+        </form>
+
+        <!-- Lista de tareas -->
+        <div id="tasksContainer"></div>
+    </div>
+
+    <script>
+        const apiUrl = ''; // Reemplaza con la ruta real
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchTasks();
+        });
+
+        document.getElementById('taskForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const titulo = document.getElementById('titulo').value;
+            const descripcion = document.getElementById('descripcion').value;
+
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({ título: titulo, descripción: descripcion })
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                alert('Tarea creada correctamente');
+                fetchTasks();
+                e.target.reset();
+            } else {
+                alert('Error al crear tarea');
+            }
+        });
+
+        async function fetchTasks() {
+            const response = await fetch(apiUrl);
+            const tasks = await response.json();
+
+            const container = document.getElementById('tasksContainer');
+            container.innerHTML = '';
+
+            if (Array.isArray(tasks)) {
+                tasks.forEach(task => {
+                    const taskElement = document.createElement('div');
+                    taskElement.className = 'task';
+
+                    taskElement.innerHTML = `
+                        <h3>${task.título}</h3>
+                        <p>${task.descripción}</p>
+                        <button onclick="deleteTask(${task.id_tarea})">Eliminar</button>
+                        <button onclick="editTask(${task.id_tarea}, '${task.título}', '${task.descripción}')">Editar</button>
+                    `;
+
+                    container.appendChild(taskElement);
+                });
+            }
+        }
+
+        async function deleteTask(id) {
+            if (confirm('¿Seguro que quieres eliminar esta tarea?')) {
+                const response = await fetch(`${apiUrl}?id_tarea=${id}`, {
+                    method: 'DELETE'
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    fetchTasks();
+                } else {
+                    alert('Error al eliminar tarea');
+                }
+            }
+        }
+
+        function editTask(id, currentTitle, currentDesc) {
+            const newTitle = prompt('Nuevo título:', currentTitle);
+            const newDesc = prompt('Nueva descripción:', currentDesc);
+
+            if (newTitle && newDesc) {
+                updateTask(id, newTitle, newDesc);
+            }
+        }
+
+        async function updateTask(id, titulo, descripcion) {
+            const response = await fetch(apiUrl, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({ id_tarea: id, título: titulo, descripción: descripcion })
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                fetchTasks();
+            } else {
+                alert('Error al actualizar tarea');
+            }
+        }
+    </script>
+
+</body>
+</html>
