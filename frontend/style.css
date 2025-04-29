@@ -4,7 +4,7 @@
     --bg-dark: #1E1E2F;
     --text-light: #333;
     --text-dark: #eee;
-    --primary: #2A6FDB;
+    --primary: #2a64c2;
     --primary-light: #6CA8FF;
     --sidebar-bg: #E1E6F0;
     --header-bg: #fff;
@@ -12,7 +12,7 @@
     --border: #ccc;
   }
   
-  /* Estilos generales */
+  /* Estilos generales */  
   body {
     margin: 0;
     font-family: sans-serif;
