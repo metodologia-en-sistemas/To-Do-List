@@ -1,6 +1,7 @@
 <?php
 // Importa el modelo Task
 require_once '../models/Task.php';
+require_once '../config/database.php';
 // Inicia la sesión para acceder al usuario autenticado
 session_start();
 
@@ -14,18 +15,10 @@ class TaskController {
         }
 
         $task = new Task();
-
-        // Asignamos los datos de la tarea
-        $data['titulo'] = $data['titulo'] ?? '';
-        $data['descripcion'] = $data['descripcion'] ?? null;
-        $data['id_categoria'] = $data['id_categoria'] ?? null;
-        $data['id_estado'] = $data['id_estado'] ?? null;
-        
-        // Aquí asumimos que el id_usuario es el usuario autenticado
-        $data['id_usuario'] = $_SESSION['id_usuario'];
+        $data['id_usuario'] = $_SESSION['id_usuario']; // Asocia la tarea al usuario actual
+        $data['estado'] = $data['estado'] ?? 'pendiente'; // Valor por defecto
 
         $result = $task->create($data);
-
         if ($result) {
             return ['success' => true, 'message' => 'Tarea creada', 'id' => $result];
         } else {
@@ -33,7 +26,7 @@ class TaskController {
         }
     }
 
-    // Obtiene todas las tareas asignadas al usuario autenticado
+    // Obtiene todas las tareas del usuario autenticado
     public function getAll() {
         if (!isset($_SESSION['id_usuario'])) {
             return [];
@@ -52,15 +45,7 @@ class TaskController {
     // Actualiza una tarea existente
     public function update($id, $data) {
         $task = new Task();
-
-        // Verifica y prepara campos opcionales
-        $data['titulo'] = $data['titulo'] ?? '';
-        $data['descripcion'] = $data['descripcion'] ?? null;
-        $data['id_categoria'] = $data['id_categoria'] ?? null;
-        $data['id_estado'] = $data['id_estado'] ?? null;
-
         $updated = $task->update($id, $data);
-
         if ($updated) {
             return ['success' => true, 'message' => 'Tarea actualizada'];
         } else {

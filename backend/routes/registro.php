@@ -1,6 +1,6 @@
 <?php
 require_once './config/database.php';
-require_once 'Users.php'; // Asegúrate de incluir la clase User
+require_once 'users.php';
 
 // Obtenemos los datos enviados en formato JSON desde el frontend (por ejemplo, con fetch en JS)
 $data = json_decode(file_get_contents("php://input"), true);
@@ -10,17 +10,16 @@ $nombre = $data['nombre'];
 $email = $data['email'];
 $password = $data['password'];
 
-// Creamos una nueva instancia del modelo User con los datos recibidos
-$user = new User();
 
-// Intentamos registrar al usuario con el método create()
-$result = $user->create(['nombre' => $nombre, 'correo' => $email, 'contrasena' => $password]);
+// Creamos un nuevo objeto Usuario con los datos recibidos y la conexión a la base de datos
+$usuario = new Usuario($nombre, $email, $password, $conexion);
 
-if ($result) {
+// Intentamos registrar al usuario con el método registrar()
+if ($usuario->registrar()) {
   echo json_encode([
     "message" => "Registro exitoso",
     "redirect" => true,
-    "url" => "../frontend/login.html" // Redirigir al login
+    "url" => "../frontend/login.html" // redirigir al login
   ]);
 } else {
   echo json_encode([
@@ -28,4 +27,3 @@ if ($result) {
     "redirect" => false
   ]);
 }
-?>

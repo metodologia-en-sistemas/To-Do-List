@@ -1,52 +1,44 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>Login - TaskList</title>
-  <link rel="stylesheet" href="./css/style.css">
-</head>
-<body>
-  <div class="auth-container">
-    <div class="auth-sidebar">
-      <h2>LOGIN</h2>
-      <p></p>
-    </div>
-    <div class="auth-form">
-      <h2>Iniciar Sesión</h2>
-      <form id="formularioLogin">
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" required>
-        </div>
-        <div class="form-group">
-          <label for="password">Contraseña</label>
-          <input type="password" id="password" name="password" required>
-        </div>
-        <button type="submit" class="btn">Login</button>
-      </form>
-      <p style="margin-top:1rem; text-align:center;">
-        ¿No tienes cuenta? <a href="register.html">Regístrate</a>
-      </p>
-    </div>
-  </div>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Iniciar sesión - To-Do List</title>
+    
+    <link rel="stylesheet" href="./css/style.css">
+  </head>
+  <body>
+    <h1>Iniciar sesión</h1>
 
-  <script>
-    const form = document.getElementById("formularioLogin");
+    <form id="formularioLogin">
+      <input
+        type="email"
+        id="login-email"
+        name="email"
+        placeholder="Email"
+        required
+      /><br /><br />
+      <input
+        type="password"
+        id="login-password"
+        name="password"
+        placeholder="Contraseña"
+        required
+      /><br /><br />
+      <button type="submit">Iniciar sesión</button>
+    </form>
 
-    form.addEventListener("submit", async function (e) {
-      e.preventDefault();
+    <p>¿No tienes cuenta? <a href="register.html">Regístrate aquí</a></p>
 
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value.trim();
+    <script>
+      const form = document.getElementById("formularioLogin");
 
-      if (!email || !password) {
-        alert("Por favor completa todos los campos.");
-        return;
-      }
+      form.addEventListener("submit", async function (e) {
+        e.preventDefault(); // Evita que la página se recargue
 
-      try {
-        const response = await fetch("../backend/routes/login.php", {
+        const email = document.getElementById("login-email").value;
+        const password = document.getElementById("login-password").value;
+
+        const response = await fetch("../backend/controllers/UserController.php", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -54,22 +46,15 @@
           body: JSON.stringify({ email, password }),
         });
 
-        if (!response.ok) {
-          throw new Error("Error en la conexión con el servidor.");
-        }
-
         const data = await response.json();
 
-        alert(data.message);
-
-        if (data.redirect) {
-          window.location.href = data.url;
+        if (data.success) {
+          // Si el login es exitoso, redirigir al usuario a la página principal
+          window.location.href = "../frontend/index.html";  // Asegúrate de tener esta página
+        } else {
+          alert(data.message); // Mostrar el mensaje de error
         }
-      } catch (error) {
-        console.error(error);
-        alert("Ocurrió un error. Intenta más tarde.");
-      }
-    });
-  </script>
-</body>
+      });
+    </script>
+  </body>
 </html>

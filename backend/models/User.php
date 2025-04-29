@@ -1,25 +1,24 @@
-<?php 
+<?php
 require_once '../config/database.php';
 
 class User {
-    private $conexion; // Variable donde se guarda la conexión a la base de datos.
+    private $conexion;
 
     public function __construct()
     {
-        $this->conn = (new Database())->connect(); // Obtenemos la conexión PDO     
+        $this->conexion = (new Database())->connect();
     }
 
-    // CREAR UN NUEVO USUARIO   
-    public function create($data) {
-        $sql = "INSERT INTO usuario (nombre, correo, contrasena) VALUES (:nombre, :correo, :contrasena)";
+    // Crear un nuevo usuario
+    public function create($data)
+    {
+        $sql = "INSERT INTO usuarios (nombre, email, password) VALUES (:nombre, :email, :password)";
         $stmt = $this->conexion->prepare($sql);
-
-        // Hashea el password con la última actualización disponible en algoritmos de hasheo
-        $hashedPassword = password_hash($data['contrasena'], PASSWORD_DEFAULT);
+        $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
 
         $stmt->bindParam(':nombre', $data['nombre']);
-        $stmt->bindParam(':correo', $data['correo']);
-        $stmt->bindParam(':contrasena', $hashedPassword);
+        $stmt->bindParam(':email', $data['email']);
+        $stmt->bindParam(':password', $hashedPassword);
 
         if ($stmt->execute()) {
             return $this->conexion->lastInsertId(); // Devuelve el ID del nuevo usuario
@@ -27,22 +26,23 @@ class User {
         return false;
     }
 
-    // BUSCAR POR CORREO
-    public function findByEmail($correo) {
-        $sql = "SELECT * FROM usuario WHERE correo = :correo";
+    // Buscar un usuario por email
+    public function findByEmail($email)
+    {
+        $sql = "SELECT * FROM usuarios WHERE email = :email";
         $stmt = $this->conexion->prepare($sql);
-        $stmt->bindParam(':correo', $correo);
-
+        $stmt->bindParam(':email', $email);
         $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC); // Devuelve array asociativo del usuario
+
+        return $stmt->fetch(PDO::FETCH_ASSOC); // Devuelve el usuario si existe, o false si no
     }
 
-    // Buscar por ID 
-    public function findByID($id_usuario) {
-        $sql = "SELECT id_usuario, nombre, correo FROM usuario WHERE id_usuario = :id_usuario";
+    // Buscar usuario por ID (si se necesita en el futuro)
+    public function findByID($id)
+    {
+        $sql = "SELECT id, nombre, email FROM usuarios WHERE id = :id";
         $stmt = $this->conexion->prepare($sql);
-        $stmt->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
-
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }

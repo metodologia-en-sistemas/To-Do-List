@@ -1,61 +1,68 @@
 <?php
-// Importa el controlador de tareas
-require_once '../controller/TaskController.php';
 session_start();
+require_once '../controllers/TaskController.php'; // Asegúrate de que la ruta sea correcta
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-// Crea una instancia del controlador de tareas
+// Esto es solo para pruebas si no hiciste login
+if (!isset($_SESSION['id_usuario'])) {
+    $_SESSION['id_usuario'] = 1; // Usuario de prueba (ID 1)
+}
+
+
+header('Content-Type: application/json');
+
 $taskController = new TaskController();
-
-// Verifica el tipo de solicitud HTTP
 $requestMethod = $_SERVER['REQUEST_METHOD'];
 
-// Rutas para el CRUD de tareas
 switch ($requestMethod) {
-    case 'POST':  // Crear una nueva tarea
-        if (isset($_POST['titulo']) && isset($_POST['descripcion'])) {
-            // Llama al método de crear tarea
-            $response = $taskController->create($_POST);
-            echo json_encode($response);
-        } else {
-            echo json_encode(['success' => false, 'message' => 'Faltan datos']);
+    case 'POST':
+        // POST normal o JSON
+        $data = json_decode(file_get_contents('php://input'), true);
+        if (!$data) {
+            $data = $_POST; // Soporta también formulario clásico
         }
+
+        if (isset($data['titulo'])) {
+            $response = $taskController->create($data);
+        } else {
+            $response = ['success' => false, 'message' => 'Faltan datos para crear la tarea'];
+        }
+        echo json_encode($response);
         break;
 
-    case 'GET':  // Obtener todas las tareas o una tarea específica
+    case 'GET':
         if (isset($_GET['id_tarea'])) {
-            // Obtener tarea por ID
             $response = $taskController->getById($_GET['id_tarea']);
-            echo json_encode($response);
         } else {
-            // Obtener todas las tareas
             $response = $taskController->getAll();
-            echo json_encode($response);
         }
+        echo json_encode($response);
         break;
 
-    case 'PUT':  // Actualizar una tarea
-        // Obtener datos crudos del PUT
+    case 'PUT':
+        $putData = [];
         parse_str(file_get_contents("php://input"), $putData);
 
         if (isset($putData['id_tarea']) && isset($putData['titulo'])) {
             $response = $taskController->update($putData['id_tarea'], $putData);
-            echo json_encode($response);
         } else {
-            echo json_encode(['success' => false, 'message' => 'Faltan datos para actualizar']);
+            $response = ['success' => false, 'message' => 'Faltan datos para actualizar la tarea'];
         }
+        echo json_encode($response);
         break;
 
-    case 'DELETE':  // Eliminar una tarea
+    case 'DELETE':
         if (isset($_GET['id_tarea'])) {
             $response = $taskController->delete($_GET['id_tarea']);
-            echo json_encode($response);
         } else {
-            echo json_encode(['success' => false, 'message' => 'ID de tarea no proporcionado']);
+            $response = ['success' => false, 'message' => 'ID de tarea no proporcionado'];
         }
+        echo json_encode($response);
         break;
 
     default:
         echo json_encode(['success' => false, 'message' => 'Método HTTP no permitido']);
         break;
 }
-?>

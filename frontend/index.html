@@ -1,13 +1,106 @@
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Inicio - To-Do List</title>
-  </head>
-  <body>
-    <h1>Bienvenido a MI ORGANIZADOR</h1>
-    <p>Aquí puedes organizar tus tareas.</p>
 
-    <a href="logout.html">Cerrar sesión</a>
-  </body>
-</html>
+ </html>
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>TaskCollab - Lista de Tareas Colaborativa</title>
+     <link rel="stylesheet" href="./css/style.css">
+     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+ 
+ </head>
+ <body>
+     <!-- Navbar -->
+   
+     
+     <nav class="navbar navbar-expand-lg navbar-light bg-light">
+         <div class="container">
+             <a class="navbar-brand" href="#">TaskCollab</a>
+             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                 <span class="navbar-toggler-icon"></span>
+             </button>
+             <div class="collapse navbar-collapse" id="navbarNav">
+                 <ul class="navbar-nav me-auto">
+                     <li class="nav-item">
+                         <a class="nav-link active" href="#">Mis Tareas</a>
+                         <button id="dark-mode-toggle" class="btn btn-dark-mode">
+                             🌙
+                         </button>
+                     </li>
+                 </ul>
+             </div>
+               <!-- Botón de Cerrar Sesión -->
+               <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <button id="logout-btn" class="btn btn-outline-danger">
+                        <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+                    </button>
+                </li>
+            </ul>
+         </div>
+     </nav>
+  
+     <!-- Main Content -->
+     <div class="container mt-4">
+         <!-- Header -->
+         <div class="app-header">
+             <h1 class="h3 mb-3">Lista de Tareas Colaborativa</h1>
+             <p class="mb-0">Una simple aplicación para gestionar tus tareas diarias</p>
+         </div>
+ 
+         <!-- Task Input Form -->
+         <div class="task-container mb-4">
+             <form id="task-form">
+                 <div class="input-group">
+                     <input type="text" id="task-input" class="form-control" placeholder="Añadir nueva tarea...">
+                     <button type="submit" class="btn btn-primary">
+                         <i class="fas fa-plus"></i> Añadir
+                     </button>
+                 </div>
+             </form>
+         </div>
+ 
+         <!-- Task List -->
+         <div class="task-container">
+             <h2 class="h5 mb-3">Mis Tareas</h2>
+             
+             <div class="task-stats mb-3">
+                 <div class="row text-center">
+                     <div class="col">
+                         <div class="bg-light p-2 rounded">
+                             <div class="h4 mb-0" id="total-tasks">0</div>
+                             <small>Total</small>
+                         </div>
+                     </div>
+                     <div class="col">
+                         <div class="bg-light p-2 rounded">
+                             <div class="h4 mb-0" id="completed-tasks">0</div>
+                             <small>Completadas</small>
+                         </div>
+                     </div>
+                     <div class="col">
+                         <div class="bg-light p-2 rounded">
+                             <div class="h4 mb-0" id="pending-tasks">0</div>
+                             <small>Pendientes</small>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+             
+             <ul class="list-unstyled" id="task-list">
+                 <!-- Las tareas se generarán dinámicamente aquí -->
+             </ul>
+             
+             <div id="empty-state" class="text-center py-4">
+                 <i class="fas fa-clipboard-list fa-3x text-muted"></i>
+                 <p class="mt-2 text-muted">No hay tareas pendientes. ¡Añade una nueva tarea!</p>
+             </div>
+         </div>
+     </div>
+ 
+     <!-- Scripts -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+     <script src="./js/app.js"> </script>
+     
+ </body>
+ </html>

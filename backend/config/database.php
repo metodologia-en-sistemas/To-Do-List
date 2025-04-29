@@ -1,9 +1,10 @@
 <?php
+
 class Database {
     private $host = '127.0.0.1';
-    private $dbname = 'gestionatarea';
+    private $dbname = 'gestion_tareas';
     private $user = 'root';  
-    private $password = 'Cristian47';  
+    private $password = 'Cristian47'; 
     private $conexion = null; // Guarda la conexión
 
     public function connect() {
