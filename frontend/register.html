@@ -1,75 +1,46 @@
+<!-- register.html (versión restaurada) -->
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Registrarse - To-Do List</title>
-    <link rel="stylesheet" href="/frontend/css/style.css"/>
-  </head>
-  <body>
-    <div class="contenedor2">
-      <h1>Registrarse</h1>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Registro - TaskList</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header style="padding: .5rem 1rem; text-align: right; background: var(--card-bg);">
+    <button id="toggleDark" title="Modo nocturno">🌙</button>
+  </header>
 
-    <form id="formularioRegistro">
-      <input
-        type="text"
-        id="nombre"
-        name="nombre"
-        placeholder="Nombre"
-        required
-      /><br /><br />
-      <input
-        type="email"
-        id="email"
-        name="email"
-        placeholder="Email"
-        required
-      /><br /><br />
-      <input
-        type="password"
-        id="password"
-        name="password"
-        placeholder="Contraseña"
-        required
-      /><br /><br />
-      <button type="submit">Registrar</button>
-      <div class ="iniciarSesion">
-        <p>¿Ya tienes cuenta? <a href="login.html">Inicia sesión aquí</a></p>
-      </div>
-      
-    </form>
+  <div class="auth-container">
+    <div class="auth-sidebar">
+      <h2>REGISTRO</h2>
+      <p>Crea tu cuenta gratis</p>
     </div>
-    
+    <div class="auth-form">
+      <h2>Registrarse</h2>
+      <form action="../backend/routes/registro.php" method="post">
+        <div class="form-group">
+          <label for="name">Nombre</label>
+          <input type="text" id="name" name="nombre" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Contraseña</label>
+          <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit" class="btn">Crear Cuenta</button>
+      </form>
+      <p style="margin-top:1rem; text-align:center;">
+        ¿Ya tienes cuenta? <a href="login.html">Inicia Sesión</a>
+      </p>
+    </div>
+  </div>
 
-    
-
-    <script>
-      const form = document.getElementById("formularioRegistro");
-
-      form.addEventListener("submit", async function (e) {
-        e.preventDefault(); // Evita que la página se recargue
-
-        const nombre = document.getElementById("nombre").value;
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
-
-        // Usamos fetch para enviar los datos al backend
-        const response = await fetch("../backend/register.php", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ nombre, email, password }),
-        });
-
-        const data = await response.json();
-
-        alert(data.message); // Mostrar el mensaje de la respuesta
-
-        // Si el registro es exitoso, redirigir al login
-        if (data.redirect) {
-          window.location.href = data.url;
-        }
-      });
-    </script>
-  </body>
+  <script src="js/app.js"></script>
+</body>
 </html>
+

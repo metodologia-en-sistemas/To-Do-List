@@ -1,15 +1,77 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Inicio - To-Do List</title>
-  </head>
-  <body>
-    <h1>Bienvenido a MI ORGANIZADOR</h1>
-    <p>Aquí puedes organizar tus tareas.</p>
-    <h2>Lista de tareas</h2>
-    <input type="text" id="nuevaTarea" placeholder="Ingrese una Nueva tarea" />
-    <button id="agregarTarea">Agregar tarea</button>
-    <a href="logout.html">Cerrar sesión</a>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>TaskList - Tareas</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="navbar">
+    <a href="index.html" class="logo">TaskList</a>
+
+    <div class="header-controls">
+      <!-- ÚNICA SEARCH -->
+      <div class="search-bar">
+        <input type="text" id="searchTasks" placeholder="Buscar tareas...">
+        <button title="Buscar"><span>🔍</span></button>
+      </div>
+
+      <!-- ICONOS -->
+      <button id="toggleDark" class="icon-btn" title="Modo nocturno">🌙</button>
+      <a href="#" class="icon-btn" title="Notificaciones">🔔</a>
+      <div class="dropdown">
+        <button class="icon-btn" aria-haspopup="true" aria-expanded="true" title="Configuración">⚙️</button>
+        <div class="dropdown-content">
+          <a href="profile.html">Cuenta</a>
+          <a href="notifications.html">Notificaciones</a>
+          <a href="settings.html">Ajustes</a>
+          <a href="#" id="toggleAppearance">Apariencia</a>
+          <a href="#" id="toggleAccessibility">Accesibilidad</a>
+          <a href="login.html">Cerrar Sesión</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="app-container">
+    <!-- SIDEBAR IZQUIERDA -->
+    <aside class="sidebar">
+      <div class="profile-icon">👤</div>
+      <nav>
+        <a href="profile.html">Perfil</a>
+        <a href="login.html">Login</a>
+        <a href="logout.html">Logout</a>
+        <a href="help.html">Ayuda</a>
+      </nav>
+    </aside>
+
+    <!-- CONTENIDO -->
+    <main class="main-content">
+      <div class="dashboard-header">
+        <h1>Mis Tareas</h1>
+        <button id="newTaskBtn" class="btn">+ Nueva</button>
+      </div>
+
+      <table id="tasksTable" class="tasks-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Tarea</th>
+            <th>Descripción</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- filas inyectadas por js -->
+        </tbody>
+      </table>
+
+      <div id="pagination" class="pagination"></div>
+    </main>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
 </html>

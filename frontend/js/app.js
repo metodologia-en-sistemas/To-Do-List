@@ -1,46 +1,95 @@
-// Función para iniciar sesión
-function login() {
-  // Obtenemos el email y la contraseña del formulario
-  const email = document.getElementById("login-email").value;
-  const password = document.getElementById("login-password").value;
 
-  // Enviamos los datos al backend usando fetch con POST
-  fetch("../backend/routes/login.php", {
-    method: "POST", // Tipo de solicitud
-    headers: { "Content-Type": "application/json" }, // Indicamos que enviamos JSON
-    body: JSON.stringify({ email, password }) // Convertimos el objeto JS a JSON
-  })
-  .then(res => res.json()) // Convertimos la respuesta a objeto JS
-  .then(data => {
-    if (data.redirect) {
-      // Si el backend responde con redirección, vamos a esa URL
-      window.location.href = data.url;
-    } else {
-      // Si no hay redirección, mostramos el mensaje del backend
-      alert(data.message);
+// Modo oscuro persistente
+window.addEventListener('DOMContentLoaded', () => {
+  if (localStorage.getItem('darkMode') === 'enabled') {
+    document.body.classList.add('dark');
+  }
+});
+
+document.getElementById('toggleDark')?.addEventListener('click', () => {
+  document.body.classList.toggle('dark');
+  if (document.body.classList.contains('dark')) {
+    localStorage.setItem('darkMode', 'enabled');
+  } else {
+    localStorage.setItem('darkMode', '');
+  }
+});
+
+// Dropdown de configuración
+const dropdownBtn = document.querySelector('.dropdown .icon-btn');
+const dropdownMenu = document.querySelector('.dropdown-content');
+dropdownBtn?.addEventListener('click', e => {
+  e.stopPropagation();
+  dropdownMenu.classList.toggle('active');
+});
+document.addEventListener('click', () => {
+  dropdownMenu?.classList.remove('active');
+});
+
+// Tabla: búsqueda + paginación
+(function() {
+  const tableBody = document.querySelector('#tasksTable tbody');
+  const paginationDiv = document.getElementById('pagination');
+  const searchInput = document.getElementById('searchTasks');
+
+  if (!tableBody) return;
+
+  let currentPage = 1;
+  const pageSize = 5;
+  let currentSearch = '';
+
+  function loadTasks() {
+    const url = new URL('/api/tasks', window.location.origin);
+    url.searchParams.set('page', currentPage);
+    url.searchParams.set('limit', pageSize);
+    url.searchParams.set('search', currentSearch);
+
+    fetch(url)
+      .then(res => res.json())
+      .then(({ data, total }) => {
+        renderTable(data);
+        renderPagination(total);
+      })
+      .catch(err => console.error('Error cargando tareas:', err));
+  }
+
+  function renderTable(tasks) {
+    tableBody.innerHTML = '';
+    tasks.forEach(task => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><input type="checkbox" ${task.completed ? 'checked' : ''}></td>
+        <td>${task.title}</td>
+        <td>${task.description}</td>
+        <td>
+          <button class="icon-btn" title="Editar">✏️</button>
+          <button class="icon-btn" title="Eliminar">🗑️</button>
+        </td>
+      `;
+      tableBody.appendChild(tr);
+    });
+  }
+
+  function renderPagination(totalItems) {
+    const pageCount = Math.ceil(totalItems / pageSize);
+    paginationDiv.innerHTML = '';
+    for (let i = 1; i <= pageCount; i++) {
+      const btn = document.createElement('button');
+      btn.textContent = i;
+      if (i === currentPage) btn.disabled = true;
+      btn.addEventListener('click', () => {
+        currentPage = i;
+        loadTasks();
+      });
+      paginationDiv.appendChild(btn);
     }
-  });
-}
+  }
 
-// Función para registrar usuario
-function registro() {
-  // Obtenemos email, contraseña y nombre del formulario de registro
-  const nombre = document.getElementById("reg-nombre").value;
-  const email = document.getElementById("reg-email").value;
-  const password = document.getElementById("reg-password").value;
-
-  // Enviamos los datos al backend con fetch
-  fetch("../backend/routes/registro.php", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ nombre, email, password }) 
-  })
-  .then(res => res.json())
-  .then(data => {
-    if (data.redirect) {
-      window.location.href = data.url;
-    } else {
-      alert(data.message);
-    }
+  searchInput?.addEventListener('input', e => {
+    currentSearch = e.target.value.trim();
+    currentPage = 1;
+    loadTasks();
   });
-}
+
+  document.addEventListener('DOMContentLoaded', loadTasks);
+})();
