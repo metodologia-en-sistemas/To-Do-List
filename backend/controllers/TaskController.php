@@ -9,13 +9,13 @@ class TaskController {
 
     // Crea una nueva tarea para el usuario autenticado
     public function create($data) {
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['id_usuario'])) {
             return ['success' => false, 'message' => 'No autenticado'];
         }
 
         $task = new Task();
-        $data['user_id'] = $_SESSION['user_id']; // Asocia la tarea al usuario actual
-        $data['status'] = $data['status'] ?? 'pendiente'; // Valor por defecto
+        $data['id_usuario'] = $_SESSION['id_usuario']; // Asocia la tarea al usuario actual
+        $data['estado'] = $data['estado'] ?? 'pendiente'; // Valor por defecto
 
         $result = $task->create($data);
         if ($result) {
@@ -27,12 +27,12 @@ class TaskController {
 
     // Obtiene todas las tareas del usuario autenticado
     public function getAll() {
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['id_usuario'])) {
             return [];
         }
 
         $task = new Task();
-        return $task->getAllByUser($_SESSION['user_id']);
+        return $task->getAllByUser($_SESSION['id_usuario']);
     }
 
     // Obtiene los detalles de una tarea por su ID

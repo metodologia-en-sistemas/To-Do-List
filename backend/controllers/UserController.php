@@ -1,49 +1,76 @@
-<?php 
-require_once '../models/User.php'; //TRAEMOS EL MODELO DE USUARIO
-session_start();// SE ACTIVA LA SESION PARA MANEJAR EL LOGIN/LOGOUT
+<?php
+session_start();//manejo de sesiones
+require_once '../config/database.php';
+require_once '../models/User.php';
+//Decodificacion de Json recibido
+$data = json_decode(file_get_contents("php://input"), true);
 
-class UserController {
-    //REGISTRO DE USUARIO
-    public function register($data) {
-        $user = new User(); //Creamos instancia del modelo User
-        $result = $user->create($data); //llamamos a la funcion create()
+//Revisamos si vienen los campos necesarios
+if (!isset($data['email']) || !isset($data['password'])) {
+    echo json_encode([
+        "success" => false,
+        "message" => "Datos incompletos."
+    ]);
+    exit;
+}
 
-        if ($result) {
-            $_SESSION['user_id'] = $result; //Guardamos el ID del usuario en sesion
-            return ['success' => true, 'message'=> 'Usuario registrado correctamente.'];
-        }
-        else{
-            return ['success' => false, 'message' => 'Error al registrar usuario.'];
-        }
+// Extraemos los datos del request
+$email = $data['email'];
+$password = $data['password'];
+$nombre = isset($data['nombre']) ? $data['nombre']: null; //El nombre podria no venir del login
+
+// Creamos un objeto de usuario
+$user = new User($nombre, $email, $password);
+
+//Es un registro o un inicio de sesion?
+if ($nombre !== null) {
+    //Registro
+
+    
+// Verificamos si el email ya está registrado
+    if ($user->findByEmail($email)) {
+    echo json_encode([
+        "success" => false,
+        "message" => "El correo electrónico ya está registrado"
+    ]);
+    exit;
+}
+
+// Si no está registrado, intentamos crear el usuario
+if ($user->create($data)) {
+    echo json_encode([
+        "success" => true,
+        "message" => "Registro exitoso",
+        "redirect" => true,
+        "url" => "../frontend/login.html"  // redirigir al login
+    ]);
+} else {
+    echo json_encode([
+        "success" => false,
+        "message" => "Error al registrar usuario. Intente nuevamente."
+    ]);
+}
+}
+else {
+    //Login
+    $usuarioEncontrado = $user->findByEmail($email);
+
+    if ($usuarioEncontrado && password_verify($password, $usuarioEncontrado['password'])){
+        //Password correcto, iniciar sesion.
+        $_SESSION['usuario_email'] = $email;
+
+        echo json_encode([
+            "success" => true,
+            "message" => "Inicio de sesión exitoso.",
+            "redirect" => true,
+            "url" => "../../frontend/index.html" //Redirige al dashboard o home
+        ]);
     }
-
-    //LOGIN (incio de sesion)
-    public function login($email, $password) {
-        $user = new User();
-        $foundUser = $user->findByEmail($email); //Buscamos usuario por correo
-
-        if ($foundUser && password_verify($password, $foundUser['password'])) {
-            $_SESSION['user_id'] =$foundUser['id'];
-            return['success' => true, 'message' => 'Inicio de sesión exitoso.'];
-        }
-        else {
-            return['success' => false, 'message' => 'Credenciales inválidas.'];
-        }
+    else {
+        echo json_encode([
+            "success" => false,
+            "message" => "Email o contraseña incorrectos."
+        ]);
     }
-
-    //LOGOUT (cierre de sesion)
-        public function logout() {
-            session_destroy(); //Borra toda la informacion de la sesion
-            return['success'=> true, 'message'=>'Sesión cerrada.'];
-        }
-    //OBTENER DATOS DEL USUARIO LOGUEADO
-        public function getUser() {
-            if (isset($_SESSION['user_id'])) {
-                $user = new User();// IMPORTANTE: se necesita instanciar user para usar el modelo
-                return $user->findByID($_SESSION['user_id']);
-            }
-            return null; 
-        }
-
-}  
+}
 ?>
