@@ -180,3 +180,7 @@ const toggleButton = document.getElementById('dark-mode-toggle');
  toggleButton.addEventListener('click', () => {
      document.body.classList.toggle('dark-mode');
  });
+// cerrar sesion function
+ function cerrarSesion() {
+  window.location.href = "../backend/routes/cerrar.php";
+}

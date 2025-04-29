@@ -15,14 +15,14 @@
      
      <nav class="navbar navbar-expand-lg navbar-light bg-light">
          <div class="container">
-             <a class="navbar-brand" href="#">TaskCollab</a>
+             
              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                  <span class="navbar-toggler-icon"></span>
              </button>
              <div class="collapse navbar-collapse" id="navbarNav">
                  <ul class="navbar-nav me-auto">
                      <li class="nav-item">
-                         <a class="nav-link active" href="#">Mis Tareas</a>
+                         <h3 class="nav-link active" href="#">Mis Tareas</h3>
                          <button id="dark-mode-toggle" class="btn btn-dark-mode">
                              🌙
                          </button>
@@ -32,9 +32,9 @@
                <!-- Botón de Cerrar Sesión -->
                <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <button id="logout-btn" class="btn btn-outline-danger">
-                        <i class="fas fa-sign-out-alt"></i> Cerrar sesión
-                    </button>
+                  <button class="btn btn-outline-danger" onclick="cerrarSesion()">
+                    <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+                  </button>
                 </li>
             </ul>
          </div>
