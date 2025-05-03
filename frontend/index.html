@@ -2,84 +2,130 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <title>TaskList - Tareas</title>
-    <link rel="stylesheet" href="css/style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TechSolutions - Innovación Digital</title>
+
+    <!-- Íconos Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+
+    <!-- Tus estilos locales -->
+    <link rel="stylesheet" href="style.css" />
   </head>
 
   <body>
-    <!-- HEADER -->
-    <header class="navbar">
-      <a href="index.html" class="logo">TaskList</a>
-      <div class="header-controls">
-        <!-- BARRA DE BÚSQUEDA -->
-        <div class="search-bar">
-          <input type="text" id="searchTasks" placeholder="Buscar tareas..." />
-          <button title="Buscar"><span>🔍</span></button>
-        </div>
-        <!-- ICONOS -->
-        <button id="toggleDark" class="icon-btn" title="Modo nocturno">
-          <span>🌙</span>
-        </button>
-        <a href="#" class="icon-btn" title="Notificaciones"><span>🔔</span></a>
-        <div class="dropdown">
-          <button
-            class="icon-btn"
-            aria-haspopup="false"
-            aria-expanded="true"
-            title="Configuración"
-          >
-            <span>⚙️</span>
-          </button>
-          <div class="dropdown-content">
-            <a href="profile.html">Cuenta</a>
-            <a href="notifications.html">Notificaciones</a>
-            <a href="settings.html">Ajustes</a>
-            <a href="#" id="toggleAppearance">Apariencia</a>
-            <a href="#" id="toggleAccessibility">Accesibilidad</a>
-            <a href="../backend/routes/cerrar.php">Cerrar Sesión</a>
-            <!-- Arreglado logout -->
-          </div>
-        </div>
+    <!-- Navegación -->
+    <nav class="navbar">
+      <div class="logo">TechSolutions</div>
+      <ul class="nav-links">
+        <li><a href="#home">Inicio</a></li>
+        <li><a href="#about">Nosotros</a></li>
+        <li><a href="#services">Servicios</a></li>
+        <li><a href="#contact">Contacto</a></li>
+      </ul>
+    </nav>
+
+    <!-- Sección Hero -->
+    <header class="hero" id="home">
+      <div class="hero-content">
+        <h1>Transformamos tu Negocio Digital</h1>
+        <p>Soluciones tecnológicas a medida para empresas innovadoras</p>
+        <a href="#contact" class="cta-button">¡Contáctanos!</a>
       </div>
     </header>
 
-    <div class="app-container">
-      <!-- SIDEBAR IZQUIERDA -->
-      <aside class="sidebar">
-        <div class="profile-icon">👤</div>
-        <nav>
-          <a href="profile.html">Perfil</a>
-          <a href="login.html">Login</a>
-          <a href="../backend/routes/cerrar.php">Logout</a>
-          <!-- Arreglado logout -->
-          <a href="help.html">Ayuda</a>
-        </nav>
-      </aside>
-
-      <!-- CONTENIDO -->
-      <main class="main-content">
-        <div class="dashboard-header">
-          <h1>Mis Tareas</h1>
-          <button id="newTaskBtn" class="btn">+ Nueva</button>
+    <!-- Sección Nosotros -->
+    <section class="about" id="about">
+      <div class="section-content">
+        <h2>Sobre Nosotros</h2>
+        <div class="about-grid">
+          <div class="about-text">
+            <p>
+              Con más de 10 años de experiencia, ayudamos a empresas a alcanzar
+              sus objetivos mediante soluciones digitales innovadoras.
+            </p>
+            <ul class="about-list">
+              <li><i class="fas fa-check"></i> Equipo certificado</li>
+              <li><i class="fas fa-check"></i> Metodologías ágiles</li>
+              <li><i class="fas fa-check"></i> Soporte 24/7</li>
+            </ul>
+          </div>
+          <div class="about-image">
+            <img
+              src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+              alt="Equipo de trabajo"
+            />
+          </div>
         </div>
-        <table id="tasksTable" class="tasks-table">
-          <thead>
-            <tr>
-              <th></th>
-              <th>Tarea</th>
-              <th>Descripción</th>
-              <th>Acción</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- filas inyectadas por JS -->
-          </tbody>
-        </table>
-        <div id="pagination" class="pagination"></div>
-      </main>
-    </div>
+      </div>
+    </section>
 
-    <script src="js/app.js"></script>
+    <!-- Sección Servicios -->
+    <section class="services" id="services">
+      <div class="section-content">
+        <h2>Nuestros Servicios</h2>
+        <div class="services-grid">
+          <div class="service-card">
+            <i class="fas fa-laptop-code"></i>
+            <h3>Desarrollo Web</h3>
+            <p>Creación de sitios web profesionales y aplicaciones a medida.</p>
+          </div>
+          <div class="service-card">
+            <i class="fas fa-mobile-alt"></i>
+            <h3>Apps Móviles</h3>
+            <p>Desarrollo nativo e híbrido para iOS y Android.</p>
+          </div>
+          <div class="service-card">
+            <i class="fas fa-chart-line"></i>
+            <h3>Marketing Digital</h3>
+            <p>Estrategias personalizadas para aumentar tu presencia online.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección Contacto -->
+    <section class="contact" id="contact">
+      <div class="section-content">
+        <h2>Contacto</h2>
+        <div class="contact-container">
+          <form class="contact-form">
+            <div class="form-group">
+              <input type="text" placeholder="Nombre" required />
+            </div>
+            <div class="form-group">
+              <input type="email" placeholder="Correo Electrónico" required />
+            </div>
+            <div class="form-group">
+              <textarea rows="5" placeholder="Tu Mensaje" required></textarea>
+            </div>
+            <button type="submit" class="cta-button">
+              Enviar Mensaje <i class="fas fa-paper-plane"></i>
+            </button>
+          </form>
+          <div class="contact-info">
+            <h3>Información de Contacto</h3>
+            <p>
+              <i class="fas fa-map-marker-alt"></i> Av. Innovación 123, Ciudad
+              Digital
+            </p>
+            <p><i class="fas fa-phone"></i> +1 234 567 890</p>
+            <p><i class="fas fa-envelope"></i> info@techsolutions.com</p>
+            <div class="social-icons">
+              <a href="#"><i class="fab fa-facebook"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>&copy; 2024 TechSolutions. Todos los derechos reservados.</p>
+    </footer>
   </body>
 </html>
