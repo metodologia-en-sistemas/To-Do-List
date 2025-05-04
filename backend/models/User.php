@@ -46,5 +46,22 @@ class User {
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+// Método para iniciar sesión (verifica usuario y contraseña)
+    public function login($email, $password)
+    {
+    $sql = "SELECT * FROM usuarios WHERE email = :email";
+    $stmt = $this->conexion->prepare($sql);
+    $stmt->bindParam(':email', $email);
+    $stmt->execute();
+
+    $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($usuario && password_verify($password, $usuario['password'])) {
+        return $usuario; // Devuelve los datos del usuario si las credenciales son válidas
+    }
+
+    return false; // Si no coincide el email o la contraseña
+    }
 }
 ?>
