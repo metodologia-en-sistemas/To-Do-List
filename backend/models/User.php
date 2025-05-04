@@ -12,13 +12,17 @@ class User {
     // Crear un nuevo usuario
     public function create($data)
     {
-        $sql = "INSERT INTO usuarios (nombre, email, password) VALUES (:nombre, :email, :password)";
+        $sql = "INSERT INTO usuarios (nombre, email, password, imagen_perfil) VALUES (:nombre, :email, :password, :imagen_perfil)";
         $stmt = $this->conexion->prepare($sql);
+        
+        $imagen_perfil = isset($data['imagen_perfil']) ? $data['imagen_perfil'] : 'uploads/default.png';//Si el usuario no sube una imagen se carga una por defecto
         $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
+        
 
         $stmt->bindParam(':nombre', $data['nombre']);
         $stmt->bindParam(':email', $data['email']);
         $stmt->bindParam(':password', $hashedPassword);
+        $stmt->bindParam(':imagen_perfil', $imagen_perfil);
 
         if ($stmt->execute()) {
             return $this->conexion->lastInsertId(); // Devuelve el ID del nuevo usuario

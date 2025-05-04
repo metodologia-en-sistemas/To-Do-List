@@ -36,11 +36,34 @@ if ($nombre !== null) {
     exit;
 }
 
+    // 👤 IMAGEN DE PERFIL
+    $uploadDir = '../uploads/';
+    $defaultImage = $uploadDir . 'default.png';
+    $profileImagePath = $defaultImage;
+
+    // Si se está usando formulario con enctype multipart/form-data, puedes usar $_FILES
+    if (!empty($_FILES['imagen_perifl']) && $_FILES['imagen_perifl']['error'] === UPLOAD_ERR_OK) {
+        $tmpName = $_FILES['imagen_perifl']['tmp_name'];
+        $imageName = basename($_FILES['imagen_perifl']['name']);
+        $ext = strtolower(pathinfo($imageName, PATHINFO_EXTENSION));
+        $allowed = ['jpg', 'jpeg', 'png', 'gif'];
+
+        if (in_array($ext, $allowed)) {
+            $newName = uniqid('img_') . '.' . $ext;
+            $dest = $uploadDir . $newName;
+
+            if (move_uploaded_file($tmpName, $dest)) {
+                $profileImagePath = $dest;
+            }
+        }
+    }
+
+
 // Si no está registrado, intentamos crear el usuario
 if ($user->create($data)) {
     echo json_encode([
         "success" => true,
-        "message" => "Registro exitoso",
+        "message" => "Registro exitoso.",
         "redirect" => true,
         "url" => "../frontend/login.html"  // redirigir al login
     ]);
