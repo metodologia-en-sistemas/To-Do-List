@@ -1,1 +1,202 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
+body{
+    display: flex;
+    min-height: 100vh;
+    background-color: rgb(255, 255, 255);
+}
+
+/*Dividido en dos secciones*/
+.container{
+    display: flex;
+    width: 100%;
+    height: 100vh;
+}
+
+/**/
+.left-section{
+    flex: 1;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.illustration{
+    max-width: 100%;
+    max-height: 90%;
+}
+
+.right-section{
+    flex: 1;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 3rem;
+    box-shadow: -5px 0 5px rgba(0,0,0, 0.05);
+}
+
+.form-container{
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.logo-container{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.todo-logo{
+    width: 300px;
+    height: 300px;
+    border-radius: 800px;
+}
+
+h1{
+    font-size: 1.7rem;
+    color: #333;
+    margin-bottom: 2rem;
+    font-weight: 500;
+    text-align: center;
+}
+
+/*Estilo del formulario*/
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.input-group{
+    position: relative;
+    width: 100%;
+}
+
+input{
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    font-size: 0.9rem;
+    transition: border-color 0.3s;
+}
+
+input, botton{
+    box-shadow: 0 4px 6px rgba(0,0,0, 0.01);
+}
+
+input:focus{
+    border-color: blue;
+    outline: none;
+}
+
+input::placeholder{
+    color: #aaa;
+}
+
+/*Icono de error*/
+.error-icon{
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #f00d0d;
+    font-size: 1.2rem;
+    display: none;
+}
+
+/*Botones*/
+.buttons{
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem
+}
+
+button{
+    padding: 12px 20px;
+    border: none;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+button:active{
+    transform: scale(0.98);
+}
+
+.btn-primary{
+    background-color: #06088d;
+    color: white;
+    flex: 1;
+}
+
+.btn-primary:hover{
+    background-color: #3367d6;
+}
+
+.btn-secondary{
+    background-color: white;
+    color: #333;
+    border: 1px solid #e0e0e0;
+    flex: 1;
+}
+
+.btnsecondary:hover{
+    background-color: #f5f5f5;
+}
+
+/*Enlace de registro*/
+.links{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+}
+
+a{
+    color: #040d88;
+    text-decoration: none;
+    transition: color 0.3s;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+a:hover{
+    color: rgb(3, 116, 27);
+    text-decoration: underline;
+}
+
+/*Texto de registro-iniciar sesion*/
+.account-text{
+    color: black;
+    font-size: 1.5rem;
+    font-family: 'Times New Roman', Times, serifs;
+    text-align: center;
+    margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+    .container{
+        flex-direction: column;
+
+        .left-section{
+            display: none;
+        }
+    
+        .right-section{
+            padding: 2rem;
+        }
+    }    
+}
+
+  
