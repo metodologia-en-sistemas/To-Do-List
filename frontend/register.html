@@ -3,65 +3,62 @@
   <head>
     <meta charset="UTF-8" />
     <title>Registrarse - To-Do List</title>
+    <link rel="stylesheet" href="style.css"/>
   </head>
+
   <body>
+    <div class="container">
+      <!--Sesccion izquierda con ilustraccion-->
+      <div class="left-section">
+        <img src="imagenportada2.jpg" alt="Ilustracion de dashboard" class="illustration"/>
+      </div>
+      <!--seccion izquierad con formulario-->
+      <div class="right-section">
+        <div class="form-container">
+          <div class="logo-container">
+            <img src="logo.png" alt="To-Do List Logo" class="todo-logo">
+          </div>
     <h1>Registrarse</h1>
 
     <form id="formularioRegistro">
+      <div class="input-group">
       <input
         type="text"
         id="nombre"
         name="nombre"
         placeholder="Nombre"
         required
-      /><br /><br />
+        />
+        </div>
+
+      <div class="input-group">  
       <input
         type="email"
         id="email"
         name="email"
         placeholder="Email"
         required
-      /><br /><br />
+        />
+      </div>
+      <div class="input-group">
       <input
         type="password"
         id="password"
         name="password"
         placeholder="Contraseña"
         required
-      /><br /><br />
-      <button type="submit">Registrar</button>
+        />
+      </div>
+
+      <div class="buttons">
+        <button type="submit" class="btn-primary">Registrate</button>
+      </div>  
     </form>
-
-    <p>¿Ya tienes cuenta? <a href="login.html">Inicia sesión aquí</a></p>
-
-    <script>
-      const form = document.getElementById("formularioRegistro");
-
-      form.addEventListener("submit", async function (e) {
-        e.preventDefault(); // Evita que la página se recargue
-
-        const nombre = document.getElementById("nombre").value;
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
-
-        // Usamos fetch para enviar los datos al backend
-        const response = await fetch("../backend/register.php", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ nombre, email, password }),
-        });
-
-        const data = await response.json();
-
-        alert(data.message); // Mostrar el mensaje de la respuesta
-
-        // Si el registro es exitoso, redirigir al login
-        if (data.redirect) {
-          window.location.href = data.url;
-        }
-      });
-    </script>
+    <p class="account-text">¿Ya tienes una cuenta? <a href="login.html"><br/>Inicia sesión aquí</a></p>
+    </div>
+      </div>
+    </div>
+    
+    <script src="script.js"></script>
   </body>
 </html>
