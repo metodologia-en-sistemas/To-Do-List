@@ -240,3 +240,27 @@
         grid-template-columns: 1fr;
     }
   }
+  .contact-form-inline {
+    margin-top: 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    border-radius: 10px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    backdrop-filter: blur(5px);
+  }
+  
+  .contact-form-inline .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  .contact-form-inline input,
+  .contact-form-inline textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+  
