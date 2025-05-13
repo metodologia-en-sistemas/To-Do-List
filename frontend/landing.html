@@ -1,352 +1,155 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>DevTask</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <style>
-    /* Estilos base (se mantienen similares) */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SyncTasks - Organizador Digital</title>
 
-    body {
-      background-color: #0a0a23;
-      color: #ffffff;
-      line-height: 1.6;
-    }
+    <!-- Íconos Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
 
-    /* Navbar mejorada */
-    .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 5%;
-      position: fixed;
-      width: 100%;
-      top: 0;
-      z-index: 1000;
-      background: rgba(10, 10, 35, 0.95);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
+    <!-- Tus estilos locales -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-    .nav-logo {
-      font-size: 1.8rem;
-      font-weight: 800;
-      background: linear-gradient(45deg, #00ff88, #00a3ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      transition: all 0.3s ease;
-    }
+  <body>
+    <!-- Navegación -->
+    <nav class="navbar">
+      <div class="logo">SyncTasks</div>
+      <ul class="nav-links">
+        <li><a href="#home">Inicio</a></li>
+        <li><a href="#about">Nosotros</a></li>
+        <li><a href="#services">Servicios</a></li>
+        <li><a href="#contact">Contacto</a></li>
+      </ul>
+    </nav>
 
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-      position: relative;
-    }
+    <!-- Sección Hero -->
+    <header class="hero" id="home">
+      <div class="hero-content">
+        <h1>SyncTasks</h1>
+        <p>
+          Cumplí con todos tus objetivos del día a día de manera personal o
+          coolaborativa
+        </p>
 
-    .nav-links a {
-      text-decoration: none;
-      color: #fff;
-      transition: all 0.3s ease;
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-      position: relative;
-    }
-
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: -5px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 0;
-      height: 2px;
-      background: #00ff88;
-      transition: width 0.3s ease;
-    }
-
-    .nav-links a:hover::after {
-      width: 70%;
-    }
-
-    /* Hero Section mejorada */
-    .hero {
-      height: 100vh;
-      padding: 120px 5% 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      background: radial-gradient(circle at 50% 50%, #1a1a4f 0%, #0a0a23 100%);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: url('data:image/svg+xml,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="none" stroke="%2300ff8855" stroke-width="2"/></svg>');
-      opacity: 0.1;
-      pointer-events: none;
-    }
-
-    .main-title {
-      font-size: 4.5rem;
-      background: linear-gradient(45deg, #00ff88, #00a3ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      font-weight: 800;
-      letter-spacing: 2px;
-      margin-bottom: 1.5rem;
-      text-shadow: 0 4px 20px rgba(0, 255, 136, 0.3);
-    }
-
-    /* Features Grid mejorada */
-    .features {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-      padding: 5rem 5%;
-      background: rgba(255, 255, 255, 0.03);
-      position: relative;
-    }
-
-    .feature-card {
-      padding: 2rem;
-      border-radius: 16px;
-      background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
-      text-align: center;
-      transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .feature-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 8px 32px rgba(0, 255, 136, 0.1);
-    }
-
-    .feature-card::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(45deg, transparent, rgba(0, 255, 136, 0.1), transparent);
-      transform: rotate(45deg);
-      transition: all 0.5s ease;
-    }
-
-    .feature-card:hover::before {
-      animation: shine 1.5s;
-    }
-
-    @keyframes shine {
-      0% { left: -50%; }
-      100% { left: 150%; }
-    }
-
-    /* Nuevo diseño para beneficios */
-    .benefits {
-      padding: 5rem 5%;
-      background-color: #0e0e2f;
-      text-align: center;
-      position: relative;
-    }
-
-    .benefits-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .benefit-card {
-      background: rgba(255, 255, 255, 0.05);
-      padding: 2rem;
-      border-radius: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      transition: all 0.3s ease;
-    }
-
-    .benefit-card:hover {
-      transform: translateY(-5px);
-      background: rgba(255, 255, 255, 0.08);
-    }
-
-    /* Formulario mejorado */
-    .contact-form {
-      max-width: 600px;
-      margin: 2rem auto;
-      background: rgba(255, 255, 255, 0.05);
-      padding: 2rem;
-      border-radius: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .form-input {
-      width: 100%;
-      padding: 1rem;
-      margin: 1rem 0;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #fff;
-      border-radius: 8px;
-      transition: all 0.3s ease;
-    }
-
-    .form-input:focus {
-      outline: none;
-      border-color: #00ff88;
-      box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.2);
-    }
-
-    /* Footer mejorado */
-    footer {
-      background-color: #070717;
-      text-align: center;
-      padding: 2rem 5%;
-      font-size: 0.9rem;
-      color: #999;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    /* Efectos de hover y transiciones */
-    .cta-button {
-      padding: 1rem 2rem;
-      background: linear-gradient(45deg, #00ff88, #00a3ff);
-      border: none;
-      border-radius: 12px;
-      color: #11012a;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .cta-button::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, 0.2),
-        transparent
-      );
-      transition: left 0.6s;
-    }
-
-    .cta-button:hover::after {
-      left: 100%;
-    }
-
-    @media (max-width: 768px) {
-      .main-title {
-        font-size: 3rem;
-      }
-      
-      .features {
-        grid-template-columns: 1fr;
-      }
-      
-      .nav-links {
-        display: none;
-      }
-    }
-  </style>
-</head>
-<body>
-  <nav class="navbar">
-    <div class="nav-logo">DevTask</div>
-    <div class="nav-links">
-      <a href="#home">Inicio</a>
-      <a href="#features">Características</a>
-      <a href="#benefits">Beneficios</a>
-      <a href="#contact">Contacto</a>
-    </div>
-  </nav>
-
-  <section class="hero" id="home">
-    <h1 class="main-title">DevTask</h1>
-    <p class="subtitle">La nueva generación en gestión de proyectos colaborativos</p>
-  </section>
-
-  <section class="features" id="features">
-    <div class="feature-card">
-      <div class="feature-icon">🤝</div>
-      <h3>Colaboración en Tiempo Real</h3>
-      <p>Interacción simultánea con notificaciones instantáneas y comentarios contextuales.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">📅</div>
-      <h3>Gestión Inteligente</h3>
-      <p>Calendarios interactivos con asignación inteligente de recursos.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">🔒</div>
-      <h3>Seguridad Avanzada</h3>
-      <p>Encriptación de grado militar y controles de acceso granular.</p>
-    </div>
-  </section>
-
-  <section class="benefits" id="benefits">
-    <h2>Ventajas Exclusivas</h2>
-    <div class="benefits-grid">
-      <div class="benefit-card">
-        <h3>✔ Flujo de Trabajo Optimizado</h3>
-        <p>Automatización de tareas repetitivas y plantillas personalizables</p>
+        <!-- Formulario integrado -->
+        <div class="contact-form-inline">
+          <form class="contact-form">
+            <div class="form-group">
+              <input type="text" placeholder="Tu nombre" required />
+            </div>
+            <div class="form-group">
+              <input
+                type="email"
+                placeholder="Tu correo electrónico"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <textarea
+                rows="3"
+                placeholder="¿En qué podemos ayudarte?"
+                required
+              ></textarea>
+            </div>
+            <button type="submit" class="cta-button">
+              Enviar <i class="fas fa-paper-plane"></i>
+            </button>
+          </form>
+        </div>
       </div>
-      <div class="benefit-card">
-        <h3>✔ Analíticas en Tiempo Real</h3>
-        <p>Dashboard interactivo con métricas clave de productividad</p>
-      </div>
-      <div class="benefit-card">
-        <h3>✔ Integraciones Inteligentes</h3>
-        <p>Conexión con tus herramientas favoritas mediante API</p>
-      </div>
-    </div>
-  </section>
+    </header>
 
-  <section class="contact-section" id="contact">
-    <div class="contact-form">
-      <h2>Comienza tu Prueba Gratis</h2>
-      <form>
-        <input type="text" class="form-input" placeholder="Nombre completo" required>
-        <input type="email" class="form-input" placeholder="Correo electrónico" required>
-        <select class="form-input" required>
-          <option value="">Tipo de equipo</option>
-          <option>Startup</option>
-          <option>Empresa</option>
-          <option>Freelancer</option>
-        </select>
-        <textarea class="form-input" rows="4" placeholder="Cuéntanos sobre tu proyecto"></textarea>
-        <button type="submit" class="cta-button">Solicitar Demo →</button>
-      </form>
-    </div>
-  </section>
+    <!-- Sección Nosotros -->
+    <section class="about" id="about">
+      <div class="section-content">
+        <h2>Sobre Nosotros</h2>
+        <div class="about-grid">
+          <div class="about-text">
+            <ul class="about-list">
+              <li><i class="fas fa-check"></i> Equipo certificado</li>
+              <li><i class="fas fa-check"></i> Metodologías ágiles</li>
+              <li><i class="fas fa-check"></i> Soporte 24/7</li>
+            </ul>
+          </div>
+          <div class="about-image">
+            <img
+              src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+              alt="Equipo de trabajo"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
 
-  <footer>
-    <p>© 2025 DevTask. Todos los derechos reservados.</p>
-    <p style="margin-top: 1rem; color: #666;">Creado con ❤️ para equipos innovadores</p>
-  </footer>
-</body>
+    <!-- Sección Servicios -->
+    <section class="services" id="services">
+      <div class="section-content">
+        <h2>Nuestros Servicios</h2>
+        <div class="services-grid">
+          <div class="service-card">
+            <i class="fas fa-laptop-code"></i>
+            <h3>Desarrollo Web</h3>
+            <p>Creación de sitios web profesionales y aplicaciones a medida.</p>
+          </div>
+          <div class="service-card">
+            <i class="fas fa-mobile-alt"></i>
+            <h3>Apps Móviles</h3>
+            <p>Desarrollo nativo e híbrido para iOS y Android.</p>
+          </div>
+          <div class="service-card">
+            <i class="fas fa-chart-line"></i>
+            <h3>Marketing Digital</h3>
+            <p>Estrategias personalizadas para aumentar tu presencia online.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección Contacto -->
+    <section class="contact" id="contact">
+      <div class="section-content">
+        <h2>Contacto</h2>
+        <div class="contact-container">
+          <form class="contact-form">
+            <div class="form-group">
+              <input type="text" placeholder="Nombre" required />
+            </div>
+            <div class="form-group">
+              <input type="email" placeholder="Correo Electrónico" required />
+            </div>
+            <div class="form-group">
+              <textarea rows="5" placeholder="Tu Mensaje" required></textarea>
+            </div>
+            <button type="submit" class="cta-button">
+              Enviar Mensaje <i class="fas fa-paper-plane"></i>
+            </button>
+          </form>
+          <div class="contact-info">
+            <h3>Información de Contacto</h3>
+            <p>
+              <i class="fas fa-map-marker-alt"></i> Av. 25 de Mayo 123, Ciudad
+              Formosa, Argentina
+            </p>
+            <p><i class="fas fa-phone"></i> +1 234 567 890</p>
+            <p><i class="fas fa-envelope"></i> SyncTasks@gmail.com</p>
+            <div class="social-icons">
+              <a href="#"><i class="fab fa-facebook"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>&copy; 2025 SyncTasks. Todos los derechos reservados.</p>
+    </footer>
+  </body>
 </html>
