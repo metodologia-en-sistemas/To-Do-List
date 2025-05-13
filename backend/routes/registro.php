@@ -1,5 +1,5 @@
 <?php
-require_once './config/database.php';
+require_once '../config/database.php';
 require_once 'users.php';
 
 // Obtenemos los datos enviados en formato JSON desde el frontend (por ejemplo, con fetch en JS)
