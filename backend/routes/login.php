@@ -1,25 +1,30 @@
 <?php
-session_start(); 
-require_once './config/database.php';
-require_once 'usuario.php';
-// esta variable convierte el json en un array asociativo
-$data = json_decode(file_get_contents("php://input"), true);
-$nombre = $data['nombre'];
-$email = $data['email'];
-$password = $data['password'];
+session_start();
+include ('../config/database.php');
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $login = false;
+    if (!empty($_POST['email']) && !empty($_POST['password'])) {
+        $email = $_POST['email'];
+        $contrasena = $_POST['password'];
+    }
+    //primera consulta de la tabla de usuarios
+    $sql = "SELECT * FROM usuarios WHERE email = '$email'";
+    $prepar = $conexion->prepare($sql);
+    $prepar->execute();
 
-$usuario = new Usuario($nombre, $email, $password, $conexion);
-
-if ($usuario->login()) {
-  {
-    $_SESSION['usuario_email'] = $email;
-    echo json_encode([
-      "message" => "Sesion exitosa",
-      "redirect" => true,
-      "url" => "../../frontend/index.html" // redirigir al index
-    ]);
-  } echo json_encode([
-  "message" => "Usuario o contraseña incorrectas",
-  "redirect" => false
-]);
+    //recorrer la primera tabla
+    foreach ($prepar as $email) {
+        if (password_verify($contrasena, $email['password'])) {
+            $login = true;
+            $_SESSION['nombre'] = $email['nombre'];
+        }
+    }
+    if ($login) {
+        header('Location: ../../frontend/index.html');
+    } else {
+    echo '<script language = javascript>
+    alert("Contraseña o correo incorrectos")
+    self.location="../../frontend/login.html"</script>';
 }
+}
+?>

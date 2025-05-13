@@ -1,29 +1,45 @@
 <?php
-require_once './config/database.php';
-require_once 'usuario-clase.php';
+include ('../config/database.php');
+if ($_SERVER["REQUEST_METHOD"] == 'POST') {
+    
+    $email = $_POST['email'];
+    $contrasena = $_POST['password'];
+    //VERIFICAR SI EL CORREO Y CONTRA EXISTE YA EN LA DB 
+    $login = false;
+    $sql = "SELECT * FROM usuarios WHERE email = '$email'";
+    $prepar = $conexion->prepare($sql);
+    $prepar->execute();
+    foreach ($prepar as $email) {
+        if (password_verify($contrasena, $email['password'])) {
+            $login = true;
+        }
+    }
+    if ($login) {
+        echo '<script language = javascript>
+        alert("Correo ya existente")
+        self.location="../../frontend/registro.html"</script>';
+        exit();
+    } else {
+        if (
+            !empty($_POST['nombre']) && !empty($_POST['email']) && !empty($_POST['password'])
+        ) {
+            $nombre = $_POST['nombre'];
+            //incriptar contraseña 
+            $contrasenaEncrip = password_hash($contrasena, PASSWORD_DEFAULT);
+        }
+        //INSERTAR
+        $insert = "INSERT INTO usuarios(nombre, email, password) 
+    VALUES ('$nombre','$email ','$contrasenaEncrip')";
 
-// Obtenemos los datos enviados en formato JSON desde el frontend (por ejemplo, con fetch en JS)
-$data = json_decode(file_get_contents("php://input"), true);
-
-// Extraemos los datos desde el array asociativo 
-$nombre = $data['nombre']; 
-$email = $data['email'];
-$password = $data['password'];
-
-
-// Creamos un nuevo objeto Usuario con los datos recibidos y la conexión a la base de datos
-$usuario = new Usuario($nombre, $email, $password, $conexion);
-
-// Intentamos registrar al usuario con el método registrar()
-if ($usuario->registrar()) {
-  echo json_encode([
-    "message" => "Registro exitoso",
-    "redirect" => true,
-    "url" => "../frontend/login.html" // redirigir al login
-  ]);
-} else {
-  echo json_encode([
-    "message" => "Error al registrar (¿usuario ya existe?)",
-    "redirect" => false
-  ]);
+        $stmt = $conexion->prepare($insert);
+        $stmt->bindParam(':nombre', $nombre);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':password', $contrasenaEncrip);
+        $eject = $conexion->prepare($insert);
+        if ($eject->execute()) {
+            // REDIRIGE AL LOGIN PARA QUE INICIE SESION
+            header('Location: ../../frontend/login.html');
+        }
+    }
 }
+?>
