@@ -1,26 +1,15 @@
 <?php
+$host = 'localhost';
+$nombre = 'root';
+$password = 'Cristian47';
+$db = "gestion_tareas";
 
-class Database {
-    private $host = 'localhost';
-    private $dbname = 'gestion_tareas';
-    private $user = 'root';  
-    private $password = 'Cristian47'; 
-    private $conexion = null; // Guarda la conexión
+try {
+    $conexion = new PDO("mysql:host=$host;dbname=$db", $nombre, $password);
 
-    public function connect() {
-        if ($this->conexion === null) {
-            try {
-                $this->conexion = new PDO("mysql:host={$this->host};dbname={$this->dbname}",
-                    $this->user, 
-                    $this->password
-                );
-                $this->conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            } catch (PDOException $e) {
-                echo "<script>alert('Conexion Fallida'); window.location='../index.php';</script>";
-                exit; // Salir después del error
-            }
-        }
-        return $this->conexion;
-    }
+
+} catch (Exception $e) {
+    echo 'ocurrio un error ' . $e->getMessage();
 }
+
 ?>

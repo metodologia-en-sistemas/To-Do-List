@@ -6,7 +6,7 @@ class User {
 
     public function __construct()
     {
-        $this->conexion = (new Database())->connect();
+        // $this->conexion = (new Database())->connect();
     }
 
     // Crear un nuevo usuario

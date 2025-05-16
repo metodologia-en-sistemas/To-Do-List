@@ -4,7 +4,6 @@
 session_start();
 session_unset();
 session_destroy();
-header("Location:../../frontend/login.html");
-exit;
+header("Location: ../../frontend/login.html");
 
 ?>
