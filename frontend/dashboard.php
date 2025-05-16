@@ -1,4 +1,12 @@
+<?php
+session_start();
+include('../backend/config/database.php');
 
+if (!isset($_SESSION['id_usuario'])) {
+    header('Location: login.php'); // O redirige donde corresponda
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,7 +15,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Task Dashboard</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/das.css">
 
 </head>
 
@@ -16,11 +24,11 @@
     <h2>My Logo</h2>
     <div class="nav-links">
       <a href="#"><i class="icon-home"></i> Inicio</a>
-      <a href="#"><i class="icon-tasks"></i> Tareas</a>
+      <a href="../backend/routes/mostrar.php"><i class="icon-tasks"></i> Tareas</a>
       <a href="#"><i class="icon-calendar"></i> Agenda</a>
       <a href="#"><i class="icon-project"></i> Proyectos</a>
       <a href="#"><i class="icon-settings"></i> Configuración</a>
-      <a href="#"><i class="icon-logout"></i> Cerrar Sesion</a>
+      <a href="../backend/routes/cerrar.php"><i class="icon-logout"></i> Cerrar Sesion</a>
     </div>
   </div>
 
@@ -30,13 +38,13 @@
         <span>&#128269;</span>
         <input type="text" placeholder="Search Task">
       </div>
-      <div class="profile"><?php echo htmlspecialchars($_SESSION['nombre']); ?></div>
+      
     </div>
 
     <div class="greeting">
       <div class="avatar"></div>
       <div>
-        <h2>Hola, Bienvenid@...</h2>
+        <h2>Hola, Bienvenido <?php echo htmlspecialchars($_SESSION['nombre']); ?></h2>
         <p>Hoy es un buen día para crear tus proyectos!</p>
       </div>
     </div>
@@ -109,29 +117,14 @@
        
        
 
-        <form method="post" action="../backend/routes/actualizar.php" class="priority-form">
-          <input type="hidden" name="task_id" value="<?php echo $selected_task_id; ?>">
-          <button type="submit" class="priority-item" name="action" value="edit">
-            <i class="fas fa-edit"></i> <strong>✏️ Editar</strong>
-          </button>
-        </form>
+      
 
 
-         <form method="post" action="../backend/routes/eliminar.php" class="priority-form"
-          onsubmit="return confirm('¿Seguro que deseas eliminar esta tarea?');">
-          <input type="hidden" name="task_id" value="<?php echo $selected_task_id; ?>">
-          <button type="submit" class="priority-item delete-action" name="action" value="delete">
-            <i class="fas fa-trash-alt"></i> <strong>🗑️ Eliminar</strong>
-          </button>
-         </form>
+         
       </div>
     </div>
   </div>
   </div>
-
-    <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script src="./js/logica.js"> </script>
-    <script src="./js/modo_oscuro.js"> </script>
 </body>
+
 </html>
