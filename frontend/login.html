@@ -2,54 +2,35 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <title>Iniciar sesión "Mi organizador"</title>
-    <link rel="stylesheet" href="style.css"/>
+    <title>Iniciar sesión - Mi organizador</title>
+    <link rel="stylesheet" href="css/style.css"/>
   </head>
   <body>
-    <div class="container">
-      <!--Sesccion izquierda con ilustraccion-->
-      <div class="left-section">
-        <img src="imagenportada2.jpg" alt="Ilustracion de dashboard" class="illustration"/>
+    <div class="card-container">
+      <div class="left-img">
+        <img src="foto1.jpg" alt="Ilustración de dashboard" />
       </div>
-
-      <!--seccion izquierad con formulario-->
-      <div class="right-section">
-        <div class="form-container">
-          <div class="logo-container">
-            <img src="logo.png" alt="To-Do List Logo" class="todo-logo">
-          </div>
-    <h1>Iniciar sesión</h1>
-
-    <form id="formularioLogin">
-    <div class="input-group">
-      <input
-        type="email"
-        id="email"
-        name="email"
-        placeholder="Email"
-        required
-        />
-      <span class="error-icon">
-        <i class="fas fa-exclamation-circle"></i>
-      </span>
-    </div>
-    <div class="input-group">
-      <input
-        type="password"
-        id="password"
-        name="password"
-        placeholder="Contraseña"
-        required
-        />
-    </div>
-    <div class="buttons">
-      <button type="submit" class="btn-primary">Ingresar</button>
-    </div>
-    </form>
-    <p class="account-text">¿No tienes una cuenta? <a href="register.html"> <br/>Regístrate</a></p>
+      <div class="form-side">
+        <div class="logo-container">
+          <img src="logo.png" alt="To-Do List Logo" class="todo-logo">
         </div>
+        <h1>Iniciar sesión</h1>
+        <form id="formularioLogin">
+          <div class="input-group">
+            <input type="email" id="email" name="email" placeholder="Email" required />
+            <span class="error-icon"><i class="fas fa-exclamation-circle"></i></span>
+          </div>
+          <div class="input-group">
+            <input type="password" id="password" name="password" placeholder="Contraseña" required />
+          </div>
+          <div class="buttons">
+            <button type="submit" class="btn-primary">Ingresar</button>
+          </div>
+        </form>
+        <p class="account-text">¿No tienes una cuenta?<br/><a href="register.html">Regístrate</a></p>
       </div>
     </div>
     <script src="script.js"></script>
   </body>
 </html>
+
