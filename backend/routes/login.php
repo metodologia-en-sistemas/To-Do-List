@@ -13,10 +13,12 @@ $usuario = new Usuario($nombre, $email, $password, $conexion);
 if ($usuario->login()) {
   {
     $_SESSION['usuario_email'] = $email;
+    $_SESSION['usuario_nombre'] = $nombre;
+
     echo json_encode([
       "message" => "Sesion exitosa",
       "redirect" => true,
-      "url" => "../../frontend/index.html" // redirigir al index
+      "url" => "../../frontend/dashboard.php" // redirigir al index
     ]);
   } echo json_encode([
   "message" => "Usuario o contraseña incorrectas",

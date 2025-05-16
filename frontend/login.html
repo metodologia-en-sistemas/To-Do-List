@@ -1,59 +1,52 @@
 <!DOCTYPE html>
+
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Iniciar sesión "Mi organizador"</title>
-  </head>
-  <body>
-    <h1>Iniciar sesión</h1>
 
-    <form id="formularioLogin">
-      <input
-        type="email"
-        id="email"
-        name="email"
-        placeholder="Email"
-        required
-      /><br /><br />
-      <input
-        type="password"
-        id="password"
-        name="password"
-        placeholder="Contraseña"
-        required
-      /><br /><br />
-      <button type="submit">Ingresar</button>
-    </form>
+<head>
+  <meta charset="UTF-8" />
+  <title>Iniciar sesión "Mi organizador"</title>
+</head>
 
-    <p>¿No tienes cuenta? <a href="register.html">Regístrate</a></p>
+<body>
+  <h1>Iniciar sesión</h1>
 
-    <script>
-      const form = document.getElementById("formularioLogin");
+  <form id="formularioLogin">
+    <input type="email" id="email" name="email" placeholder="Email" required /><br /><br />
+    <input type="password" id="password" name="password" placeholder="Contraseña" required /><br /><br />
+    <button type="submit">Ingresar</button>
+  </form>
 
-      form.addEventListener("submit", async function (e) {
-        e.preventDefault(); // Evita que la página se recargue
+  <p>¿No tienes cuenta? <a href="register.html">Regístrate</a></p>
 
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
+  <script>
+    const form = document.getElementById("formularioLogin");
 
-        // Usamos fetch para enviar los datos al backend
-        const response = await fetch("../backend/login.php", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email, password }),
-        });
+    form.addEventListener("submit", async function (e) {
+      e.preventDefault(); // Evita que la página se recargue
 
-        const data = await response.json();
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
 
-        alert(data.message); // Mostrar el mensaje de la respuesta
-
-        // Si el login es exitoso, redirigir al index
-        if (data.redirect) {
-          window.location.href = data.url;
-        }
+      // Usamos fetch para enviar los datos al backend
+      const response = await fetch("../backend/login.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
       });
-    </script>
-  </body>
-</html>
+
+      const data = await response.json();
+
+      alert(data.message); // Mostrar el mensaje de la respuesta
+
+      // Si el login es exitoso, redirigir al index
+      if (data.redirect) {
+        window.location.href = data.url;
+      }
+    });
+  </script>
+
+</body>
+
+</html> 
