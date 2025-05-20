@@ -8,57 +8,73 @@
 
   <body>
     <div class="container">
-      <!--Sesccion izquierda con ilustraccion-->
+      <!--Sección izquierda con ilustración-->
       <div class="left-section">
-        <img src="imagenportada2.jpg" alt="Ilustracion de dashboard" class="illustration"/>
+        <img src="imagenportada2.jpg" alt="Ilustración de dashboard" class="illustration"/>
       </div>
-      <!--seccion izquierad con formulario-->
+
+      <!--Sección derecha con formulario-->
       <div class="right-section">
         <div class="form-container">
           <div class="logo-container">
             <img src="logo.png" alt="To-Do List Logo" class="todo-logo">
           </div>
-    <h1>Registrarse</h1>
 
-    <form action="../backend/routes/registro.php" method="POST">
-      <div class="input-group">
-      <input
-        type="text"
-        id="nombre"
-        name="nombre"
-        placeholder="Nombre completo"
-        required
-        />
-        </div>
+          <h1>Registrarse</h1>
 
-      <div class="input-group">  
-      <input
-        type="email"
-        id="email"
-        name="email"
-        placeholder="Email"
-        required
-        />
+          <form action="../backend/routes/registro.php" method="POST" enctype="multipart/form-data">
+            <div class="input-group">
+              <input
+                type="text"
+                id="nombre"
+                name="nombre"
+                placeholder="Nombre completo"
+                required
+              />
+            </div>
+
+            <div class="input-group">  
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Email"
+                required
+              />
+            </div>
+
+            <div class="input-group">
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Contraseña"
+                required
+              />
+            </div>
+
+            <div class="input-group">
+              <label for="imagen">Foto de perfil:</label>
+              <input
+                type="file"
+                id="imagen"
+                name="imagen"
+                accept="image/*"
+                required
+              />
+            </div>
+
+            <div class="buttons">
+              <button type="submit" class="btn-primary">Registrate</button>
+            </div>  
+          </form>
+
+          <p class="account-text">
+            ¿Ya tienes una cuenta? <a href="login.html"><br/>Inicia sesión aquí</a>
+          </p>
+
+        </div> <!-- Cierre correcto de .form-container -->
       </div>
-      <div class="input-group">
-      <input
-        type="password"
-        id="password"
-        name="password"
-        placeholder="Contraseña"
-        required
-        />
-      </div>
-
-      <div class="buttons">
-        <button type="submit" class="btn-primary">Registrate</button>
-      </div>  
-    </form>
-    <p class="account-text">¿Ya tienes una cuenta? <a href="login.html"><br/>Inicia sesión aquí</a></p>
     </div>
-      </div>
-    </div>
-    
-  
   </body>
 </html>
