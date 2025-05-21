@@ -12,7 +12,7 @@ if (!isset($_SESSION['id_usuario'])) {
 $id_usuario = $_SESSION['id_usuario'];
 
 // Cambia esta consulta para traer SOLO las tareas de este usuario:
-$sql = "SELECT * FROM tareas WHERE id_usuario = :id_usuario ORDER BY fecha_creacion DESC";
+$sql = "SELECT * FROM tareas WHERE id_usuario = :id_usuario ";
 $stmt = $conexion->prepare($sql);
 $stmt->execute(['id_usuario' => $id_usuario]);
 $tareas = $stmt->fetchAll(PDO::FETCH_ASSOC);

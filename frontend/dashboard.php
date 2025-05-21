@@ -26,7 +26,7 @@ if (!isset($_SESSION['id_usuario'])) {
       <a href="#"><i class="icon-home"></i> Inicio</a>
       <a href="../backend/routes/mostrar.php"><i class="icon-tasks"></i> Tareas</a>
       <a href="#"><i class="icon-calendar"></i> Agenda</a>
-      <a href="#"><i class="icon-project"></i> Proyectos</a>
+      <a href="./comunidad.php"><i class="icon-project"></i> Comunidad</a>
       <a href="#"><i class="icon-settings"></i> Configuración</a>
       <a href="../backend/routes/cerrar.php"><i class="icon-logout"></i> Cerrar Sesion</a>
     </div>
@@ -114,13 +114,6 @@ if (!isset($_SESSION['id_usuario'])) {
           </button>
         </form>
 
-       
-       
-
-      
-
-
-         
       </div>
     </div>
   </div>

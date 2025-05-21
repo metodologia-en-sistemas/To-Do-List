@@ -1,7 +1,7 @@
 <?php
 $host = 'localhost';
 $nombre = 'root';
-$password = 'Cristian47';
+$password = '';
 $db = "gestion_tareas";
 
 try {

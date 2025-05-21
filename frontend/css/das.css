@@ -179,3 +179,31 @@
       margin: 0;
       cursor: pointer;
     }
+    /* css adicional */
+    .btn-complete {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+  }
+  
+  .badge {
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 0.9em;
+  }
+  
+  .badge.completed {
+      background: #e8f5e9;
+      color: #2e7d32;
+  }
+  
+  .badge.expired {
+      background: #ffebee;
+      color: #c62828;
+  }
