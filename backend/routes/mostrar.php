@@ -12,7 +12,7 @@ if (!isset($_SESSION['id_usuario'])) {
 $id_usuario = $_SESSION['id_usuario'];
 
 // Cambia esta consulta para traer SOLO las tareas de este usuario:
-$sql = "SELECT * FROM tareas WHERE id_usuario = :id_usuario ORDER BY fecha_creacion DESC";
+$sql = "SELECT * FROM tareas WHERE id_usuario = :id_usuario ";
 $stmt = $conexion->prepare($sql);
 $stmt->execute(['id_usuario' => $id_usuario]);
 $tareas = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -48,8 +48,8 @@ $tareas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <td><?= htmlspecialchars($tarea['id_tarea']) ?></td>
                         <td><?= htmlspecialchars($tarea['titulo']) ?></td>
                         <td><?= htmlspecialchars($tarea['descripcion']) ?></td>
-                        <td><?= htmlspecialchars($tarea['categoria']) ?></td>
-                        <td><?= htmlspecialchars($tarea['fecha_creacion']) ?></td>
+                        <td><?= htmlspecialchars($tarea['estado']) ?></td>
+                        <td><?= htmlspecialchars($tarea['fecha_limite']) ?></td>
                         <td>
                             <a href="actualizar.php?id_tarea=<?= $tarea['id_tarea'] ?>" class="btn btn-warning btn-sm">Editar</a>
                             <a href="eliminar.php?id_tarea=<?= $tarea['id_tarea'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar esta tarea?');">Eliminar</a>

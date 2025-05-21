@@ -1,7 +1,7 @@
 <?php 
 require_once __DIR__ . '/../config/database.php';
-$db = new Database();
-$conexion = $db->connect();
+
+
 
 $sql = "SELECT * FROM tareas";
 $stmt = $conexion->query($sql);

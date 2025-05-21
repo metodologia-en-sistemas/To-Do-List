@@ -9,18 +9,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $titulo = $_POST['titulo'];
     $descripcion = $_POST['descripcion'];
-    $categoria = $_POST['categoria'];
-    $fecha_creacion = $_POST['fecha_creacion'];
+    $estado = $_POST['estado'];
+    $fecha_limite = $_POST['fecha_limite'];
     $id_usuario = $_SESSION['id_usuario'];
 
-    $sql = "INSERT INTO tareas (titulo, descripcion, categoria, fecha_creacion, id_usuario) 
-            VALUES (:titulo, :descripcion, :categoria, :fecha_creacion, :id_usuario)";
+    $sql = "INSERT INTO tareas (titulo, descripcion, estado, fecha_limite, id_usuario) 
+            VALUES (:titulo, :descripcion, :estado, :fecha_limite, :id_usuario)";
     $stmt = $conexion->prepare($sql);
     $stmt->execute([
         'titulo' => $titulo,
         'descripcion' => $descripcion,
-        'categoria' => $categoria,
-        'fecha_creacion' => $fecha_creacion,
+        'estado' => $estado,
+        'fecha_limite' => $fecha_limite,
         'id_usuario' => $id_usuario
     ]);
 
@@ -55,13 +55,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
 
         <div class="mb-3">
-            <label for="categoria" class="form-label">categoria</label>
-            <input type="text" name="categoria" id="categoria" class="form-control" placeholder="Ingresa la categoria" required>
+            <label for="estado" class="form-label">estado</label>
+            <input type="text" name="estado" id="estado" class="form-control" placeholder="Ingresa el estado de la tarea" required>
         </div>
 
         <div class="mb-3">
-            <label for="fecha_creacion" class="form-label">Fecha de Creacion</label>
-            <input type="date" name="fecha_creacion" id="fecha_creacion" class="form-control" accept="fecha_creacion">
+            <label for="fecha_limite" class="form-label">Fecha limite</label>
+            <input type="date" name="fecha_limite" id="fecha_limite" class="form-control" accept="fecha_limite">
         </div>
 
         <button type="submit " href="mostrar.php" class="btn btn-success w-100">Crear Tarea</button>

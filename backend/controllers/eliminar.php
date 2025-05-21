@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__ . '/../config/database.php';
-$db = new Database();
-$conexion = $db->connect();
+
 $id_tarea = null; // Inicializamos la variable
 
 // Si se recibe la confirmación de eliminación, procedemos con la eliminación
