@@ -1,25 +1,37 @@
 <?php
-session_start(); 
-require_once './config/database.php';
-require_once 'User.php'
-// esta variable convierte el json en un array asociativo
-$data = json_decode(file_get_contents("php://input"), true);
-$nombre = $data['nombre'];
-$email = $data['email'];
-$password = $data['password'];
+session_start();
+include ('../config/database.php');
 
-$usuario = new Usuario($nombre, $email, $password, $conexion);
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (!empty($_POST['email']) && !empty($_POST['password'])) {
+        $email = $_POST['email'];
+        $contrasena = $_POST['password'];
 
-if ($usuario->login()) {
-  {
-    $_SESSION['usuario_email'] = $email;
-    echo json_encode([
-      "message" => "Sesion exitosa",
-      "redirect" => true,
-      "url" => "../../frontend/index.html" // redirigir al index
-    ]);
-  } echo json_encode([
-  "message" => "Usuario o contraseña incorrectas",
-  "redirect" => false
-]);
+        // Consulta segura con parámetros
+        $sql = "SELECT * FROM usuarios WHERE email = :email";
+        $stmt = $conexion->prepare($sql);
+        $stmt->execute(['email' => $email]);
+
+        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($usuario && password_verify($contrasena, $usuario['password'])) {
+            // Guardar id_usuario y nombre en sesión
+            $_SESSION['id_usuario'] = $usuario['id_usuario'];
+            $_SESSION['nombre'] = $usuario['nombre'];
+
+            header('Location: ../../frontend/dashboard.php');
+            exit;
+        } else {
+            echo '<script>
+                alert("Contraseña o correo incorrectos");
+                window.location.href = "../../frontend/login.html";
+            </script>';
+        }
+    } else {
+        echo '<script>
+            alert("Por favor complete todos los campos");
+            window.location.href = "../../frontend/login.html";
+        </script>';
+    }
 }
+?>
