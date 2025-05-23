@@ -36,7 +36,7 @@ $tareas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <th>ID</th>
                 <th>Título</th>
                 <th>Descripción</th>
-                <th>Categoría</th>
+                <th>Estado</th>
                 <th>Fecha de creación</th>
                 <th>Acciones</th>
             </tr>

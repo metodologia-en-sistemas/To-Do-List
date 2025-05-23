@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 :root {
     --primary: #ff6b81;
     --primary-light: #ff9aa2;
@@ -36,7 +36,7 @@
     padding: .6rem 1.2rem;
     border-radius: 5px;
     cursor: pointer;
-    transition: background .2s;
+    transition:  .2s;
   }
   
   .btn:hover {
@@ -260,7 +260,7 @@
  #dark-mode-toggle {
      padding: 8px 10px; /* en vez de 10px 12px */
  }
-=======
+
 *{
     margin: 0;
     padding: 0;
@@ -463,4 +463,188 @@ a:hover{
 }
 
   
->>>>>>> c09fda959401f1c1f712606cc1268cdea77522a6
+
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background-color: #bfb3d3a3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.card-container {
+  display: flex;
+  background-color: white;
+  border-radius: 1rem;
+  box-shadow: 0 10px 25px rgba(192, 187, 187, 0.1);
+  overflow: hidden;
+  max-width: 900px;
+  width: 90%;
+  min-height: 600px; 
+}
+
+
+.left-img {
+  flex: 1;
+  background: linear-gradient(to right, #748197, #113266);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0; /* Elimina el padding para que la imagen pueda ocupar todo el espacio */
+  overflow: hidden; /* Esto evita que la imagen se desborde */
+}
+
+.left-img img {
+  width: 100%; /* Ocupa todo el ancho del contenedor */
+  height: 100%; /* Ocupa toda la altura del contenedor */
+  object-fit: cover; /* Cambia de 'fill' a 'cover' para mantener la relación de aspecto */
+  object-position: center; /* Centra la imagen */
+}
+
+.form-side {
+  flex: 1;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: linear-gradient(#748197, #113266);
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.todo-logo {
+  width: 150px;
+  height: 150px;
+  border-radius: 80%;
+}
+
+h1 {
+  font-size: 1.8rem;
+  color: #223153;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.input-group {
+  position: relative;
+  width: 100%;
+}
+
+input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #5778aa;
+  border-radius: 8px;
+  outline: none;
+  font-size: 0.9rem;
+  transition: all 0.3s;
+  background-color: #f9fafb;
+}
+
+input:hover {
+  background-color: #a199ec;
+  border-color: #819fd3;
+}
+
+input:focus {
+  border-color: #d7e4fa;
+  background-color: #ffffff;
+}
+
+input::placeholder {
+  color: #050505;
+}
+
+.error-icon {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #f00d0d;
+  font-size: 1.2rem;
+  display: none;
+}
+
+.buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+
+}
+
+
+button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  background: #525d79;
+  color: white;
+  transition: background-color 0.3s, transform 0.1s;
+  text-align: center;
+}
+
+button:hover {
+  opacity: 0.95;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+.account-text {
+  color: #a6bef1;
+  font-size: 1rem;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+a {
+  color: #cbd7f7;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+a:hover {
+  color: #000e2e;
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .card-container {
+    flex-direction: column;
+  }
+
+  .left-img {
+    display: none;
+  }
+
+  .form-side {
+    padding: 2rem;
+  }
+}
+
+

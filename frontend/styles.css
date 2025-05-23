@@ -281,7 +281,7 @@
     --secondary-color: #6B9080;    /* Verde salvia relajante (naturaleza/equilibrio) */
     --accent-color: #C4B7A8;       /* Beige cálido neutral (terracota suave) */
     --text-color: #3D3D3D;         /* Gris oscuro legible pero suave */
-    --background-color: #F5F7FA;   /* Blanco azulado muy claro (como papel) */
+    --background-color: #e5e1fa;   /* Blanco azulado muy claro (como papel) */
     --surface-color: #FFFFFF;   
   }
   * {
@@ -595,16 +595,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 :root {
-  --primary-color: #A8E000;        /* Azul marino profesional */
-  --primary-color-light: #2a888f;   /* Variante más suave para hover */
+  --primary-color: #0631be;        /* Azul marino profesional */
+  --primary-color-light: #ff9aa2;   /* Variante más suave para hover */
   --secondary-color: #046af8;       /* Gris azulado relajante */
   --accent-color: #C4730A;          /* Naranja terroso (para llamados a acción) */
   --accent-color-soft: #E5A86C;     /* Versión suavizada del acento */
   
   /* Sistema de texto */
-  --text-dark: #2D3748;             /* Gris oscuro legible */
+  --text-dark: #376621;             /* Gris oscuro legible */
   --text-medium: #4A5568;           /* Gris intermedio */
-  --text-light: #F7FAFC;            /* Blanco ligeramente cálido */
+  --text-light: #046af8;            /* Blanco ligeramente cálido */
   
   /* Fondos y superficies */
   --background-primary: #30b0ec;    /* Fondo principal suave */
