@@ -1,59 +1,42 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Iniciar sesión "Mi organizador"</title>
-  </head>
-  <body>
-    <h1>Iniciar sesión</h1>
+<head>
+  <meta charset="UTF-8" />
+  <title>DevTask</title>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
 
-    <form id="formularioLogin">
-      <input
-        type="email"
-        id="email"
-        name="email"
-        placeholder="Email"
-        required
-      /><br /><br />
-      <input
-        type="password"
-        id="password"
-        name="password"
-        placeholder="Contraseña"
-        required
-      /><br /><br />
-      <button type="submit">Ingresar</button>
-    </form>
+  <form action="../backend/routes/login.php" method="POST">
+    <div class="card-container">
+      <div class="left-img">
+        <img src="./images/login.jpg" alt="Ilustración de dashboard" />
+      </div>
 
-    <p>¿No tienes cuenta? <a href="register.html">Regístrate</a></p>
+      <div class="form-side">
+        <div class="logo-container">
+          <img src="./images/logo.png" alt="To-Do List Logo" class="todo-logo">
+        </div>
 
-    <script>
-      const form = document.getElementById("formularioLogin");
+        <h1>Iniciar sesión</h1>
 
-      form.addEventListener("submit", async function (e) {
-        e.preventDefault(); // Evita que la página se recargue
+        <div class="input-group">
+          <input type="email" id="email" name="email" placeholder="Email" required />
+          <span class="error-icon"><i class="fas fa-exclamation-circle"></i></span>
+        </div>
 
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
+        <div class="input-group">
+          <input type="password" id="password" name="password" placeholder="Contraseña" required />
+        </div>
 
-        // Usamos fetch para enviar los datos al backend
-        const response = await fetch("../backend/login.php", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email, password }),
-        });
+        <div class="buttons">
+          <button type="submit" class="btn-primary">Ingresar</button>
+        </div>
 
-        const data = await response.json();
+        <p class="account-text">¿No tienes una cuenta?<br/><a href="register.html">Regístrate</a></p>
+      </div>
+    </div>
+  </form>
 
-        alert(data.message); // Mostrar el mensaje de la respuesta
-
-        // Si el login es exitoso, redirigir al index
-        if (data.redirect) {
-          window.location.href = data.url;
-        }
-      });
-    </script>
-  </body>
+</body>
 </html>
