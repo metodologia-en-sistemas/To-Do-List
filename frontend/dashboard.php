@@ -29,16 +29,13 @@ $imagen_usuario = $user ? $user['imagen'] : 'uploads/default.png'; // Imagen por
 
 <body>
   <div class="sidebar">
-    <h2>My Logo</h2>
-
     <div class="avatar" style="margin: 20px 0; text-align: center;">
       <img src="<?php echo htmlspecialchars($imagen_usuario); ?>" alt="Avatar" style="width: 80px; height: 80px; border-radius: 50%;" />
       <p style="color: black; margin-top: 8px;"><?php echo htmlspecialchars($_SESSION['nombre']); ?></p>
     </div>
-
     <div class="nav-links">
-      <a href="#"><i class="icon-home"></i> Inicio</a>
-      <a href="../backend/routes/mostrar.php"><i class="icon-tasks"></i> Tareas</a>
+      <a href="#" class="active"><i class="icon-home"></i> Inicio</a>
+      <a href="./tareas.php"><i class="icon-tasks"></i> Tareas</a>
       <a href="#"><i class="icon-calendar"></i> Agenda</a>
       <a href="./comunidad.php"><i class="icon-project"></i> Comunidad</a>
       <a href="#"><i class="icon-settings"></i> Configuración</a>

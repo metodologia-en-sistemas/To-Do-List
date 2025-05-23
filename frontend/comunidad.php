@@ -1,6 +1,13 @@
 <?php
 session_start();
 include('../backend/config/database.php');
+$query = "SELECT nombre, imagen FROM usuarios WHERE id_usuario = ?";
+$stmt = $conexion->prepare($query);
+$stmt->execute([$_SESSION['id_usuario']]);
+$usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+$imagen_usuario = isset($usuario['imagen']) ? '../frontend/' . $usuario['imagen'] : '../frontend/uploads/default-avatar.png';
+$_SESSION['nombre'] = $usuario['nombre'];
 
 if (!isset($_SESSION['id_usuario'])) {
     header('Location: ./login.html');
@@ -75,10 +82,14 @@ if (!empty($tareas)) {
 </head>
 <body>
   <div class="sidebar">
-    <h2>My Logo</h2>
+       <div class="avatar" style="margin: 20px 0; text-align: center;">
+      <img src="<?php echo htmlspecialchars($imagen_usuario); ?>" alt="Avatar" style="width: 80px; height: 80px; border-radius: 50%;" />
+      <p style="color: black; margin-top: 8px;"><?php echo htmlspecialchars($_SESSION['nombre']); ?></p>
+    </div>
+
     <div class="nav-links">
       <a href="./dashboard.php"><i class="icon-home"></i> Inicio</a>
-      <a href="../backend/routes/mostrar.php"><i class="icon-tasks"></i> Tareas</a>
+      <a href="./tareas.php"><i class="icon-tasks"></i> Tareas</a>
       <a href="#"><i class="icon-calendar"></i> Agenda</a>
       <a href="./comunidad.php" class="active"><i class="icon-project"></i> Comunidad</a>
       <a href="#"><i class="icon-settings"></i> Configuración</a>

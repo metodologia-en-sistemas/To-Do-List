@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'fecha_limite'=>$fecha_limite
     ]);
 
-    header('Location: ./mostrar.php');
+    header('Location: ../../frontend/tareas.php');
     exit;
 }
 ?>
@@ -25,12 +25,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+
     <title>Crear Tarea</title>
 </head>
 <body class="bg-light">
+     <div class="sidebar">
+     <div class="avatar" style="margin: 20px 0; text-align: center;">
+      <img src="<?php echo htmlspecialchars($imagen_usuario); ?>" alt="Avatar" style="width: 80px; height: 80px; border-radius: 50%;" />
+      <p style="color: black; margin-top: 8px;"><?php echo htmlspecialchars($_SESSION['nombre']); ?></p>
+    </div>  
+    <div class="nav-links">
+      <a href="./dashboard.php"><i class="icon-home"></i> Inicio</a>
+      <a href="./tareas.php" class="active"><i ></i> Tareas</a>
+      <a href="#"><i class="icon-calendar"></i> Agenda</a>
+      <a href="./comunidad.php" ><i class="icon-project"></i> Comunidad</a>
+      <a href="#"><i class="icon-settings"></i> Configuración</a>
+      <a href="../backend/routes/cerrar.php"><i class="icon-logout"></i> Cerrar Sesión</a>
+    </div>
+  </div>
 
 <div class="container mt-5">
     <h2 class="mb-4 text-center">Crear Nueva Tarea</h2>
@@ -56,8 +68,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="date" name="fecha_limite" id="fecha_limite" class="form-control" accept="fecha_limite">
         </div>
 
-        <button type="submit " href="mostrar.php" class="btn btn-success w-100">Crear Tarea</button>
-        <a href="./mostrar.php" class="btn btn-secondary w-100 mt-3">Lista de Tareas</a>
+        <button type="submit " href="../../frontend/tareas.php" class="btn btn-success w-100">Crear Tarea</button>
+        <a href="../../frontend/tareas.php" class="btn btn-secondary w-100 mt-3">Lista de Tareas</a>
 
 
 

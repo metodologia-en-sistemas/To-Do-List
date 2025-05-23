@@ -10,7 +10,7 @@ if (isset($_POST['confirmar_eliminacion']) && isset($_POST['id_tarea'])) {
     $stmt = $conexion->prepare($sql);
     $stmt->execute(['id_tarea' => $id_tarea]);
 
-    header('Location: ./mostrar.php');
+    header('Location: ../../frontend/tareas.php');
     exit;
 } elseif (isset($_GET['id_tarea'])) {
     $id_tarea = $_GET['id_tarea'];  // Asignamos el id_tarea recibido por GET
@@ -46,10 +46,10 @@ if (isset($_POST['confirmar_eliminacion']) && isset($_POST['id_tarea'])) {
         </div>
 
         <div class="text-center">
-            <form method="POST" action="eliminar.php">
+            <form method="POST" action="/backend/routes/eliminar.php">
                 <input type="hidden" name="id_tarea" value="<?= htmlspecialchars($id_tarea) ?>">
                 <button type="submit" name="confirmar_eliminacion" class="btn btn-danger">Eliminar</button>
-                <a href="./mostrar.php" class="btn btn-secondary">Cancelar</a>
+                <a href="../../frontend/tareas.php" class="btn btn-secondary">Cancelar</a>
             </form>
         </div>
     <?php else: ?>
@@ -57,7 +57,7 @@ if (isset($_POST['confirmar_eliminacion']) && isset($_POST['id_tarea'])) {
             La tarea no existe o ya ha sido eliminada.
         </div>
         <div class="text-center">
-            <a href="./mostrar.php" class="btn btn-secondary">Volver a la Lista</a>
+            <a href="../../frontend/tareas.php" class="btn btn-secondary">Volver a la Lista</a>
         </div>
     <?php endif; ?>
 </div>

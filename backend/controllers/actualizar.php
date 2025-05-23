@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__ . '/../config/database.php';
-$db = new Database();
-$conexion = $db->connect();
+
 $id_tarea = null;
 if (isset($_GET['id_tarea'])) {
     $id_tarea = $_GET['id_tarea'];
@@ -20,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt = $conexion->prepare($sql);
     $stmt->execute(['titulo' => $titulo, 'descripcion' => $descripcion, 'id_tarea' => $id_tarea]);
 
-    header('Location: mostrar.php');
+    header('Location: ../../frontend/tareas.php');
     exit; // Asegurarse de detener la ejecución del script después de la redirección
 }
 ?>
@@ -53,8 +52,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <div class="text-center">
-                <button href="mostrar.php" type="submit" class="btn btn-primary">Actualizar tarea</button>
-                <a href="mostrar.php" class="btn btn-secondary">Cancelar</a>
+                <button href="../../frontend/tareas.php" type="submit" class="btn btn-primary">Actualizar tarea</button>
+                <a href="../../frontend/tareas.php" class="btn btn-secondary">Cancelar</a>
             </div>
         </form>
     <?php else: ?>
