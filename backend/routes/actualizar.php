@@ -1,13 +1,14 @@
 <?php
 include ('../config/database.php');
 session_start();
-$id_tarea = null;
+
+$tarea = null;
 if (isset($_GET['id_tarea'])) {
     $id_tarea = $_GET['id_tarea'];
     $sql = "SELECT * FROM tareas WHERE id_tarea = :id_tarea";
     $stmt = $conexion->prepare($sql);
     $stmt->execute(['id_tarea' => $id_tarea]);
-    $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+    $tarea = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -20,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute(['titulo' => $titulo, 'descripcion' => $descripcion, 'id_tarea' => $id_tarea]);
 
     header('Location: ../../frontend/tareas.php');
-    exit; // Asegurarse de detener la ejecución del script después de la redirección
+    exit;
 }
 ?>
 
@@ -29,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Editar Tarea</title>
 </head>
 <body class="bg-light">
@@ -37,22 +38,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class="container mt-5">
     <h2 class="text-center mb-4">Editar Tarea</h2>
 
-    <?php if ($id_tarea): ?>
+    <?php if ($tarea): ?>
         <form method="POST" action="actualizar.php" class="card p-4 shadow-sm">
-            <input type="hidden" name="id_tarea" value="<?= $id_tarea['id_tarea'] ?>">
+            <input type="hidden" name="id_tarea" value="<?= htmlspecialchars($tarea['id_tarea']) ?>">
 
             <div class="mb-3">
-                <label for="tiulo" class="form-label">titulo</label>
-                <input type="text" class="form-control" id="titulo" name="titulo" value="<?= htmlspecialchars($titulo['titulo']) ?>" required>
+                <label for="titulo" class="form-label">Título</label>
+                <input type="text" class="form-control" id="titulo" name="titulo" value="<?= htmlspecialchars($tarea['titulo']) ?>" required>
             </div>
 
             <div class="mb-3">
-                <label for="descripcion" class="form-label">descripcion</label>
-                <input type="text" class="form-control" id="descripcion" name="descripcion" value="<?= htmlspecialchars($descripcion['descripcion']) ?>" required>
+                <label for="descripcion" class="form-label">Descripción</label>
+                <input type="text" class="form-control" id="descripcion" name="descripcion" value="<?= htmlspecialchars($tarea['descripcion']) ?>" required>
             </div>
 
             <div class="text-center">
-                <button href="../../frontend/tareas.php" type="submit" class="btn btn-primary">Actualizar tarea</button>
+                <button type="submit" class="btn btn-primary">Actualizar tarea</button>
                 <a href="../../frontend/tareas.php" class="btn btn-secondary">Cancelar</a>
             </div>
         </form>
@@ -61,6 +62,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php endif; ?>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

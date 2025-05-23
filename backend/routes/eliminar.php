@@ -46,7 +46,7 @@ if (isset($_POST['confirmar_eliminacion']) && isset($_POST['id_tarea'])) {
         </div>
 
         <div class="text-center">
-            <form method="POST" action="/backend/routes/eliminar.php">
+            <form method="POST" action="../../backend/routes/eliminar.php">
                 <input type="hidden" name="id_tarea" value="<?= htmlspecialchars($id_tarea) ?>">
                 <button type="submit" name="confirmar_eliminacion" class="btn btn-danger">Eliminar</button>
                 <a href="../../frontend/tareas.php" class="btn btn-secondary">Cancelar</a>

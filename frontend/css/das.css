@@ -36,7 +36,12 @@
       width: 100%;
       transition: background 0.3s;
     }
-
+.content{
+  justify-items: center;
+  align-items: center;
+  flex: auto;
+  width: 100px;
+}
     .sidebar a:hover,
     .sidebar a.active {
       background-color: #d0d7f2;

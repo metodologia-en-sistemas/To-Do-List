@@ -90,9 +90,7 @@ if (!empty($tareas)) {
     <div class="nav-links">
       <a href="./dashboard.php"><i class="icon-home"></i> Inicio</a>
       <a href="./tareas.php"><i class="icon-tasks"></i> Tareas</a>
-      <a href="#"><i class="icon-calendar"></i> Agenda</a>
       <a href="./comunidad.php" class="active"><i class="icon-project"></i> Comunidad</a>
-      <a href="#"><i class="icon-settings"></i> Configuración</a>
       <a href="../backend/routes/cerrar.php"><i class="icon-logout"></i> Cerrar Sesión</a>
     </div>
   </div>

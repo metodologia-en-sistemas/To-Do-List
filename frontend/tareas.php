@@ -29,7 +29,7 @@ $tareas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Comunidad</title>
+  <title>Tareas</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./css/das.css" />
   <link rel="stylesheet" href="./css/comun.css" />
@@ -44,9 +44,7 @@ $tareas = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="nav-links">
       <a href="./dashboard.php"><i class="icon-home"></i> Inicio</a>
       <a href="./tareas.php" class="active"><i ></i> Tareas</a>
-      <a href="#"><i class="icon-calendar"></i> Agenda</a>
       <a href="./comunidad.php" ><i class="icon-project"></i> Comunidad</a>
-      <a href="#"><i class="icon-settings"></i> Configuración</a>
       <a href="../backend/routes/cerrar.php"><i class="icon-logout"></i> Cerrar Sesión</a>
     </div>
   </div>
@@ -57,11 +55,11 @@ $tareas = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <table class="table table-bordered table-hover table-striped">
         <thead class="table-dark">
             <tr>
-                <th>ID</th>
+                
                 <th>Título</th>
                 <th>Descripción</th>
                 <th>Estado</th>
-                <th>Fecha de creación</th>
+                <th>Fecha Limite</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -69,14 +67,18 @@ $tareas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <?php if (!empty($tareas)): ?>
                 <?php foreach ($tareas as $tarea): ?>
                     <tr>
-                        <td><?= htmlspecialchars($tarea['id_tarea']) ?></td>
+                        
                         <td><?= htmlspecialchars($tarea['titulo']) ?></td>
                         <td><?= htmlspecialchars($tarea['descripcion']) ?></td>
                         <td><?= htmlspecialchars($tarea['estado']) ?></td>
                         <td><?= htmlspecialchars($tarea['fecha_limite']) ?></td>
                         <td>
                             <a href="../backend/routes/actualizar.php?id_tarea=<?= $tarea['id_tarea'] ?>" class="btn btn-warning btn-sm">Editar</a>
-                            <a href="../backend/routes/eliminar.php?$tarea['id_tarea'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar esta tarea?');">Eliminar</a>
+                            <a href="../backend/routes/eliminar.php?id_tarea=<?= $tarea['id_tarea'] ?>" 
+   class="btn btn-danger btn-sm" 
+   >
+   Eliminar
+</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -87,7 +89,7 @@ $tareas = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </table>
 
     <div class="text-center">
-        <a href="../backend/routes/crear.php" class="btn btn-primary">Agregar nueva Tarea</a>
+        <a href="./creartarea.php" class="btn btn-primary">Agregar nueva Tarea</a>
     </div>
 </div>
 
