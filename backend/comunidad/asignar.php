@@ -8,57 +8,58 @@ if (!isset($_SESSION['id_usuario']) || !isset($_POST['id_tarea'])) {
 }
 
 try {
-    // Verificar si la tarea ya está completada
-    $query = "SELECT completada_global FROM tareas_comunitarias WHERE id = ?";
-    $stmt = $conexion->prepare($query);
-    $stmt->execute([$_POST['id_tarea']]);
-    $estado = $stmt->fetch(PDO::FETCH_ASSOC);
+    $idTarea = $_POST['id_tarea'];
+    $idUsuario = $_SESSION['id_usuario'];
 
-    if ($estado && $estado['completada_global']) {
+    // Verificar si la tarea comunitaria ya fue completada por alguien
+    $query = "SELECT COUNT(*) FROM tareas_asignadas 
+              WHERE id_tarea_comunitaria = ? AND completada = 1";
+    $stmt = $conexion->prepare($query);
+    $stmt->execute([$idTarea]);
+    $yaCompletada = $stmt->fetchColumn();
+
+    if ($yaCompletada > 0) {
         $_SESSION['error'] = "Esta tarea ya está completada.";
         header("Location: ../../frontend/comunidad.php");
         exit;
     }
 
-    // Verificar si ya está asignado
+    // Verificar si el usuario ya está asignado
     $query = "SELECT COUNT(*) FROM tareas_asignadas 
               WHERE id_tarea_comunitaria = ? AND id_usuario = ?";
     $stmt = $conexion->prepare($query);
-    $stmt->execute([$_POST['id_tarea'], $_SESSION['id_usuario']]);
+    $stmt->execute([$idTarea, $idUsuario]);
+    $asignado = $stmt->fetchColumn();
 
-    if ($stmt->fetchColumn() == 0) {
+    if ($asignado == 0) {
         // Asignar la tarea
         $query = "INSERT INTO tareas_asignadas 
-                 (id_tarea_comunitaria, id_usuario) 
-                 VALUES (?, ?)";
+                  (id_tarea_comunitaria, id_usuario) 
+                  VALUES (?, ?)";
         $stmt = $conexion->prepare($query);
-        $stmt->execute([$_POST['id_tarea'], $_SESSION['id_usuario']]);
-
+        $stmt->execute([$idTarea, $idUsuario]);
         $_SESSION['exito'] = "¡Tarea asignada correctamente!";
-    } else {
-        $_SESSION['error'] = "Ya estabas asignado a esta tarea";
     }
 
     // Obtener información de la tarea para notificación
     $query = "SELECT tc.titulo, tc.id_creador 
-             FROM tareas_comunitarias tc
-             WHERE tc.id = ?";
+              FROM tareas_comunitarias tc
+              WHERE tc.id = ?";
     $stmt = $conexion->prepare($query);
-    $stmt->execute([$_POST['id_tarea']]);
+    $stmt->execute([$idTarea]);
     $tarea_info = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // Notificar al creador (si no es el mismo usuario)
-    if ($tarea_info && $tarea_info['id_creador'] != $_SESSION['id_usuario']) {
+    // Notificar al creador si el usuario no es el mismo
+    if ($tarea_info && $tarea_info['id_creador'] != $idUsuario) {
         $query = "SELECT nombre FROM usuarios WHERE id_usuario = ?";
         $stmt = $conexion->prepare($query);
-        $stmt->execute([$_SESSION['id_usuario']]);
+        $stmt->execute([$idUsuario]);
         $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
         $mensaje = $usuario['nombre']." se ha asignado a tu tarea: ".$tarea_info['titulo'];
 
-        $query = "INSERT INTO notificaciones 
-                 (id_usuario, mensaje) 
-                 VALUES (?, ?)";
+        $query = "INSERT INTO notificaciones (id_usuario, mensaje) 
+                  VALUES (?, ?)";
         $stmt = $conexion->prepare($query);
         $stmt->execute([$tarea_info['id_creador'], $mensaje]);
     }
