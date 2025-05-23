@@ -34,6 +34,19 @@ $tareas = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <link rel="stylesheet" href="./css/das.css" />
   <link rel="stylesheet" href="./css/comun.css" />
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous"/>
+  <style>
+    .tarea-completada {
+      background-color: #138d36 !important; /* Verde fuerte personalizado */
+      color: #fff !important;
+    }
+    .tarea-completada .badge.bg-success {
+      background-color: #0a4c1a !important; /* Badge aún más oscuro */
+      color: #fff !important;
+    }
+    .tarea-completada td {
+      text-decoration: line-through;
+    }
+  </style>
 </head>
 <body>
   <div class="sidebar">
@@ -50,7 +63,7 @@ $tareas = $stmt->fetchAll(PDO::FETCH_ASSOC);
   </div>
 
 <div class="container mt-5">
-    <h2 class="mb-4 text-center">Lista de Tareas</h2>
+    <h2 class="mb-4 text-center">Lista de Tareas Personales</h2>
 
     <table class="table table-bordered table-hover table-striped">
         <thead class="table-dark">
@@ -59,26 +72,32 @@ $tareas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <th>Título</th>
                 <th>Descripción</th>
                 <th>Estado</th>
-                <th>Fecha Limite</th>
+                <th>Fecha imite</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
             <?php if (!empty($tareas)): ?>
                 <?php foreach ($tareas as $tarea): ?>
-                    <tr>
-                        
+                    <tr class="<?= $tarea['completado'] ? 'tarea-completada' : '' ?>">
                         <td><?= htmlspecialchars($tarea['titulo']) ?></td>
                         <td><?= htmlspecialchars($tarea['descripcion']) ?></td>
-                        <td><?= htmlspecialchars($tarea['estado']) ?></td>
+                        <td>
+                            <?php if ($tarea['completado']): ?>
+                                <span class="badge bg-success">Completada</span>
+                            <?php else: ?>
+                                <?= htmlspecialchars($tarea['estado']) ?>
+                            <?php endif; ?>
+                        </td>
                         <td><?= htmlspecialchars($tarea['fecha_limite']) ?></td>
                         <td>
                             <a href="../backend/routes/actualizar.php?id_tarea=<?= $tarea['id_tarea'] ?>" class="btn btn-warning btn-sm">Editar</a>
-                            <a href="../backend/routes/eliminar.php?id_tarea=<?= $tarea['id_tarea'] ?>" 
-   class="btn btn-danger btn-sm" 
-   >
-   Eliminar
-</a>
+                            <a href="../backend/routes/eliminar.php?id_tarea=<?= $tarea['id_tarea'] ?>" class="btn btn-danger btn-sm">Eliminar</a>
+                            <?php if (!$tarea['completado']): ?>
+                                <a href="../backend/routes/completado.php?id_tarea=<?= $tarea['id_tarea'] ?>" class="btn btn-success btn-sm">Marcar como Completado</a>
+                            <?php else: ?>
+                                <span class="badge bg-success">Completada</span>
+                            <?php endif; ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>

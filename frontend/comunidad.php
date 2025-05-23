@@ -103,13 +103,7 @@ if (!empty($tareas)) {
       </div>
     </div>
 
-    <div class="greeting">
-      <div class="avatar"></div>
-      <div>
-        <h2>Tareas de la Comunidad</h2>
-        <p>Colabora con otros usuarios en estas tareas compartidas</p>
-      </div>
-    </div>
+    <br>
 
     <div class="action-buttons">
       <a href="../backend/comunidad/crear_grupal.php" class="btn-create">
