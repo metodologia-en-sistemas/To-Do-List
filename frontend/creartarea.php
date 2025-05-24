@@ -52,6 +52,7 @@ if (!isset($_SESSION['id_usuario'])) {
   <title>Tareas</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../../frontend/css/das.css" />
+  <link rel="stylesheet" href="../frontend/css/estructura_das.css">
   <link rel="stylesheet" href="../frontend/css/comun.css" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous"/>
 </head>
@@ -71,7 +72,7 @@ if (!isset($_SESSION['id_usuario'])) {
   </div>
 
     <div class="content">
-      <h2 class="mb-4 text-center">Crear Nueva Tarea</h2>
+      <h2 class="conten">Crear Nueva Tarea</h2>
       <form method="POST" action="creartarea.php" enctype="multipart/form-data" class="border p-4 bg-white shadow-sm rounded w-50 ">
         <div class="mb-3">
           <label for="titulo" class="form-label">Título</label>

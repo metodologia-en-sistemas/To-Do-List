@@ -31,8 +31,8 @@ $tareas = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Tareas</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
-
-  <link rel="stylesheet" href="./css/estructura_das.css">
+  <link rel="stylesheet" href="../frontend/css/estructura_das.css">
+  <link rel="stylesheet" href="../frontend/css/das.css" />
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous"/>
   <style>
     .tarea-completada {
@@ -62,7 +62,7 @@ $tareas = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
   </div>
 
-<div class="container mt-5">
+<div class="container left-30">
     <h2 class="mb-4 text-center">Lista de Tareas Personales</h2>
 
     <div class="row mb-3">

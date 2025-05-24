@@ -77,7 +77,8 @@ if (!empty($tareas)) {
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Comunidad</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./css/das.css" />
+  
+  <link rel="stylesheet" href="./css/estructura_das.css" />
   <link rel="stylesheet" href="./css/comun.css" />
 </head>
 <body>

@@ -73,8 +73,9 @@ if (!empty($_POST['usuarios'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear Tarea Grupal</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../../frontend/css/das.css">
+    <link rel="stylesheet" href="../../frontend/css/estructura_das.css">
     <link rel="stylesheet" href="../../frontend/css/comun.css">
+    <link rel="stylesheet" href="../../frontend/css/das.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     
 </head>
@@ -97,7 +98,7 @@ if (!empty($_POST['usuarios'])) {
             <div class="greeting">
                 <h2>Crear Nueva Tarea Grupal</h2>
             </div>
-            <a href="../../frontend/comunidad.php" class="btn-volver"><i class="fas fa-arrow-left"></i> Volver</a>
+            
             <form method="POST" action="./crear_grupal.php" class="task-form">
                 <div class="form-group">
                     <label for="titulo">Título:</label>
