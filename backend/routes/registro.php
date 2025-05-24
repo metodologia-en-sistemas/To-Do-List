@@ -1,45 +1,55 @@
 <?php
-include ('../config/database.php');
-if ($_SERVER["REQUEST_METHOD"] == 'POST') {
-    
-    $email = $_POST['email'];
-    $contrasena = $_POST['password'];
-    //VERIFICAR SI EL CORREO Y CONTRA EXISTE YA EN LA DB 
-    $login = false;
-    $sql = "SELECT * FROM usuarios WHERE email = '$email'";
-    $prepar = $conexion->prepare($sql);
-    $prepar->execute();
-    foreach ($prepar as $email) {
-        if (password_verify($contrasena, $email['password'])) {
-            $login = true;
-        }
-    }
-    if ($login) {
-        echo '<script language = javascript>
-        alert("Correo ya existente")
-        self.location="../../frontend/registro.html"</script>';
-        exit();
-    } else {
-        if (
-            !empty($_POST['nombre']) && !empty($_POST['email']) && !empty($_POST['password'])
-        ) {
-            $nombre = $_POST['nombre'];
-            //incriptar contraseña 
-            $contrasenaEncrip = password_hash($contrasena, PASSWORD_DEFAULT);
-        }
-        //INSERTAR
-        $insert = "INSERT INTO usuarios(nombre, email, password) 
-    VALUES ('$nombre','$email ','$contrasenaEncrip')";
+session_start();
+require_once __DIR__ . '/../config/database.php';
 
-        $stmt = $conexion->prepare($insert);
-        $stmt->bindParam(':nombre', $nombre);
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':password', $contrasenaEncrip);
-        $eject = $conexion->prepare($insert);
-        if ($eject->execute()) {
-            // REDIRIGE AL LOGIN PARA QUE INICIE SESION
-            header('Location: ../../frontend/login.html');
-        }
-    }
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    // Si no es POST, no hay nada que hacer
+    header('Location: ../../frontend/registro.html');
+    exit;
 }
-?>
+
+// 1) Leer y validar datos
+$nombre   = trim($_POST['nombre']   ?? '');
+$email    = trim($_POST['email']    ?? '');
+$password =            $_POST['password'] ?? '';
+
+if (!$nombre || !$email || !$password) {
+    die('Faltan datos obligatorios.');
+}
+
+// 2) Verificar si el email ya existe
+$sql = "SELECT id_usuario FROM usuarios WHERE email = :email";
+$stmt = $conexion->prepare($sql);
+$stmt->execute([':email' => $email]);
+
+if ($stmt->fetch()) {
+    // Ya existe: volvemos al registro con alerta
+    echo "<script>
+            alert('El correo ya existe');
+            window.location = '../../frontend/registro.html';
+          </script>";
+    exit;
+}
+
+// 3) Insertar nuevo usuario
+$hash = password_hash($password, PASSWORD_DEFAULT);
+$sql  = "INSERT INTO usuarios (nombre, email, password, imagen)
+         VALUES (:nombre, :email, :password, :imagen)";
+$stmt = $conexion->prepare($sql);
+
+$params = [
+    ':nombre'   => $nombre,
+    ':email'    => $email,
+    ':password' => $hash,
+    ':imagen'   => 'default.png',  // O NULL, según cómo tenga tu tabla
+];
+
+if ($stmt->execute($params)) {
+    // Registro OK: al login
+    header('Location: ../../frontend/login.html');
+    exit;
+} else {
+    // Mostrar el error real (solo en desarrollo)
+    $err = $stmt->errorInfo();
+    die("Error al registrar: {$err[2]}");
+}
