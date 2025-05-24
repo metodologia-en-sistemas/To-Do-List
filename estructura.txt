@@ -1,0 +1,37 @@
+Listado de rutas de carpetas
+El número de serie del volumen es A6E6-8A55
+C:.
+¦   estructura.txt
+¦   README.md
+¦   
++---backend
+¦   +---config
+¦   ¦       database.php
+¦   ¦       test.php
+¦   ¦       
+¦   +---controllers
+¦   ¦       TaskController.php
+¦   ¦       UserController.php
+¦   ¦       
+¦   +---models
+¦   ¦       Task.php
+¦   ¦       User.php
+¦   ¦       
+¦   +---routes
+¦   ¦       cerrar.php
+¦   ¦       tasks.php
+¦   ¦       
+¦   +---uploads
++---frontend
+    ¦   index.html
+    ¦   index.php
+    ¦   login.html
+    ¦   logout.html
+    ¦   register.html
+    ¦   
+    +---css
+    ¦       style.css
+    ¦       
+    +---js
+            app.js
+            

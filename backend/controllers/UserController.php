@@ -1,3 +1,4 @@
+Dijiste:
 <?php
 session_start();//manejo de sesiones
 require_once '../config/database.php';
@@ -42,9 +43,9 @@ if ($nombre !== null) {
     $profileImagePath = $defaultImage;
 
     // Si se está usando formulario con enctype multipart/form-data, puedes usar $_FILES
-    if (!empty($_FILES['imagen_perifl']) && $_FILES['imagen_perifl']['error'] === UPLOAD_ERR_OK) {
-        $tmpName = $_FILES['imagen_perifl']['tmp_name'];
-        $imageName = basename($_FILES['imagen_perifl']['name']);
+    if (!empty($_FILES['imagen_perfil']) && $_FILES['imagen_perfil']['error'] === UPLOAD_ERR_OK) {
+        $tmpName = $_FILES['imagen_perfil']['tmp_name'];
+        $imageName = basename($_FILES['imagen_perfil']['name']);
         $ext = strtolower(pathinfo($imageName, PATHINFO_EXTENSION));
         $allowed = ['jpg', 'jpeg', 'png', 'gif'];
 

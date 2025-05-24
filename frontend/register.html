@@ -7,7 +7,7 @@
   <body>
     <h1>Registrarse</h1>
 
-    <form id="formularioRegistro">
+    <form id="formularioRegistro" enctype="multipart/form-data">
       <input
         type="text"
         id="nombre"
@@ -15,6 +15,7 @@
         placeholder="Nombre completo"
         required
       /><br /><br />
+
       <input
         type="email"
         id="email"
@@ -22,6 +23,7 @@
         placeholder="Email"
         required
       /><br /><br />
+
       <input
         type="password"
         id="password"
@@ -29,6 +31,14 @@
         placeholder="Contraseña"
         required
       /><br /><br />
+
+      <input
+        type="file"
+        id="imagen_perfil"
+        name="imagen_perfil"
+        accept="image/*"
+      /><br /><br />
+
       <button type="submit">Registrar</button>
     </form>
 
@@ -38,26 +48,19 @@
       const form = document.getElementById("formularioRegistro");
 
       form.addEventListener("submit", async function (e) {
-        e.preventDefault(); // Evita que la página se recargue
+        e.preventDefault();
 
-        const nombre = document.getElementById("nombre").value;
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
+        const formData = new FormData(form); // Captura todos los campos, incluyendo el archivo
 
-        // Usamos fetch para enviar los datos al backend
         const response = await fetch("../backend/controllers/UserController.php", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ nombre, email, password }),
+          body: formData, // Enviamos los datos como multipart/form-data (automático)
         });
 
         const data = await response.json();
 
-        alert(data.message); // Mostrar el mensaje de la respuesta
+        alert(data.message);
 
-        // Si el registro es exitoso, redirigir al login
         if (data.success) {
           window.location.href = "login.html";
         }
