@@ -31,8 +31,8 @@ $tareas = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Tareas</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./css/das.css" />
-  <link rel="stylesheet" href="./css/comun.css" />
+
+  <link rel="stylesheet" href="./css/estructura_das.css">
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous"/>
   <style>
     .tarea-completada {
@@ -55,7 +55,7 @@ $tareas = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <p style="color: black; margin-top: 8px;"><?php echo htmlspecialchars($_SESSION['nombre']); ?></p>
     </div>  
     <div class="nav-links">
-      <a href="./dashboard.php"><i class="icon-home"></i> Inicio</a>
+      <a href="./dashboard.php" ><i class="icon-home"></i> Inicio</a>
       <a href="./tareas.php" class="active"><i ></i> Tareas</a>
       <a href="./comunidad.php" ><i class="icon-project"></i> Comunidad</a>
       <a href="../backend/routes/cerrar.php"><i class="icon-logout"></i> Cerrar Sesión</a>
@@ -64,6 +64,12 @@ $tareas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <div class="container mt-5">
     <h2 class="mb-4 text-center">Lista de Tareas Personales</h2>
+
+    <div class="row mb-3">
+      <div class="col-md-6 offset-md-3">
+        <input type="text" id="buscador-tarea" class="form-control form-control-lg shadow-sm" placeholder="Buscar tarea por título o descripción...">
+      </div>
+    </div>
 
     <table class="table table-bordered table-hover table-striped">
         <thead class="table-dark">
@@ -79,7 +85,11 @@ $tareas = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <tbody>
             <?php if (!empty($tareas)): ?>
                 <?php foreach ($tareas as $tarea): ?>
-                    <tr class="<?= $tarea['completado'] ? 'tarea-completada' : '' ?>">
+                    <tr 
+                      class="<?= $tarea['completado'] ? 'tarea-completada' : '' ?>"
+                      data-titulo="<?= htmlspecialchars(strtolower($tarea['titulo'])) ?>"
+                      data-descripcion="<?= htmlspecialchars(strtolower($tarea['descripcion'])) ?>"
+                    >
                         <td><?= htmlspecialchars($tarea['titulo']) ?></td>
                         <td><?= htmlspecialchars($tarea['descripcion']) ?></td>
                         <td>
@@ -113,5 +123,19 @@ $tareas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script>
+document.getElementById('buscador-tarea').addEventListener('input', function() {
+    const filtro = this.value.toLowerCase();
+    document.querySelectorAll('tbody tr[data-titulo]').forEach(function(row) {
+        const titulo = row.getAttribute('data-titulo');
+        const descripcion = row.getAttribute('data-descripcion');
+        if (titulo.includes(filtro) || descripcion.includes(filtro)) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+});
+</script>
 </body>
 </html>
