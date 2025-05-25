@@ -1,70 +1,58 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Registrarse - To-Do List</title>
-  </head>
-  <body>
-    <h1>Registrarse</h1>
+<head>
+  <meta charset="UTF-8" />
+  <title>DevTask</title>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
 
-    <form id="formularioRegistro" enctype="multipart/form-data">
-      <input
-        type="text"
-        id="nombre"
-        name="nombre"
-        placeholder="Nombre completo"
-        required
-      /><br /><br />
+  <form action="../backend/routes/registro.php" method="POST" enctype="multipart/form-data">
+    <!-- Imagen logo y dashboard -->
+    <div class="card-container">
+      <div class="left-img">
+        <img src="./images/register.jpg" alt="Ilustración de dashboard" />
+      </div>
 
-      <input
-        type="email"
-        id="email"
-        name="email"
-        placeholder="Email"
-        required
-      /><br /><br />
+      <div class="form-side">
+        <div class="logo-container">
+          <img src="./images/logo.png" alt="To-Do List Logo" class="todo-logo">
+        </div>
 
-      <input
-        type="password"
-        id="password"
-        name="password"
-        placeholder="Contraseña"
-        required
-      /><br /><br />
+        <!-- Formulario de registro -->
+        <h1>Registrarse</h1>
 
-      <input
-        type="file"
-        id="imagen_perfil"
-        name="imagen_perfil"
-        accept="image/*"
-      /><br /><br />
+        <div class="input-group">
+          <label for="nombre">Nombre y apellido</label>
+          <input type="text" id="nombre" name="nombre" placeholder="Nombre y Apellido" required />
+        </div>
 
-      <button type="submit">Registrar</button>
-    </form>
+        <div class="input-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="Email" required />
+        </div>
 
-    <p>¿Ya tienes cuenta? <a href="login.html">Inicia sesión aquí</a></p>
+        <div class="input-group">
+          <label for="password">contraseña</label>
+          <input type="password" id="password" name="password" placeholder="Contraseña" required />
+        </div>
 
-    <script>
-      const form = document.getElementById("formularioRegistro");
+        <!-- Campo para subir imagen -->
+        <div class="input-group">
+          <label for="imagen">Foto de perfil</label>
+          <input type="file" id="imagen" name="imagen" accept="image/*" />
+        </div>
 
-      form.addEventListener("submit", async function (e) {
-        e.preventDefault();
+        <div class="buttons">
+          <button type="submit" class="btn-primary">Registrate</button>
+        </div>
 
-        const formData = new FormData(form); // Captura todos los campos, incluyendo el archivo
+        <p class="account-text">¿Ya tienes una cuenta?<br/>
+          <a href="login.html">Inicia sesión aquí</a>
+        </p>
+      </div>
+    </div>
+  </form>
 
-        const response = await fetch("../backend/controllers/UserController.php", {
-          method: "POST",
-          body: formData, // Enviamos los datos como multipart/form-data (automático)
-        });
-
-        const data = await response.json();
-
-        alert(data.message);
-
-        if (data.success) {
-          window.location.href = "login.html";
-        }
-      });
-    </script>
-  </body>
+</body>
 </html>
