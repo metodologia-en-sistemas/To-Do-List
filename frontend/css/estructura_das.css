@@ -1,4 +1,4 @@
-       :root {
+:root {
             --primary-color: #4A90E2;
             --secondary-color: #6C5CE7;
             --success-color: #00B894;
@@ -362,4 +362,103 @@
       margin-bottom: 20px;
     }
     /*  */
-    
+    /* Tarjetas pequeñas para historial */
+.card-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+.mini-card {
+    background: #eaf0fa;
+    color: #22223b;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 1em;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    margin-bottom: 5px;
+}
+.mini-card.expired {
+    background: #ffeaea;
+    color: #b00020;
+}
+.mini-card.pending {
+    background: #fffbe6;
+    color: #bfa100;
+    border: 1px solid #ffe066;
+}
+/* Historial de tareas mejorado */
+.historial-tareas-card {
+    padding-top: 2.2rem;
+    padding-bottom: 2.2rem;
+}
+
+.historial-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 2.2rem;
+    letter-spacing: 1px;
+    color: #2d3436;
+    text-align: center;
+    border-bottom: 2px solid #eaf0fa;
+    padding-bottom: 1rem;
+}
+
+.historial-section {
+    margin-bottom: 2.5rem;
+}
+
+.historial-subtitle {
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+    color: #4A90E2;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: 0.5px;
+}
+
+.historial-subtitle.caducadas {
+    color: #b00020;
+}
+
+.historial-subtitle.completadas {
+    color: #00B894;
+}
+
+.icon-check::before {
+    content: "✔️";
+    font-size: 1.1em;
+}
+
+.icon-alert::before {
+    content: "⚠️";
+    font-size: 1.1em;
+}
+/* frase motivacional */
+.motivational-card {
+    background: #f4f9ff;
+    color: #4A90E2;
+    border-radius: 12px;
+    padding: 24px 32px;
+    font-size: 1.3em;
+    text-align: center;
+    margin-top: 2rem;
+    box-shadow: 0 2px 8px rgba(74,144,226,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    max-width: 100%;
+    word-break: break-word;
+    white-space: normal;
+}
+
+.motivational-card span {
+    display: inline-block;
+    max-width: 90vw;
+    white-space: normal;
+    word-break: break-word;
+}

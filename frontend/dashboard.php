@@ -14,6 +14,44 @@ $query->execute();
 $user = $query->fetch(PDO::FETCH_ASSOC);
 
 $imagen_usuario = $user ? $user['imagen'] : 'uploads/default.png';
+
+// Tareas pendientes (ningún usuario la completó y aún no venció)
+$stmtTareas = $conexion->prepare("
+    SELECT tc.titulo
+    FROM tareas_comunitarias tc
+    WHERE tc.fecha_limite >= CURDATE()
+    AND NOT EXISTS (
+        SELECT 1 FROM tareas_asignadas ta 
+        WHERE ta.id_tarea_comunitaria = tc.id 
+        AND ta.completada = 1
+    )
+");
+$stmtTareas->execute();
+$tareasPendientes = $stmtTareas->fetchAll(PDO::FETCH_ASSOC);
+
+// Tareas completadas (al menos un usuario la completó)
+$stmtCompletadas = $conexion->prepare("
+    SELECT DISTINCT tc.titulo
+    FROM tareas_comunitarias tc
+    INNER JOIN tareas_asignadas ta ON ta.id_tarea_comunitaria = tc.id
+    WHERE ta.completada = 1
+");
+$stmtCompletadas->execute();
+$tareasCompletadas = $stmtCompletadas->fetchAll(PDO::FETCH_ASSOC);
+
+// Tareas caducadas (nadie la completó y ya venció)
+$stmtCaducadas = $conexion->prepare("
+    SELECT tc.titulo
+    FROM tareas_comunitarias tc
+    WHERE tc.fecha_limite < CURDATE()
+    AND NOT EXISTS (
+        SELECT 1 FROM tareas_asignadas ta 
+        WHERE ta.id_tarea_comunitaria = tc.id 
+        AND ta.completada = 1
+    )
+");
+$stmtCaducadas->execute();
+$tareasCaducadas = $stmtCaducadas->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -27,141 +65,124 @@ $imagen_usuario = $user ? $user['imagen'] : 'uploads/default.png';
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-
-<div class="sidebar">
-    <div class="avatar">
-        <img src="<?php echo htmlspecialchars($imagen_usuario); ?>" alt="Avatar">
-        <h3 style="margin-top: 1rem; color: #2d3436;"><?php echo htmlspecialchars($_SESSION['nombre']); ?></h3>
-    </div>
-    <nav class="nav-links">
-        <a href="#" class="active"><i class="icon-home"></i> Inicio</a>
-        <a href="./tareas.php"><i class="icon-tasks"></i> Tareas</a>
-        <a href="./comunidad.php"><i class="icon-project"></i> Comunidad</a>
-        <a href="../backend/routes/cerrar.php"><i class="icon-logout"></i> Cerrar Sesión</a>
-    </nav>
-</div>
-
-<div class="main-content">
-    <div class="hero-header">
-        <video autoplay muted loop class="background-video">
-            <source src="../frontend/assets/4864927-uhd_2160_4096_25fps.mp4" type="video/mp4">
-        </video>
-        <h1>Bienvenido, <?php echo htmlspecialchars($_SESSION['nombre']); ?></h1>
+    <div class="sidebar">
+        <div class="avatar">
+            <img src="<?php echo htmlspecialchars($imagen_usuario); ?>" alt="Avatar">
+            <h3 style="margin-top: 1rem; color: #2d3436;"><?php echo htmlspecialchars($_SESSION['nombre']); ?></h3>
+        </div>
+        <nav class="nav-links">
+            <a href="#" class="active"><i class="icon-home"></i> Inicio</a>
+            <a href="./notificaciones.php" class="active"><i class="icon-home"></i> Notificaciones</a>
+            <a href="./tareas.php"><i class="icon-tasks"></i> Tareas</a>
+            <a href="./comunidad.php"><i class="icon-project"></i> Comunidad</a>
+            <a href="../backend/routes/cerrar.php"><i class="icon-logout"></i> Cerrar Sesión</a>
+        </nav>
     </div>
 
-    <div class="search">
-        <span>🔍</span>
-        <input type="text" placeholder="Buscar tarea...">
-    </div>
+    <div class="main-content">
+        <div class="hero-header">
+            <video autoplay muted loop class="background-video">
+                <source src="../frontend/assets/4864927-uhd_2160_4096_25fps.mp4" type="video/mp4">
+            </video>
+            <h1>Bienvenido, <?php echo htmlspecialchars($_SESSION['nombre']); ?></h1>
+        </div>
 
-    <div class="dashboard-grid">
-        <div class="card">
-            <h2>Progreso Semanal</h2>
-            <div class="chart-container">
-                <canvas id="performanceChart"></canvas>
+        <div class="dashboard-grid">
+            <div class="card historial-tareas-card">
+                <h2 class="historial-title">Historial de Tareas</h2>
+                <div class="historial-section">
+                    <h4 class="historial-subtitle completadas">
+                        <i class="icon-check"></i> Tareas completadas (<?php echo count($tareasCompletadas); ?>)
+                    </h4>
+                    <div class="card-list">
+                        <?php if (count($tareasCompletadas) > 0): ?>
+                            <?php foreach ($tareasCompletadas as $tarea): ?>
+                                <div class="mini-card">
+                                    <?php echo htmlspecialchars($tarea['titulo']); ?>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <div class="mini-card">No hay tareas completadas.</div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <div class="historial-section">
+                    <h4 class="historial-subtitle caducadas">
+                        <i class="icon-alert"></i> Tareas caducadas (<?php echo count($tareasCaducadas); ?>)
+                    </h4>
+                    <div class="card-list">
+                        <?php if (count($tareasCaducadas) > 0): ?>
+                            <?php foreach ($tareasCaducadas as $tarea): ?>
+                                <div class="mini-card expired">
+                                    <?php echo htmlspecialchars($tarea['titulo']); ?>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <div class="mini-card">No hay tareas caducadas.</div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card historial-tareas-card">
+                <h2 class="historial-title">Tareas Pendientes de la Comunidad</h2>
+                <div class="historial-section">
+                    <div class="card-list">
+                        <?php if (count($tareasPendientes) > 0): ?>
+                            <?php foreach ($tareasPendientes as $tarea): ?>
+                                <div class="mini-card pending">
+                                    <?php echo htmlspecialchars($tarea['titulo']); ?>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <div class="mini-card">No hay tareas pendientes en la comunidad.</div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card actividad-personal-card">
+                <h2 class="historial-title">Tu Actividad</h2>
+                <canvas id="actividadChart" width="300" height="180"></canvas>
             </div>
         </div>
 
-        <div class="card">
-            <h2>Próximas Tareas</h2>
-            <div class="task-list">
-                <div class="task-box">Reunión de equipo - 10:00</div>
-                <div class="task-box">Revisión de diseño - 14:30</div>
-                <div class="task-box">Entrega de proyecto - 16:00</div>
+        <center>
+            <div class="motivational-card">
+                <?php
+                $frases = [
+                    "¡Hoy es un gran día para avanzar en tus metas!",
+                    "La constancia es la clave del éxito.",
+                    "Cada pequeño paso cuenta.",
+                    "No te detengas, ¡vas muy bien!",
+                    "El futuro depende de lo que hagas hoy."
+                ];
+                $frase = $frases[array_rand($frases)];
+                ?>
+                <i class="icon-idea"></i>
+                <span><?php echo $frase; ?></span>
             </div>
-        </div>
+        </center>
     </div>
-
-    <div class="calendar">
-        <h3>Calendario de Tareas</h3>
-        <div id="calendario-simple" style="margin: 2rem auto; max-width: 90%;"></div>
-    </div>
-
-    <div class="theme-selector">
-        <button data-theme="light">Claro</button>
-        <button data-theme="dark">Oscuro</button>
-        <button data-theme="nature">Naturaleza</button>
-    </div>
-</div>
 
 <script>
-    // Gráfico de rendimiento
-    const ctx = document.getElementById('performanceChart').getContext('2d');
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'],
-            datasets: [{
-                label: 'Productividad',
-                data: [65, 59, 80, 81, 56, 55, 40],
-                borderColor: '#4A90E2',
-                tension: 0.4,
-                fill: true,
-                backgroundColor: 'rgba(74, 144, 226, 0.1)'
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false
+const ctx = document.getElementById('actividadChart').getContext('2d');
+new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+        labels: ['Completadas', 'Pendientes', 'Caducadas'],
+        datasets: [{
+            data: [<?php echo count($tareasCompletadas); ?>, <?php echo count($tareasPendientes); ?>, <?php echo count($tareasCaducadas); ?>],
+            backgroundColor: ['#00B894', '#ffe066', '#e74c3c'], // rojo para caducadas
+            borderWidth: 1
+        }]
+    },
+    options: {
+        plugins: {
+            legend: { position: 'bottom' }
         }
-    });
-
-    // Sistema de temas
-    document.querySelectorAll('.theme-selector button').forEach(button => {
-        button.addEventListener('click', () => {
-            document.body.setAttribute('data-theme', button.dataset.theme);
-        });
-    });
-
-    // Calendario simple de tareas
-    function crearCalendarioSimple(tareas) {
-        const hoy = new Date();
-        const year = hoy.getFullYear();
-        const month = hoy.getMonth();
-
-        // Obtener tareas del mes actual
-        const tareasMes = tareas.filter(t => {
-            const fecha = new Date(t.fecha_limite);
-            return fecha.getFullYear() === year && fecha.getMonth() === month;
-        });
-
-        // Crear matriz de días
-        const primerDia = new Date(year, month, 1).getDay();
-        const diasEnMes = new Date(year, month + 1, 0).getDate();
-
-        let html = `<table border="1" style="width:100%;text-align:center"><tr>
-            <th>Lun</th><th>Mar</th><th>Mié</th><th>Jue</th><th>Vie</th><th>Sáb</th><th>Dom</th>
-        </tr><tr>`;
-
-        let diaSemana = (primerDia === 0 ? 6 : primerDia - 1); // Ajuste para que lunes sea 0
-        for (let i = 0; i < diaSemana; i++) html += "<td></td>";
-
-        for (let dia = 1; dia <= diasEnMes; dia++) {
-            const fechaStr = `${year}-${String(month+1).padStart(2, '0')}-${String(dia).padStart(2, '0')}`;
-            const tareasDia = tareasMes.filter(t => t.fecha_limite.startsWith(fechaStr));
-            html += `<td${tareasDia.length ? ' style="background:#d1e7dd;cursor:pointer"' : ''}>${dia}`;
-            if (tareasDia.length) {
-                html += `<ul style="padding-left:10px;text-align:left;font-size:0.9em">`;
-                tareasDia.forEach(t => html += `<li>${t.titulo}</li>`);
-                html += `</ul>`;
-            }
-            html += `</td>`;
-            diaSemana++;
-            if (diaSemana === 7 && dia !== diasEnMes) {
-                html += "</tr><tr>";
-                diaSemana = 0;
-            }
-        }
-        for (; diaSemana < 7 && diaSemana !== 0; diaSemana++) html += "<td></td>";
-        html += "</tr></table>";
-
-        document.getElementById('calendario-simple').innerHTML = html;
     }
-
-    // Cargar tareas desde tu endpoint
-    fetch('/to-do-list.app/backend/routes/tareas_usuarios.php')
-        .then(res => res.json())
-        .then(tareas => crearCalendarioSimple(tareas));
+});
 </script>
 
 </body>

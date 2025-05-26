@@ -81,16 +81,17 @@ if (!empty($_POST['usuarios'])) {
 </head>
 <body>
     <div class="sidebar">
-        <div class="avatar" style="margin: 20px 0; text-align: center;">
-            <img src="<?php echo htmlspecialchars($imagen_usuario ?? '../frontend/uploads/default-avatar.png'); ?>" alt="Avatar" style="width: 80px; height: 80px; border-radius: 50%;" />
-            <p style="color: black; margin-top: 8px;"><?php echo htmlspecialchars($_SESSION['nombre'] ?? ''); ?></p>
+        <div class="avatar">
+            <img src="<?php echo htmlspecialchars($imagen_usuario); ?>" alt="Avatar">
+            <h3 style="margin-top: 1rem; color: #2d3436;"><?php echo htmlspecialchars($_SESSION['nombre']); ?></h3>
         </div>
-        <div class="nav-links">
+        <nav class="nav-links">
             <a href="../../frontend/dashboard.php"><i class="icon-home"></i> Inicio</a>
+            <a href="../../frontend/notificaciones.php"><i class="icon-home"></i> Notificaciones</a>
             <a href="../../frontend/tareas.php"><i></i> Tareas</a>
             <a href="../../frontend/comunidad.php" class="active"><i class="icon-project"></i> Comunidad</a>
             <a href="../routes/cerrar.php"><i class="icon-logout"></i> Cerrar Sesión</a>
-        </div>
+        </nav>
     </div>
 
     <div class="container-dashboard">

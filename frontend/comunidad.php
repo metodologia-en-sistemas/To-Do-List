@@ -14,24 +14,6 @@ if (!isset($_SESSION['id_usuario'])) {
     exit;
 }
 
-// Alertas de sesión
-foreach (['exito', 'error', 'info'] as $tipo) {
-    if (isset($_SESSION[$tipo])) {
-        echo "<script>alert('".addslashes($_SESSION[$tipo])."');</script>";
-        unset($_SESSION[$tipo]);
-    }
-}
-
-// Notificaciones
-$query = "SELECT mensaje FROM notificaciones WHERE id_usuario = ? AND leida = 0";
-$stmt = $conexion->prepare($query);
-$stmt->execute([$_SESSION['id_usuario']]);
-$notificaciones = $stmt->fetchAll(PDO::FETCH_COLUMN);
-foreach ($notificaciones as $mensaje) {
-    echo "<script>alert('".addslashes($mensaje)."');</script>";
-    $stmt = $conexion->prepare("UPDATE notificaciones SET leida = 1 WHERE id_usuario = ? AND mensaje = ?");
-    $stmt->execute([$_SESSION['id_usuario'], $mensaje]);
-}
 
 // Obtener tareas comunitarias
 $query = "SELECT tc.id, tc.titulo, tc.descripcion, tc.fecha_limite, u.nombre as creador, tc.id_creador
@@ -83,19 +65,18 @@ if (!empty($tareas)) {
 </head>
 <body>
   <div class="sidebar">
-       <div class="avatar" style="margin: 20px 0; text-align: center;">
-      <img src="<?php echo htmlspecialchars($imagen_usuario); ?>" alt="Avatar" style="width: 80px; height: 80px; border-radius: 50%;" />
-      <p style="color: black; margin-top: 8px;"><?php echo htmlspecialchars($_SESSION['nombre']); ?></p>
+    <div class="avatar">
+        <img src="<?php echo htmlspecialchars($imagen_usuario); ?>" alt="Avatar">
+        <h3 style="margin-top: 1rem; color: #2d3436;"><?php echo htmlspecialchars($_SESSION['nombre']); ?></h3>
     </div>
-
-    <div class="nav-links">
-      <a href="./dashboard.php"><i class="icon-home"></i> Inicio</a>
-      <a href="./tareas.php"><i class="icon-tasks"></i> Tareas</a>
-      
-      <a href="./comunidad.php" class="active"><i class="icon-project"></i> Comunidad</a>
-      <a href="../backend/routes/cerrar.php"><i class="icon-logout"></i> Cerrar Sesión</a>
-    </div>
-  </div>
+    <nav class="nav-links">
+        <a href="./dashboard.php" class="active"><i class="icon-home"></i> Inicio</a>
+        <a href="./notificaciones.php" class="active"><i class="icon-home"></i> Notificaciones</a>
+        <a href="./tareas.php"><i class="icon-tasks"></i> Tareas</a>
+        <a href="./comunidad.php"><i class="icon-project"></i> Comunidad</a>
+        <a href="../backend/routes/cerrar.php"><i class="icon-logout"></i> Cerrar Sesión</a>
+    </nav>
+</div>
 
   <div class="main-content">
     <div class="topbar">
@@ -121,44 +102,51 @@ if (!empty($tareas)) {
               (strtotime($tarea['fecha_limite']) < time() && !$tarea['completada']) ? 'expired' : '' ?>" 
      data-titulo="<?= htmlspecialchars(strtolower($tarea['titulo'])) ?>" 
      data-descripcion="<?= htmlspecialchars(strtolower($tarea['descripcion'])) ?>">
-            <div class="task-header">
-              <h3>Titulo: <?= htmlspecialchars($tarea['titulo']) ?></h3>
-              <span>Creada por: <?= htmlspecialchars($tarea['creador']) ?></span>
-            </div>
-            <p>Descripción: <?= htmlspecialchars($tarea['descripcion']) ?></p>
-            <p><strong>Fecha límite:</strong> <?= date('d/m/Y H:i', strtotime($tarea['fecha_limite'])) ?></p>
-            
-            <div class="task-actions">
-              <?php if ($tarea['completada']): ?>
-                <span class="badge completed">✅ Completada</span>
-
-              <?php elseif (strtotime($tarea['fecha_limite']) < time()): ?>
-                <span class="badge expired">⏰ Caducada</span>
-
-              <?php elseif ($_SESSION['id_usuario'] == $tarea['id_creador']): ?>
-                <span class="badge pending">⌛ Pendiente por el asignado</span>
-                <!-- Botón eliminar solo para el creador -->
-                <form method="post" action="../backend/comunidad/eliminar_tarea.php" style="display:inline;">
-  <input type="hidden" name="id_tarea" value="<?= $tarea['id'] ?>" />
-  <button type="submit" class="btn-eliminar-comunidad" onclick="return confirm('¿Seguro que deseas eliminar esta tarea?')">
-    <i class="fas fa-trash-alt"></i> Eliminar
-  </button>
-</form>
-
-              <?php elseif ($tarea['asignado']): ?>
-                <form method="post" action="../backend/comunidad/completar_tarea.php">
-                  <input type="hidden" name="id_tarea" value="<?= $tarea['id'] ?>" />
-                  <button type="submit" class="btn-complete">Marcar como completada</button>
-                </form>
-
-              <?php else: ?>
-                <form method="post" action="../backend/comunidad/asignar.php">
-                  <input type="hidden" name="id_tarea" value="<?= $tarea['id'] ?>" />
-                  <button type="submit" class="btn-assign">Asignarme esta tarea</button>
-                </form>
-              <?php endif; ?>
-            </div>
-          </div>
+    <div class="task-header">
+      <span class="task-creator">👤 Creado por: <strong><?= htmlspecialchars($tarea['creador']) ?></strong></span>
+    </div>
+    <h3 class="task-title"><?= htmlspecialchars($tarea['titulo']) ?></h3>
+    <p class="task-desc"><?= htmlspecialchars($tarea['descripcion']) ?></p>
+    <p class="task-assigned">
+      <strong>Asignado a:</strong>
+      <?php
+        // Mostrar nombres de usuarios asignados, excluyendo al creador
+        $stmt = $conexion->prepare("SELECT u.nombre 
+            FROM tareas_asignadas ta 
+            JOIN usuarios u ON ta.id_usuario = u.id_usuario 
+            WHERE ta.id_tarea_comunitaria = ? AND ta.id_usuario != ?");
+        $stmt->execute([$tarea['id'], $tarea['id_creador']]);
+        $asignados = $stmt->fetchAll(PDO::FETCH_COLUMN);
+        echo $asignados ? htmlspecialchars(implode(', ', $asignados)) : '<span class="no-assigned">Nadie</span>';
+      ?>
+    </p>
+    <p class="task-date"><i class="fas fa-calendar-alt"></i> <strong>Fecha límite:</strong> <?= date('d/m/Y H:i', strtotime($tarea['fecha_limite'])) ?></p>
+    <div class="task-actions">
+      <?php if ($tarea['completada']): ?>
+        <span class="badge completed">✅ Completada</span>
+      <?php elseif (strtotime($tarea['fecha_limite']) < time()): ?>
+        <span class="badge expired">⏰ Caducada</span>
+      <?php elseif ($_SESSION['id_usuario'] == $tarea['id_creador']): ?>
+        <span class="badge pending">⌛ Pendiente por el asignado</span>
+        <form method="post" action="../backend/comunidad/eliminar_tarea.php" style="display:inline;">
+          <input type="hidden" name="id_tarea" value="<?= $tarea['id'] ?>" />
+          <button type="submit" class="btn-eliminar-comunidad" onclick="return confirm('¿Seguro que deseas eliminar esta tarea?')">
+            <i class="fas fa-trash-alt"></i> Eliminar
+          </button>
+        </form>
+      <?php elseif ($tarea['asignado']): ?>
+        <form method="post" action="../backend/comunidad/completar_tarea.php">
+          <input type="hidden" name="id_tarea" value="<?= $tarea['id'] ?>" />
+          <button type="submit" class="btn-complete">Marcar como completada</button>
+        </form>
+      <?php else: ?>
+        <form method="post" action="../backend/comunidad/asignar.php">
+          <input type="hidden" name="id_tarea" value="<?= $tarea['id'] ?>" />
+          <button type="submit" class="btn-assign">Asignarme esta tarea</button>
+        </form>
+      <?php endif; ?>
+    </div>
+  </div>
         <?php endforeach; ?>
       <?php endif; ?>
     </div>
