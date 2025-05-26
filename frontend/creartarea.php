@@ -52,7 +52,6 @@ if (!isset($_SESSION['id_usuario'])) {
   <title>Tareas</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../../frontend/css/das.css" />
-  <link rel="stylesheet" href="../frontend/css/estructura_das.css">
   <link rel="stylesheet" href="../frontend/css/comun.css" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous"/>
 </head>
@@ -84,7 +83,7 @@ if (!isset($_SESSION['id_usuario'])) {
         </div>
         <div class="mb-3">
           <label for="fecha_limite" class="form-label">Fecha límite</label>
-          <input type="date" name="fecha_limite" id="fecha_limite" class="form-control">
+          <input type="date" name="fecha_limite" id="fecha_limite" class="form-control" required>
         </div>
         <button type="submit"  class="btn btn-success w-100">Crear Tarea</button>
         <a href="../../frontend/tareas.php" class="btn btn-secondary w-100 mt-3">Lista de Tareas</a>
