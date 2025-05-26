@@ -84,7 +84,7 @@ if (!isset($_SESSION['id_usuario'])) {
         </div>
         <div class="mb-3">
           <label for="fecha_limite" class="form-label">Fecha límite</label>
-          <input type="date" name="fecha_limite" id="fecha_limite" class="form-control">
+          <input type="date" name="fecha_limite" id="fecha_limite" class="form-control" required>
         </div>
         <button type="submit"  class="btn btn-success w-100">Crear Tarea</button>
         <a href="../../frontend/tareas.php" class="btn btn-secondary w-100 mt-3">Lista de Tareas</a>
