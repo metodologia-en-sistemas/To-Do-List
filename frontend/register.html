@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>DevTask</title>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+  <form action="../backend/routes/registro.php" method="POST" enctype="multipart/form-data">
+    <!-- Imagen logo y dashboard -->
+    <div class="card-container">
+      <div class="left-img">
+        <img src="./images/register.jpg" alt="Ilustración de dashboard" />
+      </div>
+
+      <div class="form-side">
+        <div class="logo-container">
+          <img src="./images/logo.png" alt="To-Do List Logo" class="todo-logo">
+        </div>
+
+        <!-- Formulario de registro -->
+        <h1>Registrarse</h1>
+
+        <div class="input-group">
+          <label for="nombre">Nombre y apellido</label>
+          <input type="text" id="nombre" name="nombre" placeholder="Nombre y Apellido" required />
+        </div>
+
+        <div class="input-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="Email" required />
+        </div>
+
+        <div class="input-group">
+          <label for="password">contraseña</label>
+          <input type="password" id="password" name="password" placeholder="Contraseña" required />
+        </div>
+
+        <!-- Campo para subir imagen -->
+        <div class="input-group">
+          <label for="imagen">Foto de perfil</label>
+          <input type="file" id="imagen" name="imagen" accept="image/*" />
+        </div>
+
+        <div class="buttons">
+          <button type="submit" class="btn-primary">Registrate</button>
+        </div>
+
+        <p class="account-text">¿Ya tienes una cuenta?<br/>
+          <a href="login.html">Inicia sesión aquí</a>
+        </p>
+      </div>
+    </div>
+  </form>
+
+</body>
+</html>

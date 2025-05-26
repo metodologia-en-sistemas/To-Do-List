@@ -1,0 +1,110 @@
+ body {
+      background: #f4f6fa;
+    }
+    .main-content-tareas {
+      margin-left: 260px;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      background: #f4f6fa;
+      padding: 2.5rem 1rem;
+    }
+    .tareas-card {
+      background: #fff;
+      border-radius: 22px;
+      box-shadow: 0 8px 32px rgba(44,62,80,0.10);
+      padding: 2.5rem 2.5rem 2rem 2.5rem;
+      max-width: 950px;
+      width: 100%;
+      margin: 2rem auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .tareas-card h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #6c63ff;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    .buscador-tarea {
+      border-radius: 10px;
+      border: 1.5px solid #eaf0fa;
+      font-size: 1.08em;
+      padding: 12px 16px;
+      background: #f8fafd;
+      margin-bottom: 2rem;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 1px 4px rgba(44,62,80,0.03);
+      transition: border-color 0.2s;
+    }
+    .buscador-tarea:focus {
+      border-color: #6c63ff;
+      outline: none;
+      background: #fff;
+    }
+    .table {
+      margin-bottom: 1.5rem;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(44,62,80,0.04);
+    }
+    .table thead {
+      background: linear-gradient(90deg, #6c63ff 60%, #4a90e2 100%);
+      color: #fff;
+      font-weight: 600;
+      font-size: 1.08em;
+    }
+    .table td, .table th {
+      vertical-align: middle;
+      text-align: center;
+    }
+    .tarea-completada {
+      background-color: #138d36 !important;
+      color: #fff !important;
+    }
+    .tarea-completada .badge.bg-success {
+      background-color: #0a4c1a !important;
+      color: #fff !important;
+    }
+    .tarea-completada td {
+      text-decoration: line-through;
+    }
+    .btn-agregar-tarea {
+      min-width: 180px;
+      padding: 14px 0;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 1.08em;
+      background: linear-gradient(90deg, #6c63ff 60%, #4a90e2 100%);
+      border: none;
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(108,99,255,0.08);
+      transition: background 0.2s;
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-agregar-tarea:hover {
+      background: linear-gradient(90deg, #5548c8 60%, #357ab8 100%);
+      color: #fff;
+      text-decoration: none;
+    }
+    @media (max-width: 900px) {
+      .main-content-tareas {
+        margin-left: 0;
+        padding: 1rem;
+      }
+      .tareas-card {
+        padding: 1.5rem 0.7rem;
+        max-width: 98vw;
+      }
+      .buscador-tarea {
+        max-width: 100%;
+      }
+    }
