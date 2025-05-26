@@ -117,48 +117,47 @@ if (!empty($tareas)) {
         <p>No hay tareas compartidas en la comunidad.</p>
       <?php else: ?>
         <?php foreach ($tareas as $tarea): ?>
-          <div class="community-task <?= 
-              (strtotime($tarea['fecha_limite']) < time() && !$tarea['completada']) ? 'expired' : '' ?>" 
-     data-titulo="<?= htmlspecialchars(strtolower($tarea['titulo'])) ?>" 
-     data-descripcion="<?= htmlspecialchars(strtolower($tarea['descripcion'])) ?>">
-            <div class="task-header">
-              <h3>Titulo: <?= htmlspecialchars($tarea['titulo']) ?></h3>
-              <span>Creada por: <?= htmlspecialchars($tarea['creador']) ?></span>
-            </div>
-            <p>Descripción: <?= htmlspecialchars($tarea['descripcion']) ?></p>
-            <p><strong>Fecha límite:</strong> <?= date('d/m/Y H:i', strtotime($tarea['fecha_limite'])) ?></p>
-            
-            <div class="task-actions">
-              <?php if ($tarea['completada']): ?>
-                <span class="badge completed">✅ Completada</span>
-
-              <?php elseif (strtotime($tarea['fecha_limite']) < time()): ?>
-                <span class="badge expired">⏰ Caducada</span>
-
-              <?php elseif ($_SESSION['id_usuario'] == $tarea['id_creador']): ?>
-                <span class="badge pending">⌛ Pendiente por el asignado</span>
-                <!-- Botón eliminar solo para el creador -->
-                <form method="post" action="../backend/comunidad/eliminar_tarea.php" style="display:inline;">
-  <input type="hidden" name="id_tarea" value="<?= $tarea['id'] ?>" />
-  <button type="submit" class="btn-eliminar-comunidad" onclick="return confirm('¿Seguro que deseas eliminar esta tarea?')">
-    <i class="fas fa-trash-alt"></i> Eliminar
-  </button>
-</form>
-
-              <?php elseif ($tarea['asignado']): ?>
-                <form method="post" action="../backend/comunidad/completar_tarea.php">
-                  <input type="hidden" name="id_tarea" value="<?= $tarea['id'] ?>" />
-                  <button type="submit" class="btn-complete">Marcar como completada</button>
-                </form>
-
-              <?php else: ?>
-                <form method="post" action="../backend/comunidad/asignar.php">
-                  <input type="hidden" name="id_tarea" value="<?= $tarea['id'] ?>" />
-                  <button type="submit" class="btn-assign">Asignarme esta tarea</button>
-                </form>
-              <?php endif; ?>
-            </div>
-          </div>
+          <div class="task-card">
+    <p><strong>🧑‍💻 Creado por:</strong> <?= htmlspecialchars($tarea['creador']) ?></p>
+    <p><strong>📌 Título:</strong> <?= htmlspecialchars($tarea['titulo']) ?></p>
+    <p><strong>📝 Descripción:</strong> <?= htmlspecialchars($tarea['descripcion']) ?></p>
+    <p><strong>📅 Fecha límite:</strong> <?= date('d/m/Y', strtotime($tarea['fecha_limite'])) ?> a las <?= date('H:i', strtotime($tarea['fecha_limite'])) ?> hs</p>
+    <p>
+      <strong>⏳ Estado:</strong>
+      <?php if ($tarea['completada']): ?>
+        <span class="badge completed">✅ Completada</span>
+      <?php elseif (strtotime($tarea['fecha_limite']) < time()): ?>
+        <span class="badge expired">⏰ Caducada</span>
+      <?php elseif ($_SESSION['id_usuario'] == $tarea['id_creador']): ?>
+        Pendiente por el asignado
+      <?php elseif ($tarea['asignado']): ?>
+        Asignada a ti
+      <?php else: ?>
+        Disponible
+      <?php endif; ?>
+    </p>
+    <p>
+      <strong>🗑️ Acción:</strong>
+      <?php if ($_SESSION['id_usuario'] == $tarea['id_creador']): ?>
+        <form method="post" action="../backend/comunidad/eliminar_tarea.php" style="display:inline;">
+          <input type="hidden" name="id_tarea" value="<?= $tarea['id'] ?>" />
+          <button type="submit" class="btn-eliminar-comunidad" onclick="return confirm('¿Seguro que deseas eliminar esta tarea?')">
+            Eliminar
+          </button>
+        </form>
+      <?php elseif ($tarea['asignado'] && !$tarea['completada']): ?>
+        <form method="post" action="../backend/comunidad/completar_tarea.php" style="display:inline;">
+          <input type="hidden" name="id_tarea" value="<?= $tarea['id'] ?>" />
+          <button type="submit" class="btn-complete">Marcar como completada</button>
+        </form>
+      <?php elseif (!$tarea['asignado'] && !$tarea['completada']): ?>
+        <form method="post" action="../backend/comunidad/asignar.php" style="display:inline;">
+          <input type="hidden" name="id_tarea" value="<?= $tarea['id'] ?>" />
+          <button type="submit" class="btn-assign">Asignarme esta tarea</button>
+        </form>
+      <?php endif; ?>
+    </p>
+  </div>
         <?php endforeach; ?>
       <?php endif; ?>
     </div>
