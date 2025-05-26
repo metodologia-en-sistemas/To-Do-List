@@ -10,12 +10,11 @@ if (!isset($_SESSION['id_usuario'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $titulo = $_POST['titulo'] ?? '';
     $descripcion = $_POST['descripcion'] ?? '';
-    $estado = $_POST['estado'] ?? '';
     $fecha_limite = $_POST['fecha_limite'] ?? null;
     $id_usuario = $_SESSION['id_usuario'];
+    $estado = 'Pendiente'; // Estado por defecto
 
-    
-    if ($titulo && $descripcion && $estado) {
+    if ($titulo && $descripcion) {
         $sql = "INSERT INTO tareas (titulo, descripcion, estado, fecha_limite, id_usuario)
                 VALUES (:titulo, :descripcion, :estado, :fecha_limite, :id_usuario)";
         $stmt = $conexion->prepare($sql);
@@ -29,7 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         header('Location: ./tareas.php');
         exit();
-    }}
+    }
+}
 $query = "SELECT nombre, imagen FROM usuarios WHERE id_usuario = ?";
 $stmt = $conexion->prepare($query);
 $stmt->execute([$_SESSION['id_usuario']]);
@@ -42,8 +42,6 @@ if (!isset($_SESSION['id_usuario'])) {
     header('Location: ../frontend/login.html');
     exit;
 }
-
-
 ?>
 
 <!DOCTYPE html>
@@ -54,7 +52,7 @@ if (!isset($_SESSION['id_usuario'])) {
   <title>Tareas</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../../frontend/css/das.css" />
-  <link rel="stylesheet" href="../../frontend/css/comun.css" />
+  <link rel="stylesheet" href="../frontend/css/comun.css" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous"/>
 </head>
 <body>
@@ -73,7 +71,7 @@ if (!isset($_SESSION['id_usuario'])) {
   </div>
 
     <div class="content">
-      <h2 class="mb-4 text-center">Crear Nueva Tarea</h2>
+      <h2 class="conten">Crear Nueva Tarea</h2>
       <form method="POST" action="creartarea.php" enctype="multipart/form-data" class="border p-4 bg-white shadow-sm rounded w-50 ">
         <div class="mb-3">
           <label for="titulo" class="form-label">Título</label>
@@ -84,12 +82,8 @@ if (!isset($_SESSION['id_usuario'])) {
           <input type="text" name="descripcion" id="descripcion" class="form-control" placeholder="Ingresa la descripción" required>
         </div>
         <div class="mb-3">
-          <label for="estado" class="form-label">Estado</label>
-          <input type="text" name="estado" id="estado" class="form-control" placeholder="Ingresa el estado de la tarea" required>
-        </div>
-        <div class="mb-3">
           <label for="fecha_limite" class="form-label">Fecha límite</label>
-          <input type="date" name="fecha_limite" id="fecha_limite" class="form-control">
+          <input type="date" name="fecha_limite" id="fecha_limite" class="form-control" required>
         </div>
         <button type="submit"  class="btn btn-success w-100">Crear Tarea</button>
         <a href="../../frontend/tareas.php" class="btn btn-secondary w-100 mt-3">Lista de Tareas</a>

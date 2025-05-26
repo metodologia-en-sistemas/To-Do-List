@@ -77,7 +77,8 @@ if (!empty($tareas)) {
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Comunidad</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./css/das.css" />
+  
+  <link rel="stylesheet" href="./css/estructura_das.css" />
   <link rel="stylesheet" href="./css/comun.css" />
 </head>
 <body>
@@ -90,6 +91,7 @@ if (!empty($tareas)) {
     <div class="nav-links">
       <a href="./dashboard.php"><i class="icon-home"></i> Inicio</a>
       <a href="./tareas.php"><i class="icon-tasks"></i> Tareas</a>
+      
       <a href="./comunidad.php" class="active"><i class="icon-project"></i> Comunidad</a>
       <a href="../backend/routes/cerrar.php"><i class="icon-logout"></i> Cerrar Sesión</a>
     </div>
@@ -98,24 +100,17 @@ if (!empty($tareas)) {
   <div class="main-content">
     <div class="topbar">
       <div class="search">
-        <span>&#128269;</span>
-        <input type="text" placeholder="Buscar tarea..." />
+        
+        <input type="text" id="buscador-tarea" placeholder="Buscar tarea..." />
       </div>
     </div>
 
-    <div class="greeting">
-      <div class="avatar"></div>
-      <div>
-        <h2>Tareas de la Comunidad</h2>
-        <p>Colabora con otros usuarios en estas tareas compartidas</p>
-      </div>
-    </div>
+    <br>
 
-    <div class="action-buttons">
-      <a href="../backend/comunidad/crear_grupal.php" class="btn-create">
-        <i class="fas fa-plus"></i> Crear Tarea Colaborativa
-      </a>
-    </div>
+    <!-- Botón crear tarea colaborativa -->
+<a href="../backend/comunidad/crear_grupal.php" class="btn-create">
+  <i class="fas fa-plus"></i> Crear Tarea Colaborativa
+</a>
 
     <div class="task-community">
       <?php if (empty($tareas)): ?>
@@ -123,7 +118,9 @@ if (!empty($tareas)) {
       <?php else: ?>
         <?php foreach ($tareas as $tarea): ?>
           <div class="community-task <?= 
-              (strtotime($tarea['fecha_limite']) < time() && !$tarea['completada']) ? 'expired' : '' ?>">
+              (strtotime($tarea['fecha_limite']) < time() && !$tarea['completada']) ? 'expired' : '' ?>" 
+     data-titulo="<?= htmlspecialchars(strtolower($tarea['titulo'])) ?>" 
+     data-descripcion="<?= htmlspecialchars(strtolower($tarea['descripcion'])) ?>">
             <div class="task-header">
               <h3>Titulo: <?= htmlspecialchars($tarea['titulo']) ?></h3>
               <span>Creada por: <?= htmlspecialchars($tarea['creador']) ?></span>
@@ -140,6 +137,13 @@ if (!empty($tareas)) {
 
               <?php elseif ($_SESSION['id_usuario'] == $tarea['id_creador']): ?>
                 <span class="badge pending">⌛ Pendiente por el asignado</span>
+                <!-- Botón eliminar solo para el creador -->
+                <form method="post" action="../backend/comunidad/eliminar_tarea.php" style="display:inline;">
+  <input type="hidden" name="id_tarea" value="<?= $tarea['id'] ?>" />
+  <button type="submit" class="btn-eliminar-comunidad" onclick="return confirm('¿Seguro que deseas eliminar esta tarea?')">
+    <i class="fas fa-trash-alt"></i> Eliminar
+  </button>
+</form>
 
               <?php elseif ($tarea['asignado']): ?>
                 <form method="post" action="../backend/comunidad/completar_tarea.php">
@@ -159,5 +163,20 @@ if (!empty($tareas)) {
       <?php endif; ?>
     </div>
   </div>
+
+  <script>
+document.getElementById('buscador-tarea').addEventListener('input', function() {
+    const filtro = this.value.toLowerCase();
+    document.querySelectorAll('.community-task').forEach(function(card) {
+        const titulo = card.getAttribute('data-titulo');
+        const descripcion = card.getAttribute('data-descripcion');
+        if (titulo.includes(filtro) || descripcion.includes(filtro)) {
+            card.style.display = '';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+});
+</script>
 </body>
 </html>
