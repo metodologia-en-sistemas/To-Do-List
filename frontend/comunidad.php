@@ -81,7 +81,7 @@ if (!empty($tareas)) {
   <div class="main-content">
     <div class="topbar">
       <div class="search">
-        <span>&#128269;</span>
+       
         <input type="text" id="buscador-tarea" placeholder="Buscar tarea..." />
       </div>
     </div>
