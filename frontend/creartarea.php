@@ -52,7 +52,6 @@ if (!isset($_SESSION['id_usuario'])) {
   <title>Tareas</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../../frontend/css/das.css" />
-  <link rel="stylesheet" href="../frontend/css/estructura_das.css">
   <link rel="stylesheet" href="../frontend/css/comun.css" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous"/>
 </head>
