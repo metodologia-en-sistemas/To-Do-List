@@ -1,0 +1,279 @@
+/* Estilos para el checkbox colaborativo */
+.form-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+#es_colaborativa {
+    width: auto;
+    margin: 0;
+}
+
+.btn-create {
+    background: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 4px;
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.btn-create:hover {
+    background: #45a049;
+}
+
+/* Tarjeta de tarea comunitaria más grande y profesional */
+.task-community {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5rem;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+  /* Card de tarea comunitaria */
+.community-task {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(44, 62, 80, 0.10), 0 1.5px 4px rgba(44, 62, 80, 0.08);
+  padding: 2.5rem 2.5rem 1.5rem 2.5rem;
+  border-left: 7px solid #0984e3;
+  position: relative;
+  width: 420px;
+  min-width: 320px;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0;
+  word-break: break-word;
+  overflow: hidden;
+  transition: box-shadow 0.2s, transform 0.2s;
+  min-height: 340px;
+}
+
+.community-task.expired {
+  border-left-color: #d63031;
+  opacity: 0.85;
+}
+
+.task-header {
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  color: #636e72;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.task-creator {
+  font-weight: 600;
+  color: #636e72;
+  letter-spacing: 0.5px;
+}
+
+/* Limitar el texto y evitar desbordes */
+.task-title, .task-desc, .task-assigned, .task-date {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  display: block;
+}
+
+.task-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2d3436;
+  margin: 0.2rem 0 0.7rem 0;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.task-desc {
+  font-size: 1.13rem;
+  color: #636e72;
+  margin-bottom: 0.7rem;
+  white-space: nowrap;
+}
+
+.task-assigned {
+  font-size: 1.08rem;
+  color: #636e72;
+  margin-bottom: 0.7rem;
+  white-space: nowrap;
+}
+.task-assigned .no-assigned {
+  color: #b2bec3;
+  font-style: italic;
+}
+
+.task-date {
+  font-size: 1.05rem;
+  color: #636e72;
+  margin-bottom: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+}
+
+.task-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-top: auto;
+  flex-wrap: wrap;
+}
+
+.badge {
+  padding: 0.3rem 0.9rem;
+  border-radius: 12px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  display: inline-block;
+}
+
+.badge.completed {
+  background: #00b894;
+  color: #fff;
+}
+
+.badge.expired {
+  background: #d63031;
+  color: #fff;
+}
+
+.badge.pending {
+  background: #fdcb6e;
+  color: #2d3436;
+}
+
+.btn-assign, .btn-complete, .btn-eliminar-comunidad {
+  background: #0984e3;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.4rem;
+  font-size: 1.08rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s;
+  margin-right: 0.5rem;
+  margin-bottom: 0.3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-assign:hover, .btn-complete:hover {
+  background: #00b894;
+}
+
+.btn-eliminar-comunidad {
+  background: #d63031;
+  margin-right: 0;
+}
+.btn-eliminar-comunidad:hover {
+  background: #b71c1c;
+}
+
+.user-select {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 4px;
+}
+
+/* Estilos para el formulario grupal */
+.task-form {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.create-btn {
+    background: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.create-btn:hover {
+    background: #45a049;
+}
+
+.create-btn i {
+    font-size: 18px;
+}
+
+.card-creator {
+  max-width: 600px;
+  min-width: 350px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: -1.2rem;
+  margin-top: 2.2rem;
+}
+
+.card-creator .creador {
+  font-size: 1rem;
+  color: #636e72;
+  background: #f1f2f6;
+  padding: 0.35em 0.9em;
+  border-radius: 12px;
+  font-weight: 500;
+  display: inline-block;
+  box-shadow: 0 2px 8px rgba(44,62,80,0.06);
+}
+
+@media (max-width: 700px) {
+  .community-task {
+    padding: 1rem;
+  }
+  .task-title {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .task-community {
+    gap: 1rem;
+    justify-content: center;
+  }
+  .community-task {
+    width: 100%;
+    min-width: unset;
+    max-width: 100%;
+  }
+  .task-title, .task-desc, .task-assigned, .task-date {
+    white-space: normal;
+  }
+}
+
+@media (max-width: 1100px) {
+  .community-task {
+    width: 100%;
+    min-width: unset;
+    max-width: 100%;
+  }
+  .task-title, .task-desc, .task-assigned, .task-date {
+    white-space: normal;
+  }
+  .task-community {
+    gap: 1.2rem;
+    justify-content: center;
+  }
+}
