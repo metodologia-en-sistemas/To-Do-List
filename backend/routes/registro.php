@@ -1,29 +1,54 @@
 <?php
-require_once './config/database.php';
-require_once 'usuario-clase.php';
+include ('../config/database.php');
 
-// Obtenemos los datos enviados en formato JSON desde el frontend (por ejemplo, con fetch en JS)
-$data = json_decode(file_get_contents("php://input"), true);
+if ($_SERVER["REQUEST_METHOD"] == 'POST') {
+    $nombre = $_POST['nombre'];
+    $email = $_POST['email'];
+    $contrasena = $_POST['password'];
 
-// Extraemos los datos desde el array asociativo 
-$nombre = $data['nombre']; 
-$email = $data['email'];
-$password = $data['password'];
+    // Verificar si el email ya existe
+    $sql = "SELECT * FROM usuarios WHERE email = :email";
+    $prepar = $conexion->prepare($sql);
+    $prepar->bindParam(':email', $email);
+    $prepar->execute();
 
+    if ($prepar->rowCount() > 0) {
+        echo '<script language="javascript">
+            alert("Correo ya existente");
+            self.location="../../frontend/registro.html";
+        </script>';
+        exit();
+    }
 
-// Creamos un nuevo objeto Usuario con los datos recibidos y la conexión a la base de datos
-$usuario = new Usuario($nombre, $email, $password, $conexion);
+    // Hashear la contraseña
+    $contrasenaEncrip = password_hash($contrasena, PASSWORD_DEFAULT);
 
-// Intentamos registrar al usuario con el método registrar()
-if ($usuario->registrar()) {
-  echo json_encode([
-    "message" => "Registro exitoso",
-    "redirect" => true,
-    "url" => "../frontend/login.html" // redirigir al login
-  ]);
-} else {
-  echo json_encode([
-    "message" => "Error al registrar (¿usuario ya existe?)",
-    "redirect" => false
-  ]);
+    // Procesar imagen
+    $imagenNombre = $_FILES['imagen']['name'];
+    $imagenTemp = $_FILES['imagen']['tmp_name'];
+    $rutaDestino = "../../frontend/uploads/" . $imagenNombre;
+
+    if (!move_uploaded_file($imagenTemp, $rutaDestino)) {
+        echo "Error al subir la imagen.";
+        exit();
+    }
+
+    $rutaEnBD = "uploads/" . $imagenNombre;
+
+    // Insertar usuario nuevo
+    $insert = "INSERT INTO usuarios(nombre, email, password, imagen) 
+               VALUES (:nombre, :email, :password, :imagen)";
+    $stmt = $conexion->prepare($insert);
+    $stmt->bindParam(':nombre', $nombre);
+    $stmt->bindParam(':email', $email);
+    $stmt->bindParam(':password', $contrasenaEncrip);
+    $stmt->bindParam(':imagen', $rutaEnBD);
+
+    if ($stmt->execute()) {
+        header('Location: ../../frontend/login.html');
+        exit();
+    } else {
+        echo "Error al registrar el usuario.";
+    }
 }
+?>

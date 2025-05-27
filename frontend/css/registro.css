@@ -1,0 +1,73 @@
+:root {
+  --gradient-1: linear-gradient(to top left, #53a9d195, #0b1a70d6);
+}
+
+body.registro {
+  background-image: url('../images/login.jpg'); /* Cambia la ruta si la imagen está en otro lugar */
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.card-container {
+  background: var(--gradient-1);
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.4);
+  width: 100%;
+  max-width: 400px;
+}
+
+.form-side {
+  color: white;
+}
+
+.todo-logo {
+  max-width: 80px;
+  display: block;
+  margin: 0 auto 1rem;
+}
+
+.input-group {
+  margin-bottom: 1rem;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 5px;
+}
+
+.buttons {
+  text-align: center;
+}
+
+.btn-primary {
+  background-color: #ffffff;
+  color: #0b1a70;
+  padding: 0.7rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.account-text {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.account-text a {
+  color: #ffffff;
+  text-decoration: underline;
+}

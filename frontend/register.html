@@ -1,52 +1,53 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8" />
-  <title>Registrarse - To-Do List</title>
+  <title>DevTask</title>
+  <link rel="stylesheet" href="css/registro.css"/>
 </head>
+<body class="registro">
 
-<body>
-  <h1>Registrarse</h1>
+  <form action="../backend/routes/registro.php" method="POST" enctype="multipart/form-data">
+    <div class="card-container">
+      <div class="form-side">
+        <div class="logo-container">
+          <img src="./images/file_00000000f6f061f5aa225654ab2b395a.png" alt="To-Do List Logo" class="todo-logo">
+        </div>
 
-  <form id="formularioRegistro">
-    <input type="text" id="nombre" name="nombre" placeholder="Nombre" required /><br /><br />
-    <input type="email" id="email" name="email" placeholder="Email" required /><br /><br />
-    <input type="password" id="password" name="password" placeholder="Contraseña" required /><br /><br />
-    <button type="submit">Registrar</button>
+        <!-- Formulario de registro -->
+        <h1>Registrarse</h1>
+
+        <div class="input-group">
+          <label for="nombre">Nombre y apellido</label>
+          <input type="text" id="nombre" name="nombre" placeholder="Nombre y Apellido" required />
+        </div>
+
+        <div class="input-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="Email" required />
+        </div>
+
+        <div class="input-group">
+          <label for="password">contraseña</label>
+          <input type="password" id="password" name="password" placeholder="Contraseña" required />
+        </div>
+
+        <!-- Campo para subir imagen -->
+        <div class="input-group">
+          <label for="imagen">Foto de perfil</label>
+          <input type="file" id="imagen" name="imagen" accept="image/*" />
+        </div>
+
+        <div class="buttons">
+          <button type="submit" class="btn-primary">Registrate</button>
+        </div>
+
+        <p class="account-text">¿Ya tienes una cuenta?<br/>
+          <a href="login.html">Inicia sesión aquí</a>
+        </p>
+      </div>
+    </div>
   </form>
 
-  <p>¿Ya tienes cuenta? <a href="login.html">Inicia sesión aquí</a></p>
-
-  <script>
-    const form = document.getElementById("formularioRegistro");
-
-    form.addEventListener("submit", async function (e) {
-      e.preventDefault(); // Evita que la página se recargue
-
-      const nombre = document.getElementById("nombre").value;
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-
-      // Usamos fetch para enviar los datos al backend
-      const response = await fetch("../backend/register.php", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ nombre, email, password }),
-      });
-
-      const data = await response.json();
-
-      alert(data.message); // Mostrar el mensaje de la respuesta
-
-      // Si el registro es exitoso, redirigir al login
-      if (data.redirect) {
-        window.location.href = data.url;
-      }
-    });
-  </script>
 </body>
-
 </html>
